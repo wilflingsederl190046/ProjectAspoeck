@@ -1,0 +1,17 @@
+﻿@page "LoginWithChip"
+@{
+    ViewData["Title"] = "Login mit Chip";
+}
+<div class="container d-flex flex-column align-items-center">
+    <img src="Images\aspoeck-systems_logo_7zu5.png" class="img-responsive mb-5" alt="Logo">
+    <form class="d-flex flex-column align-items-center">
+        <div class="form-group mb-3">
+            <label for="chipNumber">Chipnummer:</label>
+            <input type="text" class="form-control" id="chipNumber">
+        </div>
+        <button type="submit" class="btn btn-primary" asp-area="" asp-page="/Home_Page">
+            Login
+            
+        </button>
+    </form>
+</div>
