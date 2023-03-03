@@ -1,0 +1,191 @@
+﻿@page
+@model JausenbestellungAspoeck.Pages.Home_PageModel
+@{
+}
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jausen Bestellung</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous" />
+    <!-- Custom CSS -->
+    <style>
+        .header {
+            height: 150px;
+            display: flex;
+            background-color: #f2f2f2;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+            .header .logo {
+                height: 100%;
+                margin-left: 30px;
+            }
+
+            .header h1 {
+                font-size: 36px;
+                font-weight: bold;
+                margin: 0;
+            }
+
+            .header btn {
+                margin-right: 80px;
+            }
+
+            .header img {
+                display: block;
+            }
+
+        .main {
+            margin-top: 30px;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+            .main .date {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .main .headingDateStatus {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .main .status {
+                background-color: red;
+                color: white;
+                padding: 5px 10px;
+                display: inline-block;
+                margin-right: 10px;
+                font-weight: bold;
+                font-size: 1.5rem;
+            }
+
+            .main button {
+                margin-top: 20px;
+                display: block;
+            }
+
+        .btn {
+            background-color: #ffa500;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .disabled {
+            background-color: #ffa500;
+            opacity: 0.5;
+        }
+
+        .table th,
+        .table td {
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="header center">
+            <img class="logo" src="Images/aspoeck_logo.png" alt="Aspöck Logo" />
+            <h1>Jausen Bestellung</h1>
+            <btn><img src="Images/settings_button.png" alt="Settings Button" /></btn>
+        </div>
+
+        <div class="main">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>
+                        <span class="headingDateStatus">Datum:</span> <span class="date status" id="date">Montag, 01. Jänner 2023 um 00:00:00</span>
+                    </p>
+                    <!-- Script -->
+                    <script>
+                        const dateElement = document.getElementById('date');
+                        const options = {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            second: 'numeric',
+                            timeZone: 'Europe/Berlin',
+                        };
+                        const formatter = new Intl.DateTimeFormat('de-DE', options);
+
+                        function updateDate() {
+                            dateElement.textContent = formatter.format(new Date());
+                        }
+
+                        let timer = setInterval(updateDate, 1000);
+                    </script>
+                    <p>
+                        <span class="headingDateStatus">Bestellstatus:</span> <span class="status">Bestellzeitraum abgelaufen</span>
+                    </p>
+                    <button class="btn" disabled>Bestellung aufgeben</button>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Datum</th>
+                                <th>Kosten</th>
+                                <th>Status</th>
+                                <th>Erneut best.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Mo, 01.01.2023</td>
+                                <td>130,00 €</td>
+                                <td>bezahlt</td>
+                                <td class="center"><img src="~/images/order-again_button.png" /></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Di, 15.02.2023</td>
+                                <td>72,50 €</td>
+                                <td>nicht bezahlt</td>
+                                <td><img src="~/images/order-again_button.png" /></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Mi, 28.02.2023</td>
+                                <td>42,00 €</td>
+                                <td>nicht bezahlt</td>
+                                <td><img src="~/images/order-again_button.png" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary">Letzte Bestellungen ansehen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/your-kit-id.js"
+            crossorigin="anonymous"></script>
+</body>
+</html>
