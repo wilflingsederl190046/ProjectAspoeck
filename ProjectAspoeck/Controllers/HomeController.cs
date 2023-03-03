@@ -25,13 +25,15 @@ namespace ProjectAspoeck.Controllers
         {
             BreakfastContext _db = new BreakfastContext();
             List<UserDTO> _users = _db.Users.Select(x=> new UserDTO {LastName = x.LastName, FirstName = x.FirstName}).ToList();
-            if (_loginModel.LoginId == null || _loginModel.ChipNr == null)
+            Console.WriteLine(_users);
+            /*if (_loginModel.LoginId == null || _loginModel.ChipNr == null)
             {
                 _loginModel.LoginId = "asdf";
                 _loginModel.ChipNr = "1234";
 
-            }
-            User? status = _db.Users.Where(m => m.FirstName == _loginModel.LoginId && m.ChipNumber == _loginModel.Pasword).FirstOrDefault();
+            }*/
+            
+            User? status = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Pasword).FirstOrDefault();
             if (status == null)
             {
                 ViewBag.LoginStatus = 0;
