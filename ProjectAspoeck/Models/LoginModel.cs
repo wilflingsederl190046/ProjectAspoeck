@@ -11,5 +11,7 @@ namespace ProjectAspoeck.Models
         public string Pasword { get; set; }
 
         public string ChipNr { get; set; }
+        public int UserId { get; set; }
+
     }
 }

@@ -24,7 +24,7 @@ namespace ProjectAspoeck.Controllers
         public IActionResult Index(LoginModel _loginModel)
         {
             BreakfastContext _db = new BreakfastContext();
-            List<UserDTO> _users = _db.Users.Select(x=> new UserDTO {LastName = x.LastName, FirstName = x.FirstName}).ToList();
+            List<UserDTO> _users = _db.Users.Select(x=> new UserDTO {UserId= x.UserId ,LastName = x.LastName, FirstName = x.FirstName}).ToList();
             Console.WriteLine(_users);
             /*if (_loginModel.LoginId == null || _loginModel.ChipNr == null)
             {
@@ -33,25 +33,34 @@ namespace ProjectAspoeck.Controllers
 
             }*/
             
-            User? status = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Pasword).FirstOrDefault();
-            if (status == null)
+            User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Pasword).FirstOrDefault();
+            if (user == null)
             {
+                
                 ViewBag.LoginStatus = 0;
             }
             else
             {
-                return RedirectToAction("SuccessPage", "Home");
+                _loginModel.UserId = user.UserId;
+                return RedirectToAction("Home_Page", "Home");
             }
             return View(_loginModel);
         }
-        public IActionResult SuccessPage()
+        public IActionResult Home_Page(Home_PageModel _homeModel, LoginModel loginModel)
         {
-            return View();
+            _homeModel.UserId = loginModel.UserId;
+            return View(_homeModel);
         }
+
+
+
         public IActionResult Privacy()
         {
             return View();
         }
+
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
