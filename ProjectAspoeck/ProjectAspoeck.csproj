@@ -7,6 +7,61 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Images\aspoeck-logo-sm.png" />
+    <None Include="wwwroot\Images\aspoeck-systems_logo_7zu5.png" />
+    <None Include="wwwroot\Images\HomePage\u1.png" />
+    <None Include="wwwroot\Images\HomePage\u12.svg" />
+    <None Include="wwwroot\Images\HomePage\u15.svg" />
+    <None Include="wwwroot\Images\HomePage\u19.svg" />
+    <None Include="wwwroot\Images\HomePage\u2.svg" />
+    <None Include="wwwroot\Images\HomePage\u24.svg" />
+    <None Include="wwwroot\Images\HomePage\u25.svg" />
+    <None Include="wwwroot\Images\HomePage\u3.svg" />
+    <None Include="wwwroot\Images\HomePage\u6.svg" />
+    <None Include="wwwroot\Images\Settings\u10.svg" />
+    <None Include="wwwroot\Images\Settings\u10_disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u10_selected.disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u10_selected.svg" />
+    <None Include="wwwroot\Images\Settings\u11.svg" />
+    <None Include="wwwroot\Images\Settings\u11_disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u11_selected.disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u11_selected.svg" />
+    <None Include="wwwroot\Images\Settings\u12.svg" />
+    <None Include="wwwroot\Images\Settings\u12_disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u12_selected.disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u12_selected.svg" />
+    <None Include="wwwroot\Images\Settings\u13.svg" />
+    <None Include="wwwroot\Images\Settings\u14.svg" />
+    <None Include="wwwroot\Images\Settings\u15.svg" />
+    <None Include="wwwroot\Images\Settings\u16.svg" />
+    <None Include="wwwroot\Images\Settings\u17.svg" />
+    <None Include="wwwroot\Images\Settings\u19.svg" />
+    <None Include="wwwroot\Images\Settings\u19_disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u19_selected.disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u19_selected.svg" />
+    <None Include="wwwroot\Images\Settings\u2.svg" />
+    <None Include="wwwroot\Images\Settings\u20.svg" />
+    <None Include="wwwroot\Images\Settings\u20_disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u20_selected.disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u20_selected.svg" />
+    <None Include="wwwroot\Images\Settings\u21.svg" />
+    <None Include="wwwroot\Images\Settings\u21_disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u21_selected.disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u21_selected.svg" />
+    <None Include="wwwroot\Images\Settings\u22.svg" />
+    <None Include="wwwroot\Images\Settings\u22_disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u22_selected.disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u22_selected.svg" />
+    <None Include="wwwroot\Images\Settings\u3.svg" />
+    <None Include="wwwroot\Images\Settings\u4.svg" />
+    <None Include="wwwroot\Images\Settings\u5.svg" />
+    <None Include="wwwroot\Images\Settings\u9.svg" />
+    <None Include="wwwroot\Images\Settings\u9_disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u9_selected.disabled.svg" />
+    <None Include="wwwroot\Images\Settings\u9_selected.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
       <PrivateAssets>all</PrivateAssets>

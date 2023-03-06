@@ -1,47 +1,59 @@
-﻿<!--
-@* @{
-    ViewData["Title"] = "Home Page";
-}*@
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
--->
-@model ProjectAspoeck.Models.LoginModel
+﻿@model ProjectAspoeck.Models.LoginModel
 @{
     ViewData["Title"] = "Login";
 }
 
-<div class="container d-flex flex-column align-items-center">
-    
-    @*<img src="Images\aspoeck-systems_logo_7zu5.png" class="img-responsive mb-5" alt="Logo">*@
-    <img src="Images\aspoeck-systems_logo_7zu5.png" class="img-fluid" alt="Logo">
-    @*<form class="d-flex flex-column align-items-center">*@
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-        {
-            if (ViewBag.LoginStatus != null)
-            {
-                if (ViewBag.LoginStatus == 0)
-                {
-                    <div class="alert alert-danger">Invalid login detail</div>
-                }
-            }
-            <div class="form-group mb-3">
-                <label for="username">Username:</label>
-               @* <input type="text" class="form-control" id="username">*@
-                @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @placeholder = "username" })
-            </div>
-            <div class="form-group mb-3">
-                <label for="password">Password:</label>
-                @*<input type="password" class="form-control" id="password">*@
-                @Html.PasswordFor(m => m.Pasword, new { @class = "form-control", @placeholder = "passwort" })
-                
-
-            </div>
-            <button type="submit" class="btn btn-primary" asp-page="/Home_Page">
-                Login
+<!DOCTYPE html>
+<html lang="de">
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjectAspoeck</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Shared" asp-action="LoginWithChip">Login mit Chip</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container d-flex flex-column align-items-center">
+
+    <img src="~/Images/aspoeck-systems_logo_7zu5.png" class="img-fluid" alt="Logo">
+    @*<form class="d-flex flex-column align-items-center">*@
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        if (ViewBag.LoginStatus != null)
+        {
+            if (ViewBag.LoginStatus == 0)
+            {
+                <div class="alert alert-danger">Invalid login detail</div>
+            }
         }
+        <div class="form-group mb-3">
+            <label for="username">Username:</label>
+            @* <input type="text" class="form-control" id="username">*@
+            @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @placeholder = "mmustermann", @Value = "lwilflingseder" })
+        </div>
+        <div class="form-group mb-3">
+            <label for="password">Password:</label>
+            @*<input type="password" class="form-control" id="password">*@
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "******", @Value = "dfdf4th" })
+        </div>
+        <button type="submit" class="btn btn-warning" asp-page="/Home_Page">
+            Login
+        </button>
+    }
     @*</form>*@
 </div>
+</html>

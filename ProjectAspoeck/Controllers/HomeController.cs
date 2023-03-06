@@ -32,7 +32,7 @@ namespace ProjectAspoeck.Controllers
                 _loginModel.ChipNr = "1234";
 
             }*/
-            User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Pasword).FirstOrDefault();
+            User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Password).FirstOrDefault();
             if (user == null)
             {
 
