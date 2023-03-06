@@ -1,6 +1,6 @@
-﻿@model ProjectAspoeck.Models.Home_PageModel
-@{
-}
+﻿@using ProjectAspoeck.Models
+
+@model ProjectAspoeck.Models.Home_PageModel
 
 <!DOCTYPE html>
 <html lang="de">
@@ -132,6 +132,9 @@
                         <span class="headingDateStatus">Bestellstatus:</span> <span class="status">Bestellzeitraum abgelaufen</span>
                     </p>
                     <button class="btn" disabled>Bestellung aufgeben</button>
+
+                    <label>Welcome, @Model.UserName!</label>
+
                 </div>
                 <div class="col-md-6">
                     <table class="table table-striped">
@@ -144,7 +147,8 @@
                                 <th>Erneut best.</th>
                             </tr>
                         </thead>
-                        <tbody>
+
+                        @*<tbody>
                             <tr>
                                 <td>1</td>
                                 <td>Mo, 01.01.2023</td>
@@ -166,7 +170,17 @@
                                 <td>nicht bezahlt</td>
                                 <td><img src="~/images/order-again_button.png" /></td>
                             </tr>
-                        </tbody>
+                        </tbody>*@
+                        @foreach (var order in Model.orders)
+                        {
+                            <tr>
+                                <td>@order.OrderNumber</td>
+                                <td>@order.OrderDate</td>
+                                <td>@order.OrderAmount.ToString("C")</td>
+                                <td>@(order.IsPaid ? "bezahlt" : "nicht bezahlt")</td>
+                                <td><img src="~/images/order-again_button.png" /></td>
+                            </tr>
+                        }
                     </table>
                     <button class="btn btn-primary">Letzte Bestellungen ansehen</button>
                 </div>

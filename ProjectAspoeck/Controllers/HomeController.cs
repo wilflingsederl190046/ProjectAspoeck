@@ -1,19 +1,19 @@
 ﻿using BreakfastDBLib;
+using DTOLibary;
 using Microsoft.AspNetCore.Mvc;
 using ProjectAspoeck.Models;
 using System.Diagnostics;
-using DTOLibary;
 
 namespace ProjectAspoeck.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -24,7 +24,7 @@ namespace ProjectAspoeck.Controllers
         public IActionResult Index(LoginModel _loginModel)
         {
             BreakfastContext _db = new BreakfastContext();
-            List<UserDTO> _users = _db.Users.Select(x=> new UserDTO {UserId= x.UserId ,LastName = x.LastName, FirstName = x.FirstName}).ToList();
+            List<UserDTO> _users = _db.Users.Select(x => new UserDTO { UserId = x.UserId, LastName = x.LastName, FirstName = x.FirstName }).ToList();
             Console.WriteLine(_users);
             /*if (_loginModel.LoginId == null || _loginModel.ChipNr == null)
             {
@@ -32,35 +32,58 @@ namespace ProjectAspoeck.Controllers
                 _loginModel.ChipNr = "1234";
 
             }*/
-            
             User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Pasword).FirstOrDefault();
             if (user == null)
             {
-                
+
                 ViewBag.LoginStatus = 0;
             }
             else
             {
                 _loginModel.UserId = user.UserId;
-                return RedirectToAction("Home_Page", "Home");
+                return RedirectToAction("Home_Page", "Home", user);
             }
             return View(_loginModel);
         }
-        public IActionResult Home_Page(Home_PageModel _homeModel, LoginModel loginModel)
+
+        /*public  IActionResult Home_Page(LoginModel _loginModel)
         {
-            _homeModel.UserId = loginModel.UserId;
-            return View(_homeModel);
+            
+            if (_loginModel.UserId == null)
+            {
+                _loginModel.UserId = 5;
+            }           
+            var homeModel = new Home_PageModel();
+            //homeModel.UserId = 5;
+                
+            homeModel.UserId = _loginModel.UserId;
+           // return View(homeModel);
+
+            return View(homeModel);
+        }*/
+        public IActionResult Home_Page(LoginModel _loginModel, User user)
+        {
+            string name = user.UserName ?? "UserName";
+            int id = user.UserId;
+            
+            var homeModel = new Home_PageModel();
+            homeModel.UserName = name;
+            homeModel.UserId = id;
+            var orders = new List<OrderViewModel>
+             {
+                new OrderViewModel { OrderNumber = 1, OrderDate = "Mo, 01.01.2023", OrderAmount = 130.00m, IsPaid = true },
+                new OrderViewModel { OrderNumber = 2, OrderDate = "Di, 15.02.2023", OrderAmount = 72.50m, IsPaid = false },
+                new OrderViewModel { OrderNumber = 3, OrderDate = "Mi, 28.02.2023", OrderAmount = 42.00m, IsPaid = false }
+            };
+
+           
+            return View(homeModel);
         }
-
-
-
+        
         public IActionResult Privacy()
         {
             return View();
         }
-
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
