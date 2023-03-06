@@ -76,7 +76,7 @@ namespace ProjectAspoeck.Controllers
                 new OrderViewModel { OrderNumber = 3, OrderDate = "Mi, 28.02.2023", OrderAmount = 42.00m, IsPaid = false }
             };
 
-           
+            homeModel.orders = orders;
             return View(homeModel);
         }
         

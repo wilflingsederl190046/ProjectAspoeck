@@ -5,9 +5,9 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectAspoeck", "ProjectAspoeck\ProjectAspoeck.csproj", "{6B58413E-6471-4620-B3EF-2043EB996B17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOLibary", "DTOLibary\DTOLibary.csproj", "{42392D3B-0887-4DC0-A62B-903C22324344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOLibary", "DTOLibary\DTOLibary.csproj", "{42392D3B-0887-4DC0-A62B-903C22324344}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreakfastDBLib", "BreakfastDBLib\BreakfastDBLib.csproj", "{B67CA478-82EC-453B-AA23-E5733C3892E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BreakfastDBLib", "BreakfastDBLib\BreakfastDBLib.csproj", "{B67CA478-82EC-453B-AA23-E5733C3892E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
