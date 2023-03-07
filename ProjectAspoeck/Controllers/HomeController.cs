@@ -6,8 +6,10 @@ using System.Diagnostics;
 
 namespace ProjectAspoeck.Controllers
 {
+   
     public class HomeController : Controller
     {
+        BreakfastContext _db = new BreakfastContext();
         private readonly ILogger<HomeController> _logger;
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,32 +25,56 @@ namespace ProjectAspoeck.Controllers
         [HttpPost]
         public IActionResult Index(LoginModel _loginModel)
         {
-            BreakfastContext _db = new BreakfastContext();
+            
             List<UserDTO> _users = _db.Users.Select(x => new UserDTO { UserId = x.UserId, LastName = x.LastName, FirstName = x.FirstName }).ToList();
             Console.WriteLine(_users);
+            
+            {
+                _loginModel.LoginId = "asdf";
+                _loginModel.ChipNr = "1234";Microsoft.Data.SqlClient.SqlException: 'Failed to generate SSPI context.'
 
+            }*/
+            {
+                _loginModel.LoginId = "asdf";
+                _loginModel.ChipNr = "1234";Microsoft.Data.SqlClient.SqlException: 'Failed to generate SSPI context.'
+
+            }*/
             User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Password).FirstOrDefault();
             if (user == null)
             {
-
-                ViewBag.LoginStatus = 0;
-            }
-            else
-            {
-                _loginModel.UserId = user.UserId;
-                return RedirectToAction("Home_Page", "Home");
-            }
-            return View(_loginModel);
-        }
-
-        public IActionResult Home_Page(LoginModel _loginModel, User user)
+        
+        public IActionResult Home_Page(LoginModel loginModel)
         {
-            string name = user.UserName ?? "UserName";
-            int id = user.UserId;
             
+            User user = _db.Users.Where(x=>x.UserId == loginModel.UserId).FirstOrDefault();
+
+        /*public  IActionResult Home_Page(LoginModel _loginModel)
+        {
+            
+            if (_loginModel.UserId == null)
+            {
+                _loginModel.UserId = 5;
+            }           
+            var homeModel = new Home_PageModel();
+            //homeModel.UserId = 5;
+                
+            homeModel.UserId = _loginModel.UserId;
+           // return View(homeModel);
+
+            return View(homeModel);
+        }*/
+        public IActionResult Home_Page(LoginModel _loginModel)
+        {
+
+            return View(homeModel);
+        }*/
+        public IActionResult Home_Page(LoginModel _loginModel)
+        {
+                    User user = _db.Users.Where(x => x.UserId == loginModel.UserId).FirstOrDefault();
+                    string name = user.UserName ?? "UserName";
             var homeModel = new Home_PageModel();
             homeModel.UserName = name;
-            homeModel.UserId = id;
+            homeModel.UserId = loginModel.UserId;
             var orders = new List<OrderViewModel>
              {
                 new OrderViewModel { OrderNumber = 1, OrderDate = "Mo, 01.01.2023", OrderAmount = 130.00m, IsPaid = true },
