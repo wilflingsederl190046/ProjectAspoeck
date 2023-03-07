@@ -70,9 +70,9 @@ namespace ProjectAspoeck.Controllers
       homeModel.orders = orders;
       return View(homeModel);
         }
-        public IActionResult Settings(Settings settingsModel)
+        public IActionResult Settings(SettingsModel settingsModel)
         {
-            Settings settings= new Settings();
+            SettingsModel settings= new SettingsModel();
             return View(settings);
         }
         public IActionResult Privacy()

@@ -1,0 +1,311 @@
+﻿@using ProjectAspoeck.Models
+
+@model ProjectAspoeck.Models.Home_PageModel
+@{
+    ViewData["Title"] = "Admin User verwalten";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jausen Bestellung</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      /* Additional CSS styling */
+      .header-image {
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
+      .header-text {
+        padding-right: 50px;
+        text-align: center;
+      }
+      .header-right-text,
+      .btn {
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+
+      .label,
+      .table td {
+        font-size: 1.2rem;
+      }
+      .table th {
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+      .col-md-3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .text-center-last-col {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="bg-light py-3" style="height: 150px">
+      <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+          <div class="col-3 header-image">
+            <img
+              src="path/to/image.jpg"
+              class="img-fluid align-middle"
+              alt="Logo"
+            />
+          </div>
+          <div class="col-6 header-text">
+            <h1 class="mb-0">Jausen Bestellung</h1>
+          </div>
+          <div class="col-3 text-center bg-warning py-2">
+            <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-3">
+      <div class="row">
+        <div
+          class="col-md-1 d-flex flex-column justify-content-center font:bold"
+        >
+          <p class="font:bold">Filtern:</p>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="von-datum">Von Erstellungsdatum:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="von-datum"
+              name="von-datum"
+            />
+          </div>
+          <div class="form-group">
+            <label for="bis-datum">Bis Erstellungsdatum:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="bis-datum"
+              name="bis-datum"
+            />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label for="von-benutzer">Von Benutzer:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="von-benutzer"
+              name="von-benutzer"
+              min="0"
+              max="9999"
+            />
+          </div>
+          <div class="form-group">
+            <label for="bis-benutzer">Bis Benutzer:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="bis-benutzer"
+              name="bis-benutzer"
+              min="0"
+              max="9999"
+            />
+          </div>
+        </div>
+        <div class="col-md-0">
+          <div class="form-group">
+            <label for="active">Aktiv:</label>
+
+            <input type="checkbox" class="form-control" id="active" checked />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 table-height">
+          <div class="table-scroll">
+            <table class="table table-bordered table-striped table-scroll">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Erstellt am</th>
+                  <th>Name</th>
+                  <th>Passwort</th>
+                  <th>Chip</th>
+                  <th>Status</th>
+                  <th>Löschen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>01.03.2023</td>
+                  <td>
+                    <input type="text" name="firstname" value="Lukas" />
+                    <input
+                      type="text"
+                      name="lastname"
+                      value="Wilflingseder"
+                    /><br />
+                    <input type="email" name="email" value="test@gmail.com" />
+                  </td>
+                  <td>
+                    <input type="password" name="password" value="dfdf4th" />
+                  </td>
+                  <td>
+                    <input type="text" name="chip" value="dfdf4th" />
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      name="status"
+                      value="aktiv"
+                      checked
+                    />
+                    Aktiv
+                  </td>
+                  <td>
+                    <span class="text-center-last-col">
+                      <button type="button" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>01.03.2023</td>
+                  <td>
+                    <input type="text" name="firstname" value="Simon" />
+                    <input type="text" name="lastname" value="Luger" /><br />
+                    <input type="email" name="email" value="test1@gmail.com" />
+                  </td>
+                  <td>
+                    <input type="password" name="password" value="fdfd453" />
+                  </td>
+                  <td>
+                    <input type="text" name="chip" value="fdfd453" />
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      name="status"
+                      value="aktiv"
+                      checked
+                    />
+                    Aktiv
+                  </td>
+                  <td>
+                    <span class="text-center-last-col">
+                      <button type="button" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>01.03.2023</td>
+                  <td>
+                    <input type="text" name="firstname" value="Benjamin" />
+                    <input type="text" name="lastname" value="Mattle" /><br />
+                    <input type="email" name="email" value="test12@gmail.com" />
+                  </td>
+                  <td>
+                    <input type="password" name="password" value="ozk65k" />
+                  </td>
+                  <td>
+                    <input type="text" name="chip" value="ozk65k" />
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      name="status"
+                      value="aktiv"
+                      checked
+                    />
+                    Aktiv
+                  </td>
+                  <td>
+                    <span class="text-center-last-col">
+                      <button type="button" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>01.03.2023</td>
+                  <td>
+                    <input type="text" name="firstname" value="Julian" />
+                    <input
+                      type="text"
+                      name="lastname"
+                      value="Baumgartner"
+                    /><br />
+                    <input
+                      type="email"
+                      name="email"
+                      value="test123@gmail.com"
+                    />
+                  </td>
+                  <td>
+                    <input type="password" name="password" value="iuze3kj9" />
+                  </td>
+                  <td>
+                    <input type="text" name="chip" value="iuze3kj9" />
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      name="status"
+                      value="aktiv"
+                      checked
+                    />
+                    Aktiv
+                  </td>
+                  <td>
+                    <span class="text-center-last-col">
+                      <button type="button" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-warning float-left">Zurück</button>
+          <button class="btn btn-warning float-right">Neuer Benutzer</button>
+          <button class="btn btn-warning float-right">Speichern</button>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
