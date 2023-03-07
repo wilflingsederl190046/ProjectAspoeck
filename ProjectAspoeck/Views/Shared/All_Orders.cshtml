@@ -1,4 +1,6 @@
-﻿@using ProjectAspoeck.Models
+﻿@page
+
+@using ProjectAspoeck.Models
 
 @model ProjectAspoeck.Models.Home_PageModel
 @{
@@ -132,14 +134,12 @@
                         </tr>
 
                     </tbody>
-
-                    </tbody>
                 </table>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-6 text-left">
-                <a href="#" class="btn btn-warning">Zurück</a>
+                <input type="button" class="btn btn-warning" value="Zurück" onclick="history.back()" />
             </div>
             <div class="col-6 text-right">
                 <a href="#" class="btn btn-warning">Detailansicht aufrufen</a>
