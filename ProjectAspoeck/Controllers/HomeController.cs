@@ -29,7 +29,7 @@ namespace ProjectAspoeck.Controllers
             /*if (_loginModel.LoginId == null || _loginModel.ChipNr == null)
             {
                 _loginModel.LoginId = "asdf";
-                _loginModel.ChipNr = "1234";
+                _loginModel.ChipNr = "1234";Microsoft.Data.SqlClient.SqlException: 'Failed to generate SSPI context.'
 
             }*/
             User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Password).FirstOrDefault();
@@ -41,7 +41,7 @@ namespace ProjectAspoeck.Controllers
             else
             {
                 _loginModel.UserId = user.UserId;
-                return RedirectToAction("Home_Page", "Home", user);
+                return RedirectToAction("Home_Page", "Home");
             }
             return View(_loginModel);
         }
@@ -61,7 +61,7 @@ namespace ProjectAspoeck.Controllers
 
             return View(homeModel);
         }*/
-        public IActionResult Home_Page(LoginModel _loginModel, User user)
+        public IActionResult Home_Page(LoginModel _loginModel)
         {
             string name = user.UserName ?? "UserName";
             int id = user.UserId;
