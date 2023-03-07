@@ -69,12 +69,16 @@ namespace ProjectAspoeck.Controllers
 
       homeModel.orders = orders;
       return View(homeModel);
-    }
-
-    public IActionResult Privacy()
-    {
-      return View();
-    }
+        }
+        public IActionResult Settings(Settings settingsModel)
+        {
+            Settings settings= new Settings();
+            return View(settings);
+        }
+        public IActionResult Privacy()
+        {
+         return View();
+         }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -114,9 +114,13 @@
                 </div>
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
-                        <button type="button" class="btn btn-lg">
+                        @using (Html.BeginForm("Settings", "Home", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-lg">
                             <i class="fa fa-gear"></i>
                         </button>
+                        }
+                        
                     </span>
                 </div>
             </div>
@@ -236,7 +240,10 @@
                         }
                     </table>
                 </div>
-                <button href="/All_Orders" type="submit" class="btn btn-warning btn-block" asp-page="">Letzte Bestellungen ansehen</button>
+                
+                
+                    <button type="submit" class="btn btn-warning btn-block" >Letzte Bestellungen ansehen</button>
+                
             </div>
         </div>
     </div>

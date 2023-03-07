@@ -1,244 +1,265 @@
 ﻿@using ProjectAspoeck.Models
 
-@model ProjectAspoeck.Models.Home_PageModel
+@model ProjectAspoeck.Models.Settings
 @{
     ViewData["Title"] = "Startseite";
 }
 
+
 <!DOCTYPE html>
 <html lang="de">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jausen Bestellung</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous" />
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <!-- Custom CSS -->
     <style>
+      .header {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        background-color: #f2f2f2;
+      }
+
+      .header .logo {
+        height: 100%;
+        margin-right: 20px;
+      }
+
+      .header h1 {
+        margin: 0 auto;
+      }
+
+      .header btn {
+        margin-left: 20px;
+      }
+
+      .header img {
+        display: block;
+      }
+
+      media only screen and (max-width: 768px) {
         .header {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            background-color: #f2f2f2;
+          flex-wrap: wrap;
         }
 
-        .header-image {
-            padding-left: 50px;
-            height: 100%;
+        .header .logo {
+          margin-right: 0;
+          margin-bottom: 10px;
         }
 
-        .text-center-last-col{
-            display: flex;
-            justify-content: center;
+        .header h1 {
+          width: 100%;
+          text-align: center;
         }
 
-        img {
-            max-width: 100%;
-            max-height: 100%;
-            display: block;
+        .header btn {
+          margin-left: 0;
+          margin-top: 10px;
+        }
+      }
+
+      .main {
+        margin-top: 30px;
+      }
+
+      .main .date {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .main .headingDateStatus {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .main .status {
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        display: inline-block;
+        margin-right: 10px;
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+
+      .main button {
+        margin-top: 20px;
+        display: block;
+      }
+
+      .btn {
+        background-color: #ffa500;
+        color: white;
+        font-size: 1.5rem;
+      }
+
+      .disabled {
+        background-color: #ffa500;
+        opacity: 0.5;
+      }
+
+      .table th,
+      .table td {
+        font-size: 1.2rem;
+      }
+    
+      .div-border {
+        border: 2px solid #ccc; /* 2 Pixel breiter Rand, graue Farbe */
+        padding: 5px; /* 10 Pixel Innenabstand */
+        margin: 50px; /* 20 Pixel Außenabstand */
+
         }
 
-        .header-text {
-            text-align: center;
+      .div-email {
+        margin-right: 50px; /* 20 Pixel Außenabstand */
+        margin-left: 50px;
+        }
+        .div-email2 {
+        margin-right: 50px; /* 20 Pixel Außenabstand */
+        margin-left: 50px;
         }
 
-        .main {
-            margin-top: 30px;
-        }
-
-            .main .date {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
-
-            .main .headingDateStatus {
-                font-size: 1.5rem;
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
-
-            .main .status {
-                background-color: red;
-                color: white;
-                padding: 5px 10px;
-                display: inline-block;
-                font-weight: bold;
-                font-size: 1.5rem;
-            }
-
-        .btn {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-
-        .table th,
-        .table td {
-            font-size: 1.2rem;
-        }
-
-        .left-row {
-            padding-left: 50px;
-        }
-
-        .right-row {
-            padding-right: 50px;
-        }
-
-        /*.my-custom-scrollbar {
-                        position: relative;
-                        height: 490px;
-                        overflow: auto;
-                      }
-                      .table-wrapper-scroll-y {
-                        display: block;
-                      }*/
     </style>
-</head>
+  </head>
 
-<body>
-    <header class="bg-light py-3" style="height: 150px">
-        <div class="container-fluid h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-3 header-image">
-                    <img src="~/Images/aspoeck-logo-sm.png"
-                         class="img-fluid align-middle"
-                         alt="Logo" />
-                </div>
-                <div class="col-6 header-text">
-                    <h1 class="mb-0">Jausen Bestellung</h1>
-                </div>
-                <div class="col-3 text-center py-2 ">
-                    <span class="header-button">
-                        <button type="button" class="btn btn-lg">
-                            <i class="fa fa-gear"></i>
-                        </button>
-                    </span>
-                </div>
+  <body>
+    <div class="container-fluid" >
+      <div class="header center">
+        <img class="logo" src="Images/aspoeck_logo.png" alt="Aspöck Logo" />
+        <h1>Jausen Bestellung</h1>
+        <img src="Images/settings_button.png" alt="Settings Button" />
+      </div>
+
+      <div class="main">
+        
+        
+          
+          <div class="form-group">
+            <div class="form-check">
+            <div class="col-md-6">
+            <h2>Benachrichtigungen</h2>
+            <div class="form-group">
+              <label for="email" class="div-email">E-Mail:</label>
+              <input type="email" class="form-control div-email" id="email" />
             </div>
-        </div>
-    </header>
-
-    <div class="main">
-        <div class="row">
-            <div class="col-lg-5 left-row">
-                <p>
-                    <span class="headingDateStatus">Willkommen @Model.UserName!</span>
-                </p>
-                <p>
-                    <span class="headingDateStatus">Datum:</span>
-                    <span class="date status" id="date">Montag, 01. Jänner 2023 um 00:00:00</span>
-                </p>
-                <!-- Script -->
-                <script>
-                    const dateElement = document.getElementById('date');
-                    const options = {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        second: 'numeric',
-                        timeZone: 'Europe/Berlin',
-                    };
-                    const formatter = new Intl.DateTimeFormat('de-DE', options);
-
-                    function updateDate() {
-                        dateElement.textContent = formatter.format(new Date());
-                        if (new Date().getHours() >= 0 && new Date().getHours() <= 16) {
-                            dateElement.background = '#50C878';
-                        }
-                    }
-
-                    let timer = setInterval(updateDate, 1000);
-                </script>
-                <p>
-                    <span class="headingDateStatus">Bestellstatus:</span>
-                    <span class="status">Bestellzeitraum abgelaufen</span>
-                </p>
-                <button class="btn btn-warning" disabled>
-                    Bestellung aufgeben
-                </button>
+            <div class ="form-group div-border"> 
+            <div class="form-group">
+              <label for="notification-before-order-deadline"
+                >Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten</label
+              >
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="notification-before-order-deadline"
+                />
+                <label class="form-check-label" for="notification-before-order-deadline">
+                  Ja
+                </label>
+              </div>
             </div>
-            <div class="col-md-7 right-row">
-                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                    <table class="table table-bordered table-striped table-scroll">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Datum</th>
-                                <th>Kosten</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        @*<tbody>
-                        <tr>
-                        <td>1</td>
-                        <td>01.01.2023</td>
-                        <td>130,00 €</td>
-                        <td>Abgeschlossen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>2</td>
-                        <td>15.02.2023</td>
-                        <td>72,50 €</td>
-                        <td>Offen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>3</td>
-                        <td>28.02.2023</td>
-                        <td>42,00 €</td>
-                        <td>Offen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        </tbody>*@
-                        @foreach (var order in Model.orders)
-                        {
-                            <tr>
-                                <td>@order.OrderNumber</td>
-                                <td>@order.OrderDate</td>
-                                <td>@order.OrderAmount.ToString("C")</td>
-                                <td>@(order.IsPaid ? "bezahlt" : "nicht bezahlt")</td>
-                                <td>
-                                    <span class="text-center-last-col">
-                                        <button type="button" class="btn btn-primary">
-                                            <i class="fa fa-retweet"></i>
-                                        </button>
-                                    </span>
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </div>
-                <button class="btn btn-warning btn-block">Letzte Bestellungen ansehen</button>
+            
+            <div class="form-group"  >
+              <label for="notification-time-before-order-deadline">
+                Wann möchtest du benachrichtigt werden?
+              </label>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="notification-time-before-order-deadline"
+                  id="15min"
+                  value="15min"
+                />
+                <label class="form-check-label" for="15min">
+                  15 min vor 8:00:00
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="notification-time-before-order-deadline"
+                  id="30min"
+                  value="30min"
+                />
+                <label class="form-check-label" for="30min">
+                  30 min vor 8:00:00
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="notification-time-before-order-deadline"
+                  id="60min"
+                  value="60min"
+                />
+                <label class="form-check-label" for="60min">
+                  60 min vor 8:00:00
+                </label>
+              </div>
             </div>
-        </div>
-    </div>
-</body>
-</html>
+            <div class="form-group">
+              <label for="payment-deadline-notification"
+                >Ich möchte über das Ende der Zahlungsfrist informiert werden</label
+              >
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="payment-deadline-notification"
+                />
+                <label class="form-check-label" for="payment-deadline-notification">
+                  Ja
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="payment-deadline-notification-time">
+                Wann möchtest du benachrichtigt werden?
+              </label>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="payment-deadline-notification-time"
+                  id="1day"
+                  value="1day"
+                />
+                <label class="form-check-label" for="1day">
+                  1 Tag
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="payment-deadline-notification-time"
+                  id="2days"
+                  value="2days"
+                />
+                <label class="form-check-label" for="2days">
+                  2 Tage
+                </label>
+                
+                <button type="submit" class="btn btn-warning" style="position: absolute; top: 50px; left: -5px;">Speichern</button>
+              </div>
+              
+            </div>
+            
+              
+  </body>
+
+
