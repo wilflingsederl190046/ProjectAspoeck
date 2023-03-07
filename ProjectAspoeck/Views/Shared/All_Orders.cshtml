@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "All Orders";
 }
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -13,6 +12,8 @@
     <title>Alle letzten Bestellungen</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
         .container {
             margin-top: 50px;
@@ -21,9 +22,52 @@
         img {
             max-width: 50px;
         }
+
+        .header {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            background-color: #f2f2f2;
+        }
+
+        .header-image {
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .header-button {
+            height: 100px
+        }
+
+        .header-text {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+    <header class="bg-light py-3" style="height: 150px">
+        <div class="container-fluid h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-3 header-image">
+                    <img src="path/to/image.jpg"
+                         class="img-fluid align-middle"
+                         alt="Logo" />
+                </div>
+                <div class="col-6 header-text">
+                    <h1 class="mb-0">Jausen Bestellung</h1>
+                </div>
+                <div class="col-3 text-center py-2 ">
+                    <span class="text-center-last-col ">
+                        <button type="button" class="btn btn-lg">
+                            <i class="fa fa-gear"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="container">
         <div class="row">
             <div class="col">
