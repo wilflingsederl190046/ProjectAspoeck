@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace JausenbestellungAspoeck.Pages
 {
-    public class Home_PageModel : PageModel
+    public class Shopping_Basket : PageModel
     {
         public void OnGet()
         {

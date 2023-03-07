@@ -26,12 +26,7 @@ namespace ProjectAspoeck.Controllers
             BreakfastContext _db = new BreakfastContext();
             List<UserDTO> _users = _db.Users.Select(x => new UserDTO { UserId = x.UserId, LastName = x.LastName, FirstName = x.FirstName }).ToList();
             Console.WriteLine(_users);
-            /*if (_loginModel.LoginId == null || _loginModel.ChipNr == null)
-            {
-                _loginModel.LoginId = "asdf";
-                _loginModel.ChipNr = "1234";Microsoft.Data.SqlClient.SqlException: 'Failed to generate SSPI context.'
 
-            }*/
             User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Password).FirstOrDefault();
             if (user == null)
             {
@@ -46,22 +41,7 @@ namespace ProjectAspoeck.Controllers
             return View(_loginModel);
         }
 
-        /*public  IActionResult Home_Page(LoginModel _loginModel)
-        {
-            
-            if (_loginModel.UserId == null)
-            {
-                _loginModel.UserId = 5;
-            }           
-            var homeModel = new Home_PageModel();
-            //homeModel.UserId = 5;
-                
-            homeModel.UserId = _loginModel.UserId;
-           // return View(homeModel);
-
-            return View(homeModel);
-        }*/
-        public IActionResult Home_Page(LoginModel _loginModel)
+        public IActionResult Home_Page(LoginModel _loginModel, User user)
         {
             string name = user.UserName ?? "UserName";
             int id = user.UserId;
