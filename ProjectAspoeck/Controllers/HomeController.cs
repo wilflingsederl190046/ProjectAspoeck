@@ -6,8 +6,10 @@ using System.Diagnostics;
 
 namespace ProjectAspoeck.Controllers
 {
+   
     public class HomeController : Controller
     {
+        BreakfastContext _db = new BreakfastContext();
         private readonly ILogger<HomeController> _logger;
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,15 +25,10 @@ namespace ProjectAspoeck.Controllers
         [HttpPost]
         public IActionResult Index(LoginModel _loginModel)
         {
-            BreakfastContext _db = new BreakfastContext();
+            
             List<UserDTO> _users = _db.Users.Select(x => new UserDTO { UserId = x.UserId, LastName = x.LastName, FirstName = x.FirstName }).ToList();
             Console.WriteLine(_users);
-            /*if (_loginModel.LoginId == null || _loginModel.ChipNr == null)
-            {
-                _loginModel.LoginId = "asdf";
-                _loginModel.ChipNr = "1234";
-
-            }*/
+            
             User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Password).FirstOrDefault();
             if (user == null)
             {
@@ -41,34 +38,27 @@ namespace ProjectAspoeck.Controllers
             else
             {
                 _loginModel.UserId = user.UserId;
-                return RedirectToAction("Home_Page", "Home", user);
+                int id = user.UserId;
+                //return Home_Page(_loginModel.UserId);
+                var loginModel = new LoginModel
+                {
+                    UserId = _loginModel.UserId,
+                    // add other necessary properties here
+                };
+                //return Home_Page(_loginModel);
+                return RedirectToAction("Home_Page", "Home",loginModel);
             }
             return View(_loginModel);
         }
-
-        /*public  IActionResult Home_Page(LoginModel _loginModel)
+        
+        public IActionResult Home_Page(LoginModel loginModel)
         {
             
-            if (_loginModel.UserId == null)
-            {
-                _loginModel.UserId = 5;
-            }           
-            var homeModel = new Home_PageModel();
-            //homeModel.UserId = 5;
-                
-            homeModel.UserId = _loginModel.UserId;
-           // return View(homeModel);
-
-            return View(homeModel);
-        }*/
-        public IActionResult Home_Page(LoginModel _loginModel, User user)
-        {
+            User user = _db.Users.Where(x=>x.UserId == loginModel.UserId).FirstOrDefault();
             string name = user.UserName ?? "UserName";
-            int id = user.UserId;
-            
             var homeModel = new Home_PageModel();
             homeModel.UserName = name;
-            homeModel.UserId = id;
+            homeModel.UserId = loginModel.UserId;
             var orders = new List<OrderViewModel>
              {
                 new OrderViewModel { OrderNumber = 1, OrderDate = "Mo, 01.01.2023", OrderAmount = 130.00m, IsPaid = true },
