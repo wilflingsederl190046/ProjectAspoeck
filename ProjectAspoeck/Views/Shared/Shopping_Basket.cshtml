@@ -1,0 +1,169 @@
+﻿@using ProjectAspoeck.Models
+
+@model ProjectAspoeck.Models.Home_PageModel
+@{
+    ViewData["Title"] = "Warenkorb";
+}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Warenkorb</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+
+        img {
+            max-width: 50px;
+        }
+
+        .text-center-last-col {
+            display: flex;
+            justify-content: center;
+        }
+
+        .header {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            background-color: #f2f2f2;
+        }
+
+        .header-image {
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .header-button {
+            height: 100px
+        }
+
+        .header-text {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-light py-3" style="height: 150px">
+        <div class="container-fluid h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-3 header-image">
+                    <img src="path/to/image.jpg"
+                         class="img-fluid align-middle"
+                         alt="Logo" />
+                </div>
+                <div class="col-6 header-text">
+                    <h1 class="mb-0">Jausen Bestellung</h1>
+                </div>
+                <div class="col-3 text-center py-2 ">
+                    <span class="text-center-last-col ">
+                        <button type="button" class="btn btn-lg">
+                            <i class="fa fa-gear"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h4>Warenkorb</h4>
+            </div>
+            <div class="col text-right">
+                <h4>06.03.2023</h4>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Bild</th>
+                            <th scope="col">Artikel</th>
+                            <th scope="col">Preis</th>
+                            <th scope="col">Anzahl</th>
+                            <th scope="col">Gesamt</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                <img src="https://via.placeholder.com/50x50.png?text=Semmel"
+                                     alt="Semmel" />
+                            </th>
+                            <td>Semmel mit Butter</td>
+                            <td>1,50 €</td>
+                            <td>3</td>
+                            <td>7,50 €</td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <img src="https://via.placeholder.com/50x50.png?text=Brezel"
+                                     alt="Brezel" />
+                            </th>
+                            <td>Brezel</td>
+                            <td>2,00 €</td>
+                            <td>2</td>
+                            <td>6,00 €</td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <img src="https://via.placeholder.com/50x50.png?text=Kornspitz"
+                                     alt="Kornspitz" />
+                            </th>
+                            <td>Kornspitz</td>
+                            <td>2,00 €</td>
+                            <td>5</td>
+                            <td>10,00 €</td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="4" scope="row">Summe</th>
+                            <td>23,50 €</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6 text-left">
+                <button href="#" class="btn btn-warning">Zurück</button>
+            </div>
+            <div class="col-6 text-right">
+                <button href="#" class="btn btn-success">Bestellung aufgeben</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -38,15 +38,7 @@ namespace ProjectAspoeck.Controllers
             else
             {
                 _loginModel.UserId = user.UserId;
-                int id = user.UserId;
-                //return Home_Page(_loginModel.UserId);
-                var loginModel = new LoginModel
-                {
-                    UserId = _loginModel.UserId,
-                    // add other necessary properties here
-                };
-                //return Home_Page(_loginModel);
-                return RedirectToAction("Home_Page", "Home",loginModel);
+                return RedirectToAction("Home_Page", "Home", user);
             }
             return View(_loginModel);
         }
