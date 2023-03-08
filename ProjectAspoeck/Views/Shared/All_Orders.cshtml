@@ -1,8 +1,7 @@
-﻿@page
-
+﻿
 @using ProjectAspoeck.Models
 
-@model ProjectAspoeck.Models.Home_PageModel
+@model ProjectAspoeck.Models.All_OrdersModel
 @{
     ViewData["Title"] = "All Orders";
 }
@@ -142,7 +141,10 @@
                 <input type="button" class="btn btn-warning" value="Zurück" onclick="history.back()" />
             </div>
             <div class="col-6 text-right">
-                <a href="#" class="btn btn-warning">Detailansicht aufrufen</a>
+                @using (Html.BeginForm("Order_Detail", "Home", FormMethod.Post))
+                        {
+                <button href="#" class="btn btn-warning">Detailansicht aufrufen</button>
+                        }
             </div>
         </div>
     </div>

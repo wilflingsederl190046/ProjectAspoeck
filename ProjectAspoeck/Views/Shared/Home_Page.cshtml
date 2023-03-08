@@ -240,10 +240,10 @@
                         }
                     </table>
                 </div>
-                
-                
-                    <button type="submit" class="btn btn-warning btn-block" >Letzte Bestellungen ansehen</button>
-                
+                @using (Html.BeginForm("All_Orders", "Home", FormMethod.Post))
+                        {                
+                            <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
+                        }
             </div>
         </div>
     </div>

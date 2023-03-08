@@ -75,10 +75,26 @@ namespace ProjectAspoeck.Controllers
             SettingsModel settings= new SettingsModel();
             return View(settings);
         }
+
+        public IActionResult All_Orders(All_OrdersModel all_OrdersModel)
+        {
+            All_OrdersModel all_Orders = new All_OrdersModel();
+            return View(all_Orders);
+        }
+        public IActionResult Order_Detail(Order_DetailModel order_DetailModel)
+        {
+            Order_DetailModel order_Detail = new Order_DetailModel();
+            return View(order_Detail);
+        }
+
         public IActionResult Privacy()
         {
          return View();
          }
+
+
+
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
