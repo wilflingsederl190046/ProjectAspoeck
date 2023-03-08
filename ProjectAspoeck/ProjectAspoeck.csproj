@@ -81,8 +81,4 @@
     <ProjectReference Include="..\DTOLibary\DTOLibary.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Shared\Admin\" />
-  </ItemGroup>
-
 </Project>
