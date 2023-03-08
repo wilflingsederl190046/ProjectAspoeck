@@ -26,49 +26,58 @@ namespace ProjectAspoeck.Controllers
       LoginModel _loginModel = new LoginModel();
       return View(_loginModel);
     }
-    [HttpPost]
-    public IActionResult Index(LoginModel _loginModel)
-    {
-
-      List<UserDTO> _users = _db.Users.Select(x => new UserDTO { UserId = x.UserId, LastName = x.LastName, FirstName = x.FirstName }).ToList();
-      Console.WriteLine(_users);
-
-      User? user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Password).FirstOrDefault();
-      if (user == null)
-      {
-
-        ViewBag.LoginStatus = 0;
-      }
-      else
-      {
-        _loginModel.UserId = user.UserId;
-        var loginModel = new LoginModel
+        [HttpPost]
+        public IActionResult Index(LoginModel _loginModel)
         {
-          UserId = _loginModel.UserId,
-          // add other necessary properties here
-        };
-        return RedirectToAction("Home_Page", "Home", loginModel);
-      }
-      return View(_loginModel);
-    }
+            User user = _db.Users.Where(m => m.UserName == _loginModel.LoginId && m.ChipNumber == _loginModel.Password).FirstOrDefault();
+            if (user == null)
+            {
+                ViewBag.LoginStatus = 0;
+                return View(_loginModel);
+            }
+            else
+            {
+                // Generate session key
+                string sessionKey = Guid.NewGuid().ToString();
 
-    public IActionResult Home_Page(LoginModel loginModel)
+                // Encrypt username and password using session key
+                string encryptedUsername = EncryptionHelper.Encrypt(_loginModel.LoginId, sessionKey);
+                string encryptedPassword = EncryptionHelper.Encrypt(_loginModel.Password, sessionKey);
+
+                // Store session key and encrypted username and password in session
+                HttpContext.Session.SetString("SessionKey", sessionKey);
+                HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
+                HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
+
+                // Redirect to home page with session key in query string
+                return RedirectToAction("Home_Page", "Home", new { sessionKey = sessionKey });
+            }
+        }
+
+        public IActionResult Home_Page(string sessionKey)
+        {
+            // Retrieve encrypted username and password from session
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername");
+            string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword");
+
+            // Decrypt username and password using session key
+            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+            string password = EncryptionHelper.Decrypt(encryptedPassword, sessionKey);
+
+            // Retrieve user from database using decrypted username and password
+            var homeModel = new Home_PageModel();
+            homeModel.UserName = username;
+            //homeModel.UserId = loginModel.UserId;
+
+            var orders = new List<OrderViewModel>
     {
+        new OrderViewModel { OrderNumber = 1, OrderDate = "Mo, 01.01.2023", OrderAmount = 130.00m, IsPaid = true },
+        new OrderViewModel { OrderNumber = 2, OrderDate = "Di, 15.02.2023", OrderAmount = 72.50m, IsPaid = false },
+        new OrderViewModel { OrderNumber = 3, OrderDate = "Mi, 28.02.2023", OrderAmount = 42.00m, IsPaid = false }
+    };
+            homeModel.orders = orders;
 
-      User user = _db.Users.Where(x => x.UserId == loginModel.UserId).FirstOrDefault();
-      string name = user.UserName ?? "UserName";
-      var homeModel = new Home_PageModel();
-      homeModel.UserName = name;
-      homeModel.UserId = loginModel.UserId;
-      var orders = new List<OrderViewModel>
-             {
-                new OrderViewModel { OrderNumber = 1, OrderDate = "Mo, 01.01.2023", OrderAmount = 130.00m, IsPaid = true },
-                new OrderViewModel { OrderNumber = 2, OrderDate = "Di, 15.02.2023", OrderAmount = 72.50m, IsPaid = false },
-                new OrderViewModel { OrderNumber = 3, OrderDate = "Mi, 28.02.2023", OrderAmount = 42.00m, IsPaid = false }
-            };
-
-      homeModel.orders = orders;
-      return View(homeModel);
+            return View(homeModel);
         }
         public IActionResult Settings(SettingsModel settingsModel)
         {

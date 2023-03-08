@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Shared\Admin\**" />
+    <Content Remove="Views\Shared\Admin\**" />
+    <EmbeddedResource Remove="Views\Shared\Admin\**" />
+    <None Remove="Views\Shared\Admin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Images\aspoeck-logo-sm.png" />
     <None Include="wwwroot\Images\aspoeck-systems_logo_7zu5.png" />
     <None Include="wwwroot\Images\HomePage\u1.png" />
@@ -79,10 +86,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BreakfastDBLib\BreakfastDBLib.csproj" />
     <ProjectReference Include="..\DTOLibary\DTOLibary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Shared\Admin\" />
   </ItemGroup>
 
 </Project>
