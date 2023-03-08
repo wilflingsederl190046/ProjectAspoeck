@@ -165,9 +165,11 @@
                     <span class="headingDateStatus">Bestellstatus:</span>
                     <span class="status">Bestellzeitraum abgelaufen</span>
                 </p>
-                <button class="btn btn-warning" disabled>
-                    Bestellung aufgeben
-                </button>
+                
+                @using (Html.BeginForm("Place_Order", "Home", FormMethod.Post))
+                {                
+                    <button class="btn btn-warning">Bestellung aufgeben</button>
+                }
             </div>
             <div class="col-md-7 right-row">
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">

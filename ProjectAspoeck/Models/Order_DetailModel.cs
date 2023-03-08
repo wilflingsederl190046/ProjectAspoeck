@@ -1,7 +1,6 @@
-﻿namespace ProjectAspoeck.Models
-{
-    public class Order_DetailModel
-    {
+﻿namespace ProjectAspoeck.Models;
 
-    }
-}
+  public class Order_DetailModel
+  {
+
+  }
