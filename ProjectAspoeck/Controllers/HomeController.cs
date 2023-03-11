@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectAspoeck.Models;
 
 using System.Diagnostics;
+using System.Drawing;
 
 namespace ProjectAspoeck.Controllers
 {
@@ -50,13 +51,19 @@ namespace ProjectAspoeck.Controllers
                 HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
 
                 // Redirect to home page with session key in query string
+                sessionKey= Guid.NewGuid().ToString();
+
                 return RedirectToAction("Home_Page", "Home", new { sessionKey = sessionKey });
+                
+               //
+                // return RedirectToAction("Home_Page", "Home", new { sessionKey = sessionKey }); bitte ned löschen den brauch i Nu !!!!!
+               //
             }
         }
 
         public IActionResult Home_Page(string sessionKey)
         {
-            // Retrieve encrypted username and password from session
+             // Retrieve encrypted username and password from session
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername");
             string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword");
 
@@ -70,14 +77,17 @@ namespace ProjectAspoeck.Controllers
             //homeModel.UserId = loginModel.UserId;
 
             var orders = new List<OrderViewModel>
-    {
-        new OrderViewModel { OrderNumber = 1, OrderDate = "Mo, 01.01.2023", OrderAmount = 130.00m, IsPaid = true },
-        new OrderViewModel { OrderNumber = 2, OrderDate = "Di, 15.02.2023", OrderAmount = 72.50m, IsPaid = false },
-        new OrderViewModel { OrderNumber = 3, OrderDate = "Mi, 28.02.2023", OrderAmount = 42.00m, IsPaid = false }
-    };
+            {
+            new OrderViewModel { OrderNumber = 1, OrderDate = "Mo, 01.01.2023", OrderAmount = 130.00m, IsPaid = true },
+            new OrderViewModel { OrderNumber = 2, OrderDate = "Di, 15.02.2023", OrderAmount = 72.50m, IsPaid = false },
+            new OrderViewModel { OrderNumber = 3, OrderDate = "Mi, 28.02.2023", OrderAmount = 42.00m, IsPaid = false }
+            };
             homeModel.orders = orders;
 
+
+            homeModel.sessionString= sessionKey;
             return View(homeModel);
+            
         }
         public IActionResult Settings(SettingsModel settingsModel)
         {
@@ -85,9 +95,15 @@ namespace ProjectAspoeck.Controllers
             return View(settings);
         }
 
-        public IActionResult All_Orders(All_OrdersModel all_OrdersModel)
+        public IActionResult All_Orders(Home_PageModel homeModel)
         {
+            string sessionString = HttpContext.Session.GetString("SessionKey");
+            
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername");
+            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionString);
+
             All_OrdersModel all_Orders = new All_OrdersModel();
+
             return View(all_Orders);
         }
         public IActionResult Order_Detail(Order_DetailModel order_DetailModel)

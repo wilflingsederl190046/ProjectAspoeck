@@ -9,5 +9,7 @@ namespace ProjectAspoeck.Models
          
         public List<OrderViewModel> orders { get; set; }
 
+        public string sessionString { get; set; }
+
     }    
 }
