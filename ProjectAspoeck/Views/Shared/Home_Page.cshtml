@@ -114,8 +114,8 @@
                 </div>
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Home", FormMethod.Post))
-                        {
+                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.sessionString }, FormMethod.Post))
+                                    {
                             <button type="submit" class="btn btn-lg">
                             <i class="fa fa-gear"></i>
                         </button>
@@ -225,22 +225,39 @@
                         @foreach (var order in Model.orders)
                         {
                             <tr>
-                                <td>@order.OrderNumber</td>
+                                <td>
+                                    @if (order.OrderNumber == 0)
+                                    {
+
+                                    }
+                                    else
+                                    {
+
+                                        @order.OrderNumber
+                                    }
+                                </td>
                                 <td>@order.OrderDate</td>
                                 <td>@order.OrderAmount.ToString("C")</td>
-                                <td>@(order.IsPaid ? "bezahlt" : "nicht bezahlt")</td>
+                                <td>@(order.State)</td>
                                 <td>
                                     <span class="text-center-last-col">
-                                        <button type="button" class="btn btn-primary">
+                                        @if (order.State.Equals(""))
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                           <button type="button" class="btn btn-primary">
                                             <i class="fa fa-retweet"></i>
-                                        </button>
+                                        </button> 
+                                        }
                                     </span>
                                 </td>
                             </tr>
                         }
                     </table>
                 </div>
-                @using (Html.BeginForm("All_Orders", "Home", FormMethod.Post, Model.sessionString))
+                @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.sessionString }, FormMethod.Post))
                         {                
                             <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
                         }

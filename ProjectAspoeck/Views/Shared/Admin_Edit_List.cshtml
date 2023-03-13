@@ -224,12 +224,20 @@
                                 <td>@order.OrderNumber</td>
                                 <td>@order.OrderDate</td>
                                 <td>@order.OrderAmount.ToString("C")</td>
-                                <td>@(order.IsPaid ? "bezahlt" : "nicht bezahlt")</td>
+                                <td>@(order.State)</td>
                                 <td>
                                     <span class="text-center-last-col">
-                                        <button type="button" class="btn btn-primary">
+                                        @if (order.State.Equals(""))
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                           <button type="button" class="btn btn-primary">
                                             <i class="fa fa-retweet"></i>
-                                        </button>
+                                        </button> 
+                                        }
+                                        
                                     </span>
                                 </td>
                             </tr>

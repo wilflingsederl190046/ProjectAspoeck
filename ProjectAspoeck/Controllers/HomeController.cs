@@ -3,7 +3,7 @@
 using DTOLibary;
 
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 using ProjectAspoeck.Models;
 
 using System.Diagnostics;
@@ -51,13 +51,8 @@ namespace ProjectAspoeck.Controllers
                 HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
 
                 // Redirect to home page with session key in query string
-                sessionKey= Guid.NewGuid().ToString();
-
                 return RedirectToAction("Home_Page", "Home", new { sessionKey = sessionKey });
-                
-               //
-                // return RedirectToAction("Home_Page", "Home", new { sessionKey = sessionKey }); bitte ned löschen den brauch i Nu !!!!!
-               //
+
             }
         }
 
@@ -69,53 +64,65 @@ namespace ProjectAspoeck.Controllers
 
             // Decrypt username and password using session key
             string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-            string password = EncryptionHelper.Decrypt(encryptedPassword, sessionKey);
+            //string password = EncryptionHelper.Decrypt(encryptedPassword, sessionKey);
+            User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault();
 
-            // Retrieve user from database using decrypted username and password
             var homeModel = new Home_PageModel();
             homeModel.UserName = username;
-            //homeModel.UserId = loginModel.UserId;
-
-            var orders = new List<OrderViewModel>
+            int userid = user.UserId;
+            var orders1 = _db.Orders.Include(x=>x.User).Where(x => x.UserId == userid).Select(x => new OrderViewModel { OrderNumber = 0, State = x.OrderState.Name , OrderDate = x.OrderDate.ToString("d") , OrderAmount = x.OrderItems.Count }).ToList();
+            
+            if (orders1.Count == 0)
             {
-            new OrderViewModel { OrderNumber = 1, OrderDate = "Mo, 01.01.2023", OrderAmount = 130.00m, IsPaid = true },
-            new OrderViewModel { OrderNumber = 2, OrderDate = "Di, 15.02.2023", OrderAmount = 72.50m, IsPaid = false },
-            new OrderViewModel { OrderNumber = 3, OrderDate = "Mi, 28.02.2023", OrderAmount = 42.00m, IsPaid = false }
+                orders1 = new List<OrderViewModel>
+            {
+            new OrderViewModel { OrderNumber = 0, OrderDate = "", OrderAmount = 0, State = "" },
+            
             };
-            homeModel.orders = orders;
+            }
+            
+            homeModel.orders = orders1;
 
 
             homeModel.sessionString= sessionKey;
             return View(homeModel);
             
         }
-        public IActionResult Settings(SettingsModel settingsModel)
+        public IActionResult Settings(string sessionKey)
         {
-            SettingsModel settings= new SettingsModel();
+            
+           string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername");
+            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+
+            User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault();
+            SettingsModel settings = new SettingsModel();
             return View(settings);
         }
 
-        public IActionResult All_Orders(Home_PageModel homeModel)
+        public IActionResult All_Orders(string sessionKey)
         {
-            string sessionString = HttpContext.Session.GetString("SessionKey");
+            
             
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername");
-            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionString);
+            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+            User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault();
 
             All_OrdersModel all_Orders = new All_OrdersModel();
-
+            all_Orders.sessionString =sessionKey;
             return View(all_Orders);
         }
-        public IActionResult Order_Detail(Order_DetailModel order_DetailModel)
+        public IActionResult Order_Detail(string sessionKey)
         {
             Order_DetailModel order_Detail = new Order_DetailModel();
+            order_Detail.sessionString = sessionKey;
             return View(order_Detail);
         }
 
         public IActionResult Privacy()
         {
-         return View();
-         }
+
+           return View();
+        }
 
 
 
