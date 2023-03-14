@@ -76,8 +76,7 @@ namespace ProjectAspoeck.Controllers
             {
                 orders1 = new List<OrderViewModel>
             {
-            new OrderViewModel { OrderNumber = 0, OrderDate = "", OrderAmount = 0, State = "" },
-            
+                new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },            
             };
             }
             

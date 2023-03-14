@@ -226,24 +226,29 @@
                         {
                             <tr>
                                 <td>
-                                    @if (order.OrderNumber == 0)
+                                    @if (order.OrderNumber == -1)
                                     {
-
+            
                                     }
                                     else
                                     {
-
                                         @order.OrderNumber
                                     }
                                 </td>
                                 <td>@order.OrderDate</td>
-                                <td>@order.OrderAmount.ToString("C")</td>
+                                <td>
+                                    @if (order.OrderAmount == -1)
+                                    {            
+                                    }
+                                    else
+                                    {
+                                        @order.OrderAmount.ToString("C")
+                                    }</td>
                                 <td>@(order.State)</td>
                                 <td>
                                     <span class="text-center-last-col">
                                         @if (order.State.Equals(""))
                                         {
-
                                         }
                                         else
                                         {
