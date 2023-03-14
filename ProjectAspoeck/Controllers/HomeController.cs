@@ -95,7 +95,9 @@ namespace ProjectAspoeck.Controllers
             string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
 
             User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault();
+            
             SettingsModel settings = new SettingsModel();
+            settings.Email = user.Email;
             return View(settings);
         }
 
