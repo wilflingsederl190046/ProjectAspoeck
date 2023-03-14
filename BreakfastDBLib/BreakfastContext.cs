@@ -27,10 +27,12 @@ public partial class BreakfastContext : DbContext
 
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {
-    optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\lukas\\OneDrive\\Desktop\\POS\\#sonstigeProjekte\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True;TrustServerCertificate=True");
-    //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\4_Klasse\\PRASPÖCK\\Project\\Project\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True");
+        //optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\lukas\\OneDrive\\Desktop\\POS\\#sonstigeProjekte\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\Test\\source\\repos\\wilflingsederl190046\\ProjectAspoeck\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True;TrustServerCertificate=True");
 
-    base.OnConfiguring(optionsBuilder);
+        //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\4_Klasse\\PRASPÖCK\\Project\\Project\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True");
+
+        base.OnConfiguring(optionsBuilder);
   }
 
 
