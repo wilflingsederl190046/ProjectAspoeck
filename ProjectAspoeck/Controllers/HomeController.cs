@@ -76,8 +76,7 @@ namespace ProjectAspoeck.Controllers
             {
                 orders1 = new List<OrderViewModel>
             {
-            new OrderViewModel { OrderNumber = 0, OrderDate = "", OrderAmount = 0, State = "" },
-            
+                new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },            
             };
             }
             
@@ -130,12 +129,46 @@ namespace ProjectAspoeck.Controllers
 
            return View();
         }
+        [HttpGet]
+        public IActionResult LoginWithChip()
+        {
+            LoginModel _loginModel = new LoginModel();
+            return View(_loginModel);
+        }
+
+        [HttpPost]
+        public IActionResult LoginWithChip(LoginModel _loginModel)
+        {
+
+            User user = _db.Users.Where(m => m.ChipNumber == _loginModel.Password).FirstOrDefault();
+            if (user == null)
+            {
+                ViewBag.LoginStatus = 0;
+                return View(_loginModel);
+            }
+            else
+            {
+                // Generate session key
+                string sessionKey = Guid.NewGuid().ToString();
+
+                // Encrypt username and password using session key
+                string encryptedUsername = EncryptionHelper.Encrypt(user.UserName, sessionKey);
+                string encryptedPassword = EncryptionHelper.Encrypt(_loginModel.Password, sessionKey);
+
+                // Store session key and encrypted username and password in session
+                HttpContext.Session.SetString("SessionKey", sessionKey);
+                HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
+                HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
+
+                // Redirect to home page with session key in query string
+                return RedirectToAction("Home_Page", "Home", new { sessionKey = sessionKey });
+            }
+        }
 
 
 
 
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
       return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
