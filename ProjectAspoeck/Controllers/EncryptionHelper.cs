@@ -4,19 +4,35 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.CodeAnalysis.Editing;
+using System.Security.Cryptography;
+
+
 
 namespace ProjectAspoeck.Controllers
 {
 
     public static class EncryptionHelper
     {
-        private static readonly byte[] Salt = Encoding.UTF8.GetBytes("InsertSaltHere");
 
+        public static byte[] GenerateSalt()
+        {
+            // Generate a 16-byte (128-bit) salt value
+            byte[] salt = new byte[16];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(salt);
+            }
+            return salt;
+        }
+        private static readonly byte[] Salt = GenerateSalt();
+            
         private const int Iterations = 10000;
         private const int KeySize = 256;
 
         public static string Encrypt(string plainText, string password)
         {
+            
             byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
             byte[] keyBytes = new Rfc2898DeriveBytes(password, Salt, Iterations).GetBytes(KeySize / 8);
 

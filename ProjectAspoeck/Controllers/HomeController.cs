@@ -172,6 +172,13 @@ namespace ProjectAspoeck.Controllers
             return View(place_Order);
         }
 
+        public IActionResult Shopping_Basket(string sessionKey)
+        {
+            Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+            shopping_Basket.sessionString = sessionKey;
+            return View(shopping_Basket);
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
