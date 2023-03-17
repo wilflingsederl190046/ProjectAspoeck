@@ -94,15 +94,16 @@ namespace ProjectAspoeck.Controllers
             string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
 
             User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault();
-            
-            SettingsModel settings = new SettingsModel();
-            settings.Email = user.Email;
-            //settings.RememberToOrder = user.Settings.RememberToOrder;
-            //settings.RememberToPay = user.Settings.RememberToPay;
+            Setting settings = _db.Settings.Where(x => x.UserId == user.UserId).FirstOrDefault();
+
+            var settingsModel = new SettingsModel();
+            settingsModel.Email = user.Email;
+            settingsModel.RememberToOrder = settings.NotificationOrderDeadline;
+            settingsModel.RememberToPay = settings.NotificationPaymentDeadline;
            
             
 
-            return View(settings);
+            return View(settingsModel);
         }
 
         public IActionResult All_Orders(string sessionKey)
