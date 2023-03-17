@@ -88,17 +88,18 @@ public class HomeController : Controller
     string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
     string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
 
-    User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault() ?? new();
+            User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault();
+            Setting settings = _db.Settings.Where(x => x.UserId == user.UserId).FirstOrDefault();
 
-    SettingsModel settings = new()
-    {
-      Email = user.Email
-    };
-    // settings.RememberToOrder = user.Settings.RememberToOrder;
-    // settings.RememberToPay = user.Settings.RememberToPay;
+            var settingsModel = new SettingsModel();
+            settingsModel.Email = user.Email;
+            settingsModel.RememberToOrder = settings.NotificationOrderDeadline;
+            settingsModel.RememberToPay = settings.NotificationPaymentDeadline;
+           
+            
 
-    return View(settings);
-  }
+            return View(settingsModel);
+        }
 
   public IActionResult All_Orders(string sessionKey)
   {
@@ -163,6 +164,19 @@ public class HomeController : Controller
     return View(place_Order);
   }
 
-  [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-  public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Shopping_Basket(string sessionKey)
+        {
+            Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+            shopping_Basket.sessionString = sessionKey;
+            return View(shopping_Basket);
+        }
+
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+      return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+  }
 }
