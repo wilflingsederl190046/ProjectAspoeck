@@ -14,7 +14,7 @@ namespace ProjectAspoeck.Controllers
 
   public class HomeController : Controller
   {
-    BreakfastContext _db = new BreakfastContext();
+    BreakfastDBContext _db = new BreakfastDBContext();
     private readonly ILogger<HomeController> _logger;
     public HomeController(ILogger<HomeController> logger)
     {
@@ -97,6 +97,11 @@ namespace ProjectAspoeck.Controllers
             
             SettingsModel settings = new SettingsModel();
             settings.Email = user.Email;
+           // settings.RememberToOrder = user.Settings.RememberToOrder;
+           // settings.RememberToPay = user.Settings.RememberToPay;
+           
+            
+
             return View(settings);
         }
 
@@ -121,7 +126,6 @@ namespace ProjectAspoeck.Controllers
 
         public IActionResult Privacy()
         {
-
            return View();
         }
         [HttpGet]
@@ -160,6 +164,13 @@ namespace ProjectAspoeck.Controllers
             }
         }
 
+
+        public IActionResult Place_Order(string sessionKey)
+        {
+            Place_OrderModel place_Order = new Place_OrderModel();
+            place_Order.sessionString = sessionKey;
+            return View(place_Order);
+        }
 
 
 

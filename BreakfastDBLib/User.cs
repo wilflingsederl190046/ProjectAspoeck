@@ -24,4 +24,6 @@ public partial class User
     public string? UserName { get; set; }
 
     public virtual ICollection<Order> Orders { get; } = new List<Order>();
+
+    public virtual ICollection<Setting> Settings { get; } = new List<Setting>();
 }
