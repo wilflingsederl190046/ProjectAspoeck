@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.sessionString }, FormMethod.Post))
+                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                                     {
                             <button type="submit" class="btn btn-lg">
                             <i class="fa fa-gear"></i>
@@ -156,16 +156,13 @@
                     <span class="headingDateStatus">Bestellstatus:</span>
                     <span class="status">Bestellzeitraum abgelaufen</span>
                 </p>
-                @using (Html.BeginForm("Place_Order", "Home", FormMethod.Post))
+                @using (Html.BeginForm("Place_Order", "Home",new { sessionKey = Model.sessionString} ,FormMethod.Post))
                 {
                     
                     <button type="submit" class="btn btn-warning" >
                         Bestellung aufgeben
                     </button>
                 }
-                @*<button class="btn btn-warning" >
-                    Bestellung aufgeben
-                </button>*@
             </div>
             <div class="col-md-7 right-row">
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -179,7 +176,7 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        @foreach (var order in Model.orders)
+                        @foreach (var order in Model.Orders)
                         {
                             <tr>
                                 <td>
@@ -219,7 +216,7 @@
                         }
                     </table>
                 </div>
-                @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.sessionString }, FormMethod.Post))
+                @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                 {                
                     <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
                 }
