@@ -97,8 +97,8 @@ namespace ProjectAspoeck.Controllers
             
             SettingsModel settings = new SettingsModel();
             settings.Email = user.Email;
-           // settings.RememberToOrder = user.Settings.RememberToOrder;
-           // settings.RememberToPay = user.Settings.RememberToPay;
+            //settings.RememberToOrder = user.Settings.RememberToOrder;
+            //settings.RememberToPay = user.Settings.RememberToPay;
            
             
 
