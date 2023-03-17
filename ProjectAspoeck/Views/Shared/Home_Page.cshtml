@@ -165,9 +165,16 @@
                     <span class="headingDateStatus">Bestellstatus:</span>
                     <span class="status">Bestellzeitraum abgelaufen</span>
                 </p>
-                <button class="btn btn-warning" disabled>
+                @using (Html.BeginForm("Place_Order", "Home", FormMethod.Post))
+                {
+                    
+                    <button type="submit" class="btn btn-warning" >
+                        Bestellung aufgeben
+                    </button>
+                }
+                @*<button class="btn btn-warning" >
                     Bestellung aufgeben
-                </button>
+                </button>*@
             </div>
             <div class="col-md-7 right-row">
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -181,47 +188,6 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        @*<tbody>
-                        <tr>
-                        <td>1</td>
-                        <td>01.01.2023</td>
-                        <td>130,00 €</td>
-                        <td>Abgeschlossen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>2</td>
-                        <td>15.02.2023</td>
-                        <td>72,50 €</td>
-                        <td>Offen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>3</td>
-                        <td>28.02.2023</td>
-                        <td>42,00 €</td>
-                        <td>Offen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        </tbody>*@
                         @foreach (var order in Model.orders)
                         {
                             <tr>

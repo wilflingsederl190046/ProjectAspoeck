@@ -121,7 +121,6 @@ namespace ProjectAspoeck.Controllers
 
         public IActionResult Privacy()
         {
-
            return View();
         }
         [HttpGet]
@@ -160,6 +159,13 @@ namespace ProjectAspoeck.Controllers
             }
         }
 
+
+        public IActionResult Place_Order(string sessionKey)
+        {
+            Place_OrderModel place_Order = new Place_OrderModel();
+            place_Order.sessionString = sessionKey;
+            return View(place_Order);
+        }
 
 
 
