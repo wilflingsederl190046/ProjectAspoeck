@@ -14,7 +14,7 @@ namespace ProjectAspoeck.Controllers
 
   public class HomeController : Controller
   {
-    BreakfastContext _db = new BreakfastContext();
+    BreakfastDBContext _db = new BreakfastDBContext();
     private readonly ILogger<HomeController> _logger;
     public HomeController(ILogger<HomeController> logger)
     {
