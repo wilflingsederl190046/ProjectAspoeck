@@ -162,6 +162,7 @@
                   class="form-check-input"
                   type="checkbox"
                   value=""
+                  checked = "@Model.RememberToOrder"
                   id="notification-before-order-deadline"
                 />
                 <label class="form-check-label" for="notification-before-order-deadline">
@@ -171,9 +172,9 @@
             </div>
             
             <div class="form-group"  >
-              <label for="notification-time-before-order-deadline">
-                Wann möchtest du benachrichtigt werden?
-              </label>
+                                <label for="notification-time-before-order-deadline">
+                                    Wann möchtest du benachrichtigt werden?
+                                </label>
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -220,6 +221,7 @@
                   class="form-check-input"
                   type="checkbox"
                   value=""
+                  checked="@Model.RememberToPay"
                   id="payment-deadline-notification"
                 />
                 <label class="form-check-label" for="payment-deadline-notification">
