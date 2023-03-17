@@ -27,12 +27,12 @@ public partial class BreakfastContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-   // => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\lukas\\OneDrive\\Desktop\\SYP\\Aspoeck_project\\Datenbank\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True");
-    => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\4_Klasse\\PRASPÖCK\\Project\\Project\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True");
-   //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\Test\\source\\repos\\wilflingsederl190046\\ProjectAspoeck\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True");
+    => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\lukas\\OneDrive\\Desktop\\SYP\\Aspoeck_project\\Datenbank\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True");
+  //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\4_Klasse\\PRASPÖCK\\Project\\Project\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True");
+  //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\Test\\source\\repos\\wilflingsederl190046\\ProjectAspoeck\\BreakfastDB.mdf;integrated security=True;MultipleActiveResultSets=True");
 
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Item>(entity =>
         {

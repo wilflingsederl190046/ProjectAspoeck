@@ -88,15 +88,6 @@
         .right-row {
             padding-right: 50px;
         }
-
-        /*.my-custom-scrollbar {
-                        position: relative;
-                        height: 490px;
-                        overflow: auto;
-                      }
-                      .table-wrapper-scroll-y {
-                        display: block;
-                      }*/
     </style>
 </head>
 
@@ -174,54 +165,13 @@
                     <table class="table table-bordered table-striped table-scroll">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Nr</th>
                                 <th>Datum</th>
                                 <th>Kosten</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        @*<tbody>
-                        <tr>
-                        <td>1</td>
-                        <td>01.01.2023</td>
-                        <td>130,00 €</td>
-                        <td>Abgeschlossen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>2</td>
-                        <td>15.02.2023</td>
-                        <td>72,50 €</td>
-                        <td>Offen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>3</td>
-                        <td>28.02.2023</td>
-                        <td>42,00 €</td>
-                        <td>Offen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        </tbody>*@
                         @foreach (var order in Model.orders)
                         {
                             <tr>
@@ -263,9 +213,9 @@
                     </table>
                 </div>
                 @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.sessionString }, FormMethod.Post))
-                        {                
-                            <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
-                        }
+                {                
+                    <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
+                }
             </div>
         </div>
     </div>
