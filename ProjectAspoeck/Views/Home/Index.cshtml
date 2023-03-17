@@ -34,7 +34,6 @@
 <div class="container d-flex flex-column align-items-center">
 
     <img src="~/Images/aspoeck-systems_logo_7zu5.png" class="img-fluid" alt="Logo">
-    @*<form class="d-flex flex-column align-items-center">*@
     @using (Html.BeginForm("Index", "Home", FormMethod.Post))
     {
         if (ViewBag.LoginStatus != null)
@@ -45,7 +44,7 @@
             }
         }
         <div class="form-group mb-3">
-            <label for="username">Username:</label>
+            <label for="username">Benutzername:</label>
             @* <input type="text" class="form-control" id="username">*@
             @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @placeholder = "mmustermann", @Value = "lwilflingseder" })
         </div>
@@ -58,6 +57,5 @@
             Login
         </button>
     }
-    @*</form>*@
 </div>
 </html>

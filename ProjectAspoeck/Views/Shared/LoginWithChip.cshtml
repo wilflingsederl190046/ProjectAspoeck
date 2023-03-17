@@ -28,7 +28,7 @@
         </nav>
     </header>
     <div class="container d-flex flex-column align-items-center">
-        <img src="Images\aspoeck-systems_logo_7zu5.png" class="img-responsive mb-5" alt="Logo">      
+        <img src="~/Images/aspoeck-systems_logo_7zu5.png" class="img-fluid" alt="Logo">   
     @using (Html.BeginForm("Index", "Home", FormMethod.Post))
     {
         if (ViewBag.LoginStatus != null)
@@ -40,7 +40,7 @@
         }
             
             <div class="form-group mb-3">
-                <label for="password">Password:</label>
+                <label for="password">Chip Nummer:</label>
             @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "******", @Value = "dfdf4th" })
             </div>
             <button type="submit" class="btn btn-warning" asp-page="/Home_Page">
