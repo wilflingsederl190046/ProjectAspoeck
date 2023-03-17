@@ -57,24 +57,25 @@ public class HomeController : Controller
     // Decrypt username and password using session key
     string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
     //string password = EncryptionHelper.Decrypt(encryptedPassword, sessionKey);
-    User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault() ?? new();
+    User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault();
 
     var homeModel = new Home_PageModel
     {
       UserName = username
     };
-    int userid = user.UserId;
-    var orders1 = _db.Orders.Include(x => x.User).Where(x => x.UserId == userid).Select(x => new OrderViewModel { OrderNumber = x.OrderId, State = x.OrderState.Name, OrderDate = x.OrderDate.ToString("d"), OrderAmount = x.OrderItems.Count }).ToList();
 
-    if (orders1.Count == 0)
+    var ordersListForUser = _db.Orders.Include(x => x.User).Include(x => x.OrderState).Where(x => x.UserId == user.UserId).Select(x => x).ToList();
+    var orders = ordersListForUser.Select(x => new OrderViewModel { OrderNumber = ordersListForUser.IndexOf(x) + 1, State = x.OrderState.Name, OrderDate = x.OrderDate.ToString("d"), OrderAmount = x.OrderItems.Count }).ToList();
+
+    if (orders.Count == 0)
     {
-      orders1 = new List<OrderViewModel>
-          {
-              new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
-          };
+      orders = new List<OrderViewModel>
+      {
+        new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
+      };
     }
 
-    homeModel.Orders = orders1;
+    homeModel.Orders = orders;
 
 
     homeModel.SessionString = sessionKey;
