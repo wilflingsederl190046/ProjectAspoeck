@@ -43,6 +43,7 @@ namespace ProjectAspoeck.Controllers
 
         public static string Decrypt(string cipherText, string password)
         {
+           
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             byte[] keyBytes = new Rfc2898DeriveBytes(password, Salt, Iterations).GetBytes(KeySize / 8);
 
@@ -66,6 +67,7 @@ namespace ProjectAspoeck.Controllers
                     return Encoding.UTF8.GetString(ms.ToArray());
                 }
             }
+            
         }
     }
 }
