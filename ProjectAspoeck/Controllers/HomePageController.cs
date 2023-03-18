@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ProjectAspoeck.Controllers;
 
@@ -13,16 +12,10 @@ public class HomePageController : Controller
   }
 
   // GET: HomePageController/Details/5
-  public ActionResult Details(int id)
-  {
-    return View();
-  }
+  public ActionResult Details(int id) => View();
 
   // GET: HomePageController/Create
-  public ActionResult Create()
-  {
-    return View();
-  }
+  public ActionResult Create() => View();
 
   // POST: HomePageController/Create
   [HttpPost]
@@ -40,10 +33,7 @@ public class HomePageController : Controller
   }
 
   // GET: HomePageController/Edit/5
-  public ActionResult Edit(int id)
-  {
-    return View();
-  }
+  public ActionResult Edit(int id) => View();
 
   // POST: HomePageController/Edit/5
   [HttpPost]
@@ -61,10 +51,7 @@ public class HomePageController : Controller
   }
 
   // GET: HomePageController/Delete/5
-  public ActionResult Delete(int id)
-  {
-    return View();
-  }
+  public ActionResult Delete(int id) => View();
 
   // POST: HomePageController/Delete/5
   [HttpPost]

@@ -1,20 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.CodeAnalysis.Editing;
-using System.Security.Cryptography;
-
-
 
 namespace ProjectAspoeck.Controllers;
-
-
 public static class EncryptionHelper
 {
-
   public static byte[] GenerateSalt()
   {
     // Generate a 16-byte (128-bit) salt value
@@ -32,7 +21,6 @@ public static class EncryptionHelper
 
   public static string Encrypt(string plainText, string password)
   {
-
     byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
     byte[] keyBytes = new Rfc2898DeriveBytes(password, Salt, Iterations).GetBytes(KeySize / 8);
 
@@ -55,7 +43,6 @@ public static class EncryptionHelper
 
   public static string Decrypt(string cipherText, string password)
   {
-
     byte[] cipherBytes = Convert.FromBase64String(cipherText);
     byte[] keyBytes = new Rfc2898DeriveBytes(password, Salt, Iterations).GetBytes(KeySize / 8);
 
@@ -75,6 +62,5 @@ public static class EncryptionHelper
     }
 
     return Encoding.UTF8.GetString(ms.ToArray());
-
   }
 }
