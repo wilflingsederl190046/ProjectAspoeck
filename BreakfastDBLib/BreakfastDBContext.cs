@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BreakfastDBLib;
-
 public partial class BreakfastDBContext : DbContext
 {
-  public BreakfastDBContext()
-  {
-  }
+  public BreakfastDBContext() { }
 
-  public BreakfastDBContext(DbContextOptions<BreakfastDBContext> options)
-      : base(options)
-  {
-  }
+  public BreakfastDBContext(DbContextOptions<BreakfastDBContext> options) : base(options) { }
 
   public virtual DbSet<Item> Items { get; set; }
 
@@ -30,8 +21,9 @@ public partial class BreakfastDBContext : DbContext
 
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-     // => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\lukas\\OneDrive\\Desktop\\POS\\#sonstigeProjekte\\CreateTestDataAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
-      => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\4_Klasse\\PRASPÖCK\\Project\\Project\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
+   => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\lukas\\OneDrive\\Desktop\\POS\\#sonstigeProjekte\\CreateTestDataAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
+  //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\4_Klasse\\PRASPÖCK\\Project\\Project\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
+  //
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {

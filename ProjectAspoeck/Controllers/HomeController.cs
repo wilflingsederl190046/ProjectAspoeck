@@ -1,19 +1,14 @@
 ﻿using BreakfastDBLib;
-
-using DTOLibary;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using ProjectAspoeck.Models;
-
 using System.Diagnostics;
 
 namespace ProjectAspoeck.Controllers;
 
 public class HomeController : Controller
 {
-  BreakfastDBContext _db = new();
+  private readonly BreakfastDBContext _db = new();
   private readonly ILogger<HomeController> _logger;
   public HomeController(ILogger<HomeController> logger) => _logger = logger;
 
@@ -22,7 +17,7 @@ public class HomeController : Controller
   [HttpPost]
   public IActionResult Index(LoginModel loginModel)
   {
-    User user = _db.Users.Where(m => m.UserName == loginModel.LoginId && m.ChipNumber == loginModel.Password).FirstOrDefault() ?? new();
+    User? user = _db.Users.Where(m => m.UserName == loginModel.LoginId && m.ChipNumber == loginModel.Password).FirstOrDefault();
     if (user == null)
     {
       ViewBag.LoginStatus = 0;
@@ -43,60 +38,56 @@ public class HomeController : Controller
       HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
 
       // Redirect to home page with session key in query string
-      return RedirectToAction("Home_Page", "Home", new { sessionKey = sessionKey });
-
+      return RedirectToAction("Home_Page", "Home", new { sessionKey });
     }
   }
 
   public IActionResult Home_Page(string sessionKey)
   {
-    // Retrieve encrypted username and password from session
     string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
     string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
 
-    // Decrypt username and password using session key
     string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-    //string password = EncryptionHelper.Decrypt(encryptedPassword, sessionKey);
     User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault() ?? new();
+
+    var ordersListForUser = _db.Orders.Include(x => x.User).Include(x => x.OrderState).Where(x => x.UserId == user.UserId).Select(x => x).ToList();
+    var orders = ordersListForUser.Select(x => new OrderViewModel { OrderNumber = ordersListForUser.IndexOf(x) + 1, State = x.OrderState.Name, OrderDate = x.OrderDate.ToString("d"), OrderAmount = x.OrderItems.Count }).ToList();
+
+    if (orders.Count == 0)
+    {
+      orders = new List<OrderViewModel>
+      {
+        new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
+      };
+    }
 
     var homeModel = new Home_PageModel
     {
-      UserName = username
+      UserName = username,
+      Orders = orders,
+      SessionString = sessionKey
     };
-    int userid = user.UserId;
-    var orders1 = _db.Orders.Include(x => x.User).Where(x => x.UserId == userid).Select(x => new OrderViewModel { OrderNumber = x.OrderId, State = x.OrderState.Name, OrderDate = x.OrderDate.ToString("d"), OrderAmount = x.OrderItems.Count }).ToList();
-
-    if (orders1.Count == 0)
-    {
-      orders1 = new List<OrderViewModel>
-          {
-              new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
-          };
-    }
-
-    homeModel.Orders = orders1;
 
 
     homeModel.sessionString = sessionKey;
     return View(homeModel);
-
   }
   public IActionResult Settings(string sessionKey)
   {
-
     string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
     string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
 
     User user = _db.Users.Where(x => x.UserName == username).FirstOrDefault() ?? new();
+    Setting settings = _db.Settings.Where(x => x.UserId == user.UserId).FirstOrDefault() ?? new();
 
-    SettingsModel settings = new()
+    var settingsModel = new SettingsModel
     {
-      Email = user.Email
+      Email = user.Email,
+      RememberToOrder = settings.NotificationOrderDeadline,
+      RememberToPay = settings.NotificationPaymentDeadline
     };
-    // settings.RememberToOrder = user.Settings.RememberToOrder;
-    // settings.RememberToPay = user.Settings.RememberToPay;
 
-    return View(settings);
+    return View(settingsModel);
   }
 
   public IActionResult All_Orders(string sessionKey)
@@ -107,7 +98,7 @@ public class HomeController : Controller
 
     var all_Orders = new All_OrdersModel
     {
-      sessionString = sessionKey
+      SessionString = sessionKey
     };
     return View(all_Orders);
   }
@@ -115,7 +106,7 @@ public class HomeController : Controller
   {
     var order_Detail = new Order_DetailModel
     {
-      sessionString = sessionKey
+      SessionString = sessionKey
     };
     return View(order_Detail);
   }
@@ -128,36 +119,34 @@ public class HomeController : Controller
   public IActionResult LoginWithChip(LoginModel loginModel)
   {
 
-    User user = _db.Users.Where(m => m.ChipNumber == loginModel.Password).FirstOrDefault() ?? new();
+    User? user = _db.Users.Where(m => m.ChipNumber == loginModel.Password).FirstOrDefault();
     if (user == null)
     {
       ViewBag.LoginStatus = 0;
       return View(loginModel);
     }
-    else
-    {
-      // Generate session key
-      string sessionKey = Guid.NewGuid().ToString();
 
-      // Encrypt username and password using session key
-      string encryptedUsername = EncryptionHelper.Encrypt(user.UserName, sessionKey);
-      string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
+    // Generate session key
+    string sessionKey = Guid.NewGuid().ToString();
 
-      // Store session key and encrypted username and password in session
-      HttpContext.Session.SetString("SessionKey", sessionKey);
-      HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
-      HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
+    // Encrypt username and password using session key
+    string encryptedUsername = EncryptionHelper.Encrypt(user.UserName, sessionKey);
+    string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
 
-      // Redirect to home page with session key in query string
-      return RedirectToAction("Home_Page", "Home", new { sessionKey = sessionKey });
-    }
+    // Store session key and encrypted username and password in session
+    HttpContext.Session.SetString("SessionKey", sessionKey);
+    HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
+    HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
+
+    // Redirect to home page with session key in query string
+    return RedirectToAction("Home_Page", "Home", new { sessionKey });
   }
 
   public IActionResult Place_Order(string sessionKey)
   {
     var place_Order = new Place_OrderModel
     {
-      sessionString = sessionKey
+      SessionString = sessionKey
     };
     return View(place_Order);
   }

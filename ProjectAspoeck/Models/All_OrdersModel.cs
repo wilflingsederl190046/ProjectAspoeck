@@ -1,7 +1,6 @@
-﻿namespace ProjectAspoeck.Models
+﻿namespace ProjectAspoeck.Models;
+
+public class All_OrdersModel
 {
-    public class All_OrdersModel
-    {
-        public string sessionString { get; set; }
-    }
+  public string SessionString { get; set; } = null!;
 }
