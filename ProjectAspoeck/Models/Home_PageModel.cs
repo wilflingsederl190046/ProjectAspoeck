@@ -9,5 +9,5 @@ public class Home_PageModel
 
   public List<OrderViewModel> Orders { get; set; }
 
-  public string SessionString { get; set; }
+  public string sessionString { get; set; }
 }

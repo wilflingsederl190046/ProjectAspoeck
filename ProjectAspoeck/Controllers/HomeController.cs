@@ -77,7 +77,7 @@ public class HomeController : Controller
     homeModel.Orders = orders1;
 
 
-    homeModel.SessionString = sessionKey;
+    homeModel.sessionString = sessionKey;
     return View(homeModel);
 
   }
@@ -165,16 +165,9 @@ public class HomeController : Controller
         public IActionResult Shopping_Basket(string sessionKey)
         {
             Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+            
             shopping_Basket.sessionString = sessionKey;
             return View(shopping_Basket);
         }
 
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-      return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
   }
-}
