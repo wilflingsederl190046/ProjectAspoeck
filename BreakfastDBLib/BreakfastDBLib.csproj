@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DTOLibary\DTOLibary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="BreakfastDB_log.ldf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

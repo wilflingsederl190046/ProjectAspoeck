@@ -2,5 +2,5 @@
 
 public class Order_DetailModel
 {
-  public string SessionString { get; set; } = null!;
+  public string sessionString { get; set; } = null!;
 }
