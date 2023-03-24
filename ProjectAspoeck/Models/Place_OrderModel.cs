@@ -6,4 +6,5 @@ public class Place_OrderModel
 {
   public string SessionString { get; set; } = null!;
     public List<Place_OrderViewModel> orderItems { get; set; }
+    public string PlusButton { get; set; } 
 }

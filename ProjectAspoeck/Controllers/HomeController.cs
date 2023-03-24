@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProjectAspoeck.Models;
 using System.Globalization;
+using System.Runtime.InteropServices.JavaScript;
+using System.Text.Json.Nodes;
 
 namespace ProjectAspoeck.Controllers;
 
@@ -151,7 +154,7 @@ public class HomeController : Controller
             SessionString = sessionKey
         };
         var culture = CultureInfo.GetCultureInfo("fr-FR");
-        List<Place_OrderViewModel> orderItems = _db.Items.Where(x => x.Active == true).Select(x => new Place_OrderViewModel { Bezeichnung = x.Name, ImageUrl = x.Name, Kosten = x.Price.ToString("C", culture) }).ToList();
+        List<Place_OrderViewModel> orderItems = _db.Items.Where(x => x.Active == true).Select(x => new Place_OrderViewModel { Bezeichnung = x.Name, ImageUrl = x.Name, Units=0 , Kosten = x.Price.ToString("C", culture) }).ToList();
 
 
         place_Order.orderItems = orderItems;
@@ -174,16 +177,27 @@ public class HomeController : Controller
         return View(model);
     }*/
     [HttpPost]
-    public IActionResult Shopping_Basket(string sessionKey)
+    public IActionResult Shopping_Basket(string sessionKey, IFormCollection form)
     {
-        Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-        if (!Request.Form["orderJson"].IsNullOrEmpty())
-        {
-            var orderItemsJson = Request.Form["orderJson"];
-            shopping_Basket.OrderItems = JsonConvert.DeserializeObject<List<OrderItem>>(orderItemsJson);
-        }
-        shopping_Basket.sessionString = sessionKey;
 
+        var names = form["item.Bezeichnung"].ToString().Split(',');
+        var prices = form["item.Kosten"].ToString().Split(',').Select(p => double.Parse(p.Replace(',', '.').Replace(" €", ""))).ToArray();
+        var units = form["item.Units"].ToString().Split(',').Select(u => int.Parse(u)).ToArray();
+
+        var orderItems = new List<OrderItem>();
+        for (int i = 0; i < names.Length; i++)
+        {
+            var item = new Item
+            {
+                Name = names[i],
+                Price = prices[i],
+            };
+            var orderItem = new OrderItem { Item = item, Price = item.Price, Quantity = units[i] };
+            orderItems.Add(orderItem);
+        }
+        Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+        shopping_Basket.OrderItems = orderItems;
+        shopping_Basket.sessionString = sessionKey;
         return View(shopping_Basket);
     }
 
