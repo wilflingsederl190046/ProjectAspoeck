@@ -12,254 +12,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jausen Bestellung</title>
     <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous" />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- Custom CSS -->
     <style>
       .header {
-        height: 150px;
-        display: flex;
-        align-items: center;
-        background-color: #f2f2f2;
+          height: 150px;
+          display: flex;
+          align-items: center;
+          background-color: #f2f2f2;
       }
 
-      .header .logo {
-        height: 100%;
-        margin-right: 20px;
+      .header-image {
+          padding-left: 50px;
+          height: 100%;
       }
 
-      .header h1 {
-        margin: 0 auto;
+      .text-center-last-col{
+          display: flex;
+          justify-content: center;
       }
 
-      .header btn {
-        margin-left: 20px;
+      img {
+          max-width: 100%;
+          max-height: 100%;
+          display: block;
       }
 
-      .header img {
-        display: block;
-      }
-
-      media only screen and (max-width: 768px) {
-        .header {
-          flex-wrap: wrap;
-        }
-
-        .header .logo {
-          margin-right: 0;
-          margin-bottom: 10px;
-        }
-
-        .header h1 {
-          width: 100%;
+      .header-text {
           text-align: center;
-        }
-
-        .header btn {
-          margin-left: 0;
-          margin-top: 10px;
-        }
       }
-
-      .main {
-        margin-top: 30px;
-      }
-
-      .main .date {
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-      }
-
-      .main .headingDateStatus {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-
-      .main .status {
-        background-color: red;
-        color: white;
-        padding: 5px 10px;
-        display: inline-block;
-        margin-right: 10px;
-        font-weight: bold;
-        font-size: 1.5rem;
-      }
-
-      .main button {
-        margin-top: 20px;
-        display: block;
+    
+      .headline {
+        padding-top: 10px;
       }
 
       .btn {
-        background-color: #ffa500;
-        color: white;
-        font-size: 1.5rem;
+          font-weight: bold;
+          font-size: 1.5rem;
       }
 
-      .disabled {
-        background-color: #ffa500;
-        opacity: 0.5;
+      .form-check-label {
+        margin-left: 5px;
       }
 
-      .table th,
-      .table td {
-        font-size: 1.2rem;
+      .div-email,
+      .border {
+        width: 700px;
       }
-    
-      .div-border {
-        border: 2px solid #ccc; /* 2 Pixel breiter Rand, graue Farbe */
-        padding: 5px; /* 10 Pixel Innenabstand */
-        margin: 50px; /* 20 Pixel Außenabstand */
 
-        }
-
-      .div-email {
-        margin-right: 50px; /* 20 Pixel Außenabstand */
-        margin-left: 50px;
-        }
-        .div-email2 {
-        margin-right: 50px; /* 20 Pixel Außenabstand */
-        margin-left: 50px;
-        }
-
+      .selecters {
+        width: fit-content;
+        display: inline-block;
+        width: auto;
+        margin-right: 5px;
+      }
+      .selecters + span {
+        display: inline-block;
+        width: auto;
+      }
     </style>
   </head>
-<div class="container-fluid">
   <body>
-    
-      <div class="header center">
-            <img class="logo" src="~/Images/aspoeck-logo-sm.png" alt="Aspöck Logo" />
-        <h1>Jausen Bestellung</h1>
-        <img src="Images/settings_button.png" alt="Settings Button" />
-      </div>     
-          <div class="form-group">
-            <div class="form-check">
-            <div class="col-md-6">
-            <h2>Benachrichtigungen</h2>
-            <div class="form-group">
-              <label for="email" class="div-email">
-                  E-Mail:</label>
-            <input type="email" value="@Model.Email" class="form-control div-email" id="email" />
-            </div>
-            <div class ="form-group div-border"> 
-            <div class="form-group">
-              <label for="notification-before-order-deadline"
-                >Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten</label>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  checked = "@Model.RememberToOrder"
-                  id="notification-before-order-deadline"
-                />
-                <label class="form-check-label" for="notification-before-order-deadline">
-                  Ja
-                </label>
-              </div>
-            </div>
-            
-            <div class="form-group"  >
-                                <label for="notification-time-before-order-deadline">
-                                    Wann möchtest du benachrichtigt werden?
-                                </label>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="notification-time-before-order-deadline"
-                  id="15min"
-                  value="15min"
-                />
-                <label class="form-check-label" for="15min">
-                  15 min vor 8:00:00
-                </label>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="notification-time-before-order-deadline"
-                  id="30min"
-                  value="30min"
-                />
-                <label class="form-check-label" for="30min">
-                  30 min vor 8:00:00
-                </label>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="notification-time-before-order-deadline"
-                  id="60min"
-                  value="60min"
-                />
-                <label class="form-check-label" for="60min">
-                  60 min vor 8:00:00
-                </label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="payment-deadline-notification"
-                >Ich möchte über das Ende der Zahlungsfrist informiert werden</label
-              >
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  checked="@Model.RememberToPay"
-                  id="payment-deadline-notification"
-                />
-                <label class="form-check-label" for="payment-deadline-notification">
-                  Ja
-                </label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="payment-deadline-notification-time">
-                Wann möchtest du benachrichtigt werden?
-              </label>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="payment-deadline-notification-time"
-
-                  id="1day"
-                  value="1day"
-                />
-                <label class="form-check-label" for="1day">
-                  1 Tag
-                </label>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="payment-deadline-notification-time"
-                  id="2days"
-                  value="2days"
-                />
-                <label class="form-check-label" for="2days">
-                  2 Tage
-                </label>
-                
-                <button type="submit" class="btn btn-warning" style="position: absolute; top: 50px; left: -5px;">Speichern</button>
-              </div>
-              
-            </div>
-                    </div>
-                    </div>
+      <header class="bg-light py-3" style="height: 150px">
+        <div class="container-fluid h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-3 header-image">
+                    <img src="~/Images/aspoeck-logo-sm.png"
+                         class="img-fluid align-middle"
+                         alt="Logo" />
+                </div>
+                <div class="col-6 header-text">
+                    <h1 class="mb-0">Jausen Bestellung</h1>
+                </div>
+                <div class="col-3 text-center py-2 ">
+                    <span class="header-button">
+                        @using (Html.BeginForm("Home", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                                    {
+                            <button type="submit" class="btn btn-lg">
+                            <i class="fa fa-house"></i>
+                        </button>
+                        }
+                    </span>
                 </div>
             </div>
-        
+        </div>
+      </header>
+    
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col headline">
+            <h3>Benachrichtigungen</h3>
+          </div>
+        </div>
+        <form>
+          <div class="form-group">
+            <label for="email">E-Mail:</label>
+            <input type="email" value="@Model.Email" class="form-control div-email" id="email" />
+          </div>
+          <div class="border p-3 d-inline-block">
+            <p><strong>Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten.</strong></p>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="checkbox1" value="" checked="@Model.RememberToOrder">
+              <label class="form-check-label" for="checkbox1">Ja</label>
+            </div>
+            <div class="form-group mt-3">
+              <p>Wann möchtest du benachrichtigt werden?</p>
+              <select class="form-control selecters" id="select1">
+                <option>15</option>
+                <option>30</option>
+                <option>60</option>
+              </select>
+              <span>min vor 8:00</span>
+            </div>
+            <div class="form-group mt-3">
+              <p><strong>Ich möchte über das Ende der Zahlungsfrist informiert werden.</strong></p>
+              <div class="form-check ">
+                <input type="checkbox" class="form-check-input" id="checkbox2" value="" checked="@Model.RememberToPay">
+                <label class="form-check-label" for="checkbox2">Ja</label>
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <p>Wann möchtest du benachrichtigt werden?</p>
+              <select class="form-control selecters" id="select2">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+              </select>
+              <span>Tag(e) vor Ende des Monats</span>
+            </div>
+          </div>
+   
+        </form>
+      <button type="submit" class="btn btn-warning mt-3">Speichern</button>
+    </div>
   </body>
-
-  </div>
+</html>

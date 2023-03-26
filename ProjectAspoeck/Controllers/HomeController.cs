@@ -111,7 +111,7 @@ public class HomeController : Controller
     {
         var order_Detail = new Order_DetailModel
         {
-            sessionString = sessionKey
+            SessionString = sessionKey
         };
         return View(order_Detail);
     }
@@ -157,7 +157,7 @@ public class HomeController : Controller
         List<Place_OrderViewModel> orderItems = _db.Items.Where(x => x.Active == true).Select(x => new Place_OrderViewModel { Bezeichnung = x.Name, ImageUrl = x.Name, Units=0 , Kosten = x.Price.ToString("C", culture) }).ToList();
 
 
-        place_Order.orderItems = orderItems;
+        place_Order.OrderItems = orderItems;
 
         return View(place_Order);
     }

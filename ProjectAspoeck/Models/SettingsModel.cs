@@ -5,4 +5,5 @@ public class SettingsModel
   public string? Email { get; set; }
   public bool RememberToOrder { get; set; }
   public bool RememberToPay { get; set; }
+  public string SessionString { get; set; } = null!;
 }

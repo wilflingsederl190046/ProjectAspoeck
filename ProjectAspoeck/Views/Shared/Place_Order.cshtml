@@ -24,39 +24,13 @@
 
         .header-image {
             padding-left: 50px;
-            padding-right: 50px;
-            padding-top: 30px;
-            padding-bottom: 30px;
-        }
-
-        .header-button {
-            height: 100px
-        }
-
-        .header-text {
-            text-align: center;
-        }
-
-        .container {
-            margin-top: 50px;
+            height: 100%;
         }
 
         img {
-            max-width: 50px;
-        }
-
-        .header {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            background-color: #f2f2f2;
-        }
-
-        .header-image {
-            padding-left: 50px;
-            padding-right: 50px;
-            padding-top: 30px;
-            padding-bottom: 30px;
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
         }
 
         .header-button {
@@ -65,6 +39,29 @@
 
         .header-text {
             text-align: center;
+        }
+
+        .btn {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .table th,
+        .table td {
+          font-size: 1.2rem;
+        }
+
+        .my-custom-scrollbar {
+          position: relative;
+          height: 580px;
+          overflow: auto;
+        }
+        .table-wrapper-scroll-y {
+          display: block;
+        }
+
+        .headline {
+          padding-top: 10px;
         }
     </style>
 </head>
@@ -73,31 +70,53 @@
         <div class="container-fluid h-100">
             <div class="row align-items-center h-100">
                 <div class="col-3 header-image">
-                   @*<img src="~/Images/aspoeck-logo-sm.png"
-             class="img-fluid align-middle"
-             alt="Logo" />*@ 
+                    <img src="~/Images/aspoeck-logo-sm.png"
+                         class="img-fluid align-middle"
+                         alt="Logo" />
                 </div>
                 <div class="col-6 header-text">
                     <h1 class="mb-0">Jausen Bestellung</h1>
                 </div>
                 <div class="col-3 text-center py-2 ">
-                    <span class="text-center-last-col ">
-                        <button type="button" class="btn btn-lg">
-                            <i class="fa fa-gear"></i>
-                        </button>
+                    <span class="header-button">
+                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-lg">
+                              <i class="fa fa-gear"></i>
+                            </button>
+                        }
                     </span>
                 </div>
             </div>
         </div>
-    </header>       
-    <div class="container">
+    </header>
+
+    <div class="container-fluid">
         <div class="row">
-            <div class="col">
-                <h4>Angebot vom Montag 6 März 2023:</h4>
+            <div class="col headline">
+                <h4>Angebot vom <span id="date">Montag 1. Jänner 2023</span>:</h4>
             </div>
-            <div class="col text-right">
-                <small>06.03.2023</small>
-            </div>
+            <!-- Script -->
+                <script>
+                    const dateElement = document.getElementById('date');
+                    const options = {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        timeZone: 'Europe/Berlin',
+                    };
+                    const formatter = new Intl.DateTimeFormat('de-DE', options);
+
+                    function updateDate() {
+                        dateElement.textContent = formatter.format(new Date());
+                        if (new Date().getHours() >= 0 && new Date().getHours() <= 16) {
+                            dateElement.background = '#50C878';
+                        }
+                    }
+
+                    let timer = setInterval(updateDate, 1000);
+                </script>
         </div>
         <form method="post"> </form>
         <div class="row mt-3">
@@ -105,12 +124,12 @@
                 <div class="form-group d-flex align-items-center">
                     <select class="form-control" id="filter" style="width: 150px">
                         <option value="">Alle</option>
-                        <option value="Semmel mit Butter">Semmel mit Butter</option>
-                        <option value="Brezel">Brezel</option>
-                        <option value="Kornspitz">Kornspitz</option>
+                        <option value="Semmerl">Semmerl</option>
+                        <option value="Flesserl">Flesserl</option>
                     </select>
                     <input type="text" class="form-control mr-2" placeholder="Suche..." id="search" style="margin-left: 20px;">
                 </div>
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
                 <table class="table table-bordered" id="productTable">
                     <thead class="thead-light">
                         <tr>
@@ -118,11 +137,11 @@
                             <th scope="col">Bezeichnung</th>
                             <th scope="col">Kosten</th>
                             <th scope="col">Stück</th>
-                            <th scope="col" class="col-1">Hinzufügen / Entfernen</th>
+                            <th scope="col" class="col-1"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.orderItems)
+                        @foreach (var item in Model.OrderItems)
                         {
                             <tr>
                                 <th scope="row">
@@ -140,8 +159,6 @@
                             </tr>
                         }
                         <script>
-                            
-
                             // select all the plus buttons on the page
                             const plusButtons = document.querySelectorAll('.plus-button');
                             const minusButtons = document.querySelectorAll('.minus-button');
@@ -191,18 +208,19 @@
                         </script>                        
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-6 text-left">
-                <a href="#" class="btn btn-warning">Zurück</a>
+                <a href="#" class="btn btn-warning" onclick="history.back()">Zurück</a>
             </div>
             <div class="col-6 text-right">
                 @*<button type="button" class="btn btn-success" id="warenkorbButton" onclick="submitForm()">Warenkorb</button>*@
                 
                     @using (Html.BeginForm("Shopping_Basket", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                     {
-                        @foreach (var item in Model.orderItems)
+                        @foreach (var item in Model.OrderItems)
                         {
                             @Html.HiddenFor(orderItem => item.Units)
                             @Html.HiddenFor(orderItems => item.Kosten)
@@ -210,11 +228,8 @@
                         }
 
                         <button type="submit" href="#" class="btn btn-success" onclick="submitForm()">Warenkorb</button>
-                    }
-              
-                                                  
+                    }                                
             </div>    
-            
         </div>
     </div>
     <script>

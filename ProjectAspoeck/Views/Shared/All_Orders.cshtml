@@ -16,14 +16,6 @@
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
-        .container {
-            margin-top: 50px;
-        }
-
-        img {
-            max-width: 50px;
-        }
-
         .header {
             height: 150px;
             display: flex;
@@ -33,9 +25,13 @@
 
         .header-image {
             padding-left: 50px;
-            padding-right: 50px;
-            padding-top: 30px;
-            padding-bottom: 30px;
+            height: 100%;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
         }
 
         .header-button {
@@ -58,11 +54,15 @@
 
         .my-custom-scrollbar {
           position: relative;
-          height: 380px;
+          height: 580px;
           overflow: auto;
         }
         .table-wrapper-scroll-y {
           display: block;
+        }
+
+        .headline {
+          padding-top: 10px;
         }
     </style>
 </head>
@@ -79,18 +79,22 @@
                     <h1 class="mb-0">Jausen Bestellung</h1>
                 </div>
                 <div class="col-3 text-center py-2 ">
-                    <span class="text-center-last-col ">
-                        <button type="button" class="btn btn-lg">
+                    <span class="header-button">
+                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                                    {
+                            <button type="submit" class="btn btn-lg">
                             <i class="fa fa-gear"></i>
                         </button>
+                        }
                     </span>
                 </div>
             </div>
         </div>
     </header>
+
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col headline">
                 <h4>Alle letzten Bestellungen</h4>
             </div>
         </div>
@@ -115,7 +119,7 @@
                             <th scope="col" class="col-5">Inhalt</th>
                             <th scope="col">Status</th>
                             <th scope="col">Kosten</th>
-                            <th scope="col">Erneut bestellen</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -126,7 +130,9 @@
                             <td>Bestellt</td>
                             <td>4,50 €</td>
                             <td class="d-flex justify-content-center">
-                                <button class="btn btn-sm btn-outline-secondary ml-3">+</button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
                             </td>
                         </tr>
                         <tr>
@@ -136,7 +142,9 @@
                             <td>Geliefert</td>
                             <td>4,00 €</td>
                             <td class="d-flex justify-content-center">
-                                <button class="btn btn-sm btn-outline-secondary ml-3">+</button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
                             </td>
                         </tr>
                         <tr>
@@ -146,37 +154,81 @@
                             <td>Storniert</td>
                             <td>2,00 €</td>
                             <td class="d-flex justify-content-center">
-                                <button class="btn btn-sm btn-outline-secondary ml-3">+</button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">4</th>
                             <td>06.03.2023</td>
                             <td>Semmel mit Butter</td>
                             <td>Bestellt</td>
                             <td>4,50 €</td>
                             <td class="d-flex justify-content-center">
-                                <button class="btn btn-sm btn-outline-secondary ml-3">+</button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row">2</th>
+                            <th scope="row">5</th>
                             <td>05.03.2023</td>
                             <td>Brezel</td>
                             <td>Geliefert</td>
                             <td>4,00 €</td>
                             <td class="d-flex justify-content-center">
-                                <button class="btn btn-sm btn-outline-secondary ml-3">+</button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row">3</th>
+                            <th scope="row">6</th>
                             <td>04.03.2023</td>
                             <td>Kornspitz</td>
                             <td>Storniert</td>
                             <td>2,00 €</td>
                             <td class="d-flex justify-content-center">
-                                <button class="btn btn-sm btn-outline-secondary ml-3">+</button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>06.03.2023</td>
+                            <td>Semmel mit Butter</td>
+                            <td>Bestellt</td>
+                            <td>4,50 €</td>
+                            <td class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>05.03.2023</td>
+                            <td>Brezel</td>
+                            <td>Geliefert</td>
+                            <td>4,00 €</td>
+                            <td class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9</th>
+                            <td>04.03.2023</td>
+                            <td>Kornspitz</td>
+                            <td>Storniert</td>
+                            <td>2,00 €</td>
+                            <td class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-retweet"></i>
+                                </button> 
                             </td>
                         </tr>
                     </tbody>

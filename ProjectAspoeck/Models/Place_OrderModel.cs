@@ -1,10 +1,8 @@
-﻿using BreakfastDBLib;
-
-namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models;
 
 public class Place_OrderModel
 {
+  public List<Place_OrderViewModel> OrderItems { get; set; }
+  public string PlusButton { get; set; }
   public string SessionString { get; set; } = null!;
-    public List<Place_OrderViewModel> orderItems { get; set; }
-    public string PlusButton { get; set; } 
 }

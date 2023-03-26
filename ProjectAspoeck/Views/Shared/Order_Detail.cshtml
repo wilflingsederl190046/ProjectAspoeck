@@ -4,46 +4,52 @@
 @{
     ViewData["Title"] = "Bestellung - Detailansicht";
 }
+
 <!DOCTYPE html>
 <html lang="de">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bestellung aufgeben</title>
+    <title>Bestellung Detailansicht</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous" />
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
-        .container {
-            margin-top: 50px;
-        }
-
-        img {
-            max-width: 50px;
-        }
-
         .header {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            background-color: #f2f2f2;
-        }
+          height: 150px;
+          display: flex;
+          align-items: center;
+          background-color: #f2f2f2;
+      }
 
-        .header-image {
-            padding-left: 50px;
-            padding-right: 50px;
-            padding-top: 30px;
-            padding-bottom: 30px;
-        }
+      .header-image {
+          padding-left: 50px;
+          height: 100%;
+      }
 
-        .header-button {
-            height: 100px;
-        }
+      .text-center-last-col{
+          display: flex;
+          justify-content: center;
+      }
 
-        .header-text {
-            text-align: center;
-        }
+      img {
+          max-width: 100%;
+          max-height: 100%;
+          display: block;
+      }
+
+      .header-text {
+          text-align: center;
+      }
+
+      .btn {
+          font-weight: bold;
+          font-size: 1.5rem;
+      }
     </style>
 </head>
 <body>
@@ -58,16 +64,20 @@
                 <div class="col-6 header-text">
                     <h1 class="mb-0">Jausen Bestellung</h1>
                 </div>
-                <div class="col-3 text-center py-2">
-                    <span class="text-center-last-col">
-                        <button type="button" class="btn btn-lg">
+                <div class="col-3 text-center py-2 ">
+                    <span class="header-button">
+                        @using (Html.BeginForm("Home", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                                    {
+                            <button type="submit" class="btn btn-lg">
                             <i class="fa fa-gear"></i>
                         </button>
+                        }
                     </span>
                 </div>
             </div>
         </div>
-    </header>
+      </header>
+
     <div class="container">
         <div class="row">
             <div class="col-6">
