@@ -1,5 +1,6 @@
 ﻿using BreakfastDBLib;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -89,12 +90,16 @@ public class HomeController : Controller
         {
             Email = user.Email,
             RememberToOrder = settings.NotificationOrderDeadline,
-            RememberToPay = settings.NotificationPaymentDeadline
+            RememberToPay = settings.NotificationPaymentDeadline,
+            MinutesBefore = (int)settings.MinutesBefore,
+            DaysBefore = (int)settings.DaysBefore
         };
+
+        
+        
 
         return View(settingsModel);
     }
-
     public IActionResult All_Orders(string sessionKey)
     {
         string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
