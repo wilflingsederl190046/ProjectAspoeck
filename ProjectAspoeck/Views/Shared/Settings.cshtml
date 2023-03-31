@@ -77,9 +77,9 @@
                 width: auto;
             }
     </style>
-</head>
-<body>
-    <header class="bg-light py-3" style="height: 150px">
+  </head>
+  <body>
+      <header class="bg-light py-3" style="height: 150px">
         <div class="container-fluid h-100">
             <div class="row align-items-center h-100">
                 <div class="col-3 header-image">
@@ -95,8 +95,8 @@
                         @using (Html.BeginForm("Home", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
                         {
                             <button type="submit" class="btn btn-lg">
-                                <i class="fa fa-house"></i>
-                            </button>
+                            <i class="fa fa-house"></i>
+                        </button>
                         }
                     </span>
                 </div>
@@ -106,60 +106,48 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col headline">
-                <h3>Benachrichtigungen</h3>
-            </div>
+          <div class="col headline">
+            <h3>Benachrichtigungen</h3>
+          </div>
         </div>
         <form>
-            <div class="form-group">
-                <label for="email">E-Mail:</label>
-                <input type="email" value="@Model.Email" class="form-control div-email" id="email" />
+          <div class="form-group">
+            <label for="email">E-Mail:</label>
+            <input type="email" value="@Model.Email" class="form-control div-email" id="email" />
+          </div>
+          <div class="border p-3 d-inline-block">
+            <p><strong>Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten.</strong></p>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="checkbox1" value="" checked="@Model.RememberToOrder">
+              <label class="form-check-label" for="checkbox1">Ja</label>
             </div>
-            <div class="border p-3 d-inline-block">
-                <p><strong>Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten.</strong></p>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="checkbox1" value="" checked="@Model.RememberToOrder">
-                    <label class="form-check-label" for="checkbox1">Ja</label>
-                </div>
-                <div class="form-group mt-3">
-                    <p>Wann möchtest du benachrichtigt werden?</p>
-                    <select class="form-control selecters" id="select1" >
-                        <option>15</option>
-                        <option>30</option>
-                        <option>60</option>
-                    </select>
-                   
-                    <script>
-
-                        var comboBox = document.getElementById("select1");
-                        comboBox.value = @Model.MinutesBefore;
-
-                    </script>
-
-                    <span>min vor 8:00</span>
-                </div>
-                <div class="form-group mt-3">
-                    <p><strong>Ich möchte über das Ende der Zahlungsfrist informiert werden.</strong></p>
-                    <div class="form-check ">
-                        <input type="checkbox" class="form-check-input" id="checkbox2" value="" checked="@Model.RememberToPay">
-                        <label class="form-check-label" for="checkbox2">Ja</label>
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <p>Wann möchtest du benachrichtigt werden?</p>
-                    <select class="form-control selecters" id="select2">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                    </select>
-                    <script>
-                        var comboBox = document.getElementById("select2");
-                        comboBox.value = @Model.DaysBefore;
-                    </script>
-                    <span>Tag(e) vor Ende des Monats</span>
-                </div>
+            <div class="form-group mt-3">
+              <p>Wann möchtest du benachrichtigt werden?</p>
+              <select class="form-control selecters" id="select1">
+                <option>15</option>
+                <option>30</option>
+                <option>60</option>
+              </select>
+              <span>min vor 8:00</span>
             </div>
-
+            <div class="form-group mt-3">
+              <p><strong>Ich möchte über das Ende der Zahlungsfrist informiert werden.</strong></p>
+              <div class="form-check ">
+                <input type="checkbox" class="form-check-input" id="checkbox2" value="" checked="@Model.RememberToPay">
+                <label class="form-check-label" for="checkbox2">Ja</label>
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <p>Wann möchtest du benachrichtigt werden?</p>
+              <select class="form-control selecters" id="select2">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+              </select>
+              <span>Tag(e) vor Ende des Monats</span>
+            </div>
+          </div>
+   
         </form>
         @*@using (Html.BeginForm("SaveSettings", "HomeController", FormMethod.Post))
         {
@@ -171,5 +159,5 @@
         @*}*@
        
     </div>
-</body>
+  </body>
 </html>

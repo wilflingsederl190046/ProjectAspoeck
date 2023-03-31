@@ -53,9 +53,9 @@
         }
 
         .my-custom-scrollbar {
-          position: relative;
-          height: 580px;
-          overflow: auto;
+            position: relative;
+            height: 370px;
+            overflow: auto;
         }
         .table-wrapper-scroll-y {
           display: block;
@@ -64,9 +64,18 @@
         .headline {
           padding-top: 10px;
         }
+
+        .cover-container {
+            height: 100vh;
+        }
+
+        body {
+          overflow: hidden;
+        }
     </style>
 </head>
 <body>
+  <div class="container-fluid cover-container d-flex flex-column">
     <header class="bg-light py-3" style="height: 150px">
         <div class="container-fluid h-100">
             <div class="row align-items-center h-100">
@@ -98,7 +107,7 @@
                 <h4>Alle letzten Bestellungen</h4>
             </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3 flex-fill">
             <div class="col">
                 <div class="form-group d-flex align-items-center">
                     <label for="filter" class="mr-3">Filter:</label>
@@ -110,7 +119,7 @@
                         <option value="incomplete">unvollständig</option>
                     </select>
                 </div>
-                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -247,6 +256,7 @@
                         }
             </div>
         </div>
+    </div>
     </div>
 </body>
 </html>
