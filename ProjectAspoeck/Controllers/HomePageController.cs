@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace ProjectAspoeck.Controllers;
+﻿namespace ProjectAspoeck.Controllers;
 
 public class HomePageController : Controller
 {

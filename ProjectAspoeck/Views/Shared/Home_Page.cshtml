@@ -7,221 +7,228 @@
 
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jausen Bestellung</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous" />
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <!-- Custom CSS -->
-    <style>
-        .header {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            background-color: #f2f2f2;
-        }
+  <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Jausen Bestellung</title>
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous" />
+      <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+      <!-- Custom CSS -->
+      <style>
+          .header {
+              height: 150px;
+              display: flex;
+              align-items: center;
+              background-color: #f2f2f2;
+          }
 
-        .header-image {
-            padding-left: 50px;
-            height: 100%;
-        }
+          .header-image {
+              padding-left: 50px;
+              height: 100%;
+          }
 
-        .text-center-last-col{
-            display: flex;
-            justify-content: center;
-        }
+          .text-center-last-col{
+              display: flex;
+              justify-content: center;
+          }
 
-        img {
-            max-width: 100%;
-            max-height: 100%;
-            display: block;
-        }
+          img {
+              max-width: 100%;
+              max-height: 100%;
+              display: block;
+          }
 
-        .header-text {
-            text-align: center;
-        }
+          .header-text {
+              text-align: center;
+          }
 
-        .main {
-            margin-top: 30px;
-        }
+          .main {
+              margin-top: 30px;
+          }
 
-            .main .date {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
+              .main .date {
+                  font-size: 1.5rem;
+                  margin-bottom: 10px;
+              }
 
-            .main .headingDateStatus {
-                font-size: 1.5rem;
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
+              .main .headingDateStatus {
+                  font-size: 1.5rem;
+                  font-weight: bold;
+                  margin-bottom: 10px;
+              }
 
-            .main .status {
-                background-color: red;
-                color: white;
-                padding: 5px 10px;
-                display: inline-block;
-                font-weight: bold;
-                font-size: 1.5rem;
-            }
+              .main .status {
+                  background-color: red;
+                  color: white;
+                  padding: 5px 10px;
+                  display: inline-block;
+                  font-weight: bold;
+                  font-size: 1.5rem;
+              }
 
-        .btn {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
+          .btn {
+              font-weight: bold;
+              font-size: 1.5rem;
+          }
 
-        .table th,
-        .table td {
-            font-size: 1.2rem;
-        }
+          .table th,
+          .table td {
+              font-size: 1.2rem;
+          }
 
-        .left-row {
-            padding-left: 50px;
-        }
+          .left-row {
+              padding-left: 50px;
+          }
 
-        .right-row {
-            padding-right: 50px;
-        }
-    </style>
-</head>
+          .right-row {
+              padding-right: 50px;
+          }
+      </style>
+  </head>
 
-<body>
-    <header class="bg-light py-3" style="height: 150px">
-        <div class="container-fluid h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-3 header-image">
-                    <img src="~/Images/aspoeck-logo-sm.png"
-                         class="img-fluid align-middle"
-                         alt="Logo" />
-                </div>
-                <div class="col-6 header-text">
-                    <h1 class="mb-0">Jausen Bestellung</h1>
-                </div>
-                <div class="col-3 text-center py-2 ">
-                    <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.sessionString }, FormMethod.Post))
-                                    {
-                            <button type="submit" class="btn btn-lg">
-                            <i class="fa fa-gear"></i>
-                        </button>
-                        }
+  <body>
+      <header class="bg-light py-3" style="height: 150px">
+          <div class="container-fluid h-100">
+              <div class="row align-items-center h-100">
+                  <div class="col-3 header-image">
+                      <img src="~/Images/aspoeck-logo-sm.png"
+                           class="img-fluid align-middle"
+                           alt="Logo" />
+                  </div>
+                  <div class="col-6 header-text">
+                      <h1 class="mb-0">Jausen Bestellung</h1>
+                  </div>
+                  <div class="col-3 text-center py-2 ">
+                      <span class="header-button">
+                          @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                          {
+                              <button type="submit" class="btn btn-lg">
+                              <i class="fa fa-gear"></i>
+                          </button>
+                          }
                         
-                    </span>
-                </div>
-            </div>
-        </div>
-    </header>
+                      </span>
+                  </div>
+              </div>
+          </div>
+      </header>
 
-    <div class="main">
-        <div class="row">
-            <div class="col-lg-5 left-row">
-                <p>
-                    <span class="headingDateStatus">Willkommen @Model.UserName!</span>
-                </p>
-                <p>
-                    <span class="headingDateStatus">Datum:</span>
-                    <span class="date status" id="date">Montag, 01. Jänner 2023 um 00:00:00</span>
-                </p>
-                <!-- Script -->
-                <script>
-                    const dateElement = document.getElementById('date');
-                    const options = {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        second: 'numeric',
-                        timeZone: 'Europe/Berlin',
-                    };
-                    const formatter = new Intl.DateTimeFormat('de-DE', options);
+      <div class="main">
+          <div class="row">
+              <div class="col-lg-5 left-row">
+                  <p>
+                      <span class="headingDateStatus">Willkommen @Model.UserName!</span>
+                  </p>
+                  <p>
+                      <span class="headingDateStatus">Datum:</span>
+                      <span class="date status" id="date">Montag, 01. Jänner 2023 um 00:00:00</span>
+                  </p>
 
-                    function updateDate() {
-                        dateElement.textContent = formatter.format(new Date());
-                        if (new Date().getHours() >= 0 && new Date().getHours() <= 16) {
-                            dateElement.background = '#50C878';
-                        }
-                    }
-
-                    let timer = setInterval(updateDate, 1000);
-                </script>
-                <p>
-                    <span class="headingDateStatus">Bestellstatus:</span>
-                    <span class="status">Bestellzeitraum abgelaufen</span>
-                </p>
-                @using (Html.BeginForm("Place_Order", "Home",new { sessionKey = Model.sessionString} ,FormMethod.Post))
-                {
+                 
+                  <p>
+                      <span class="headingDateStatus">Bestellstatus:</span>
+                      <span id="orderstate" class="status">Bestellzeitraum abgelaufen</span>
+                  </p>
+                  @using (Html.BeginForm("Place_Order", "Home",new { sessionKey = Model.SessionString} ,FormMethod.Post))
+                  {
                     
-                    <button type="submit" class="btn btn-warning" >
-                        Bestellung aufgeben
-                    </button>
-                }
-            </div>
-            <div class="col-md-7 right-row">
-                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                    <table class="table table-bordered table-striped table-scroll">
-                        <thead>
+                      <button type="submit" class="btn btn-warning" id="btnPlaceOrder" >
+                          Bestellung aufgeben
+                      </button>
+                  }
+
+                   <script>
+                      const dateElement = document.getElementById('date');
+                      const options = {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          second: 'numeric',
+                          timeZone: 'Europe/Berlin',
+                      };
+                      const formatter = new Intl.DateTimeFormat('de-DE', options);
+
+                      const statusElement = document.getElementById('orderstate');
+                      const btnPlaceOrder = document.getElementById('btnPlaceOrder');
+
+                      function updateDate() {
+                          dateElement.textContent = formatter.format(new Date());
+                          if (new Date().getHours() >= 0 && new Date().getHours() <= 11) 
+                          {
+                              dateElement.style.backgroundColor = '#50C878';
+
+                              statusElement.textContent = "Bestellung möglich"
+                              statusElement.style.backgroundColor = '#50C878';
+                              //btnPlaceOrder.disabled = false;
+                          }
+                          else 
+                          {
+                              dateElement.style.backgroundColor = 'red';
+
+                              statusElement.textContent = "Bestellzeitraum abgelaufen"
+                              statusElement.style.backgroundColor = 'red';
+                              btnPlaceOrder.disabled = true;
+                          }
+                      }
+                      
+                      let timer = setInterval(updateDate, 1000);
+                  </script>
+
+              </div>
+              <div class="col-md-7 right-row">
+                  <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                      <table class="table table-bordered table-striped table-scroll">
+                          <thead>
+                              <tr>
+                                  <th>Nr</th>
+                                  <th>Datum</th>
+                                  <th>Kosten</th>
+                                  <th>Status</th>
+                                  <th></th>
+                              </tr>
+                          </thead>
+                          @foreach (var order in Model.Orders)
+                          {
                             <tr>
-                                <th>Nr</th>
-                                <th>Datum</th>
-                                <th>Kosten</th>
-                                <th>Status</th>
-                                <th></th>
+                              <td>
+                                @if (order.OrderNumber != -1) @order.OrderNumber
+                              </td>
+                              <td>
+                                @order.OrderDate</td>
+                              <td>
+                                @if (order.OrderAmount != -1) @order.OrderAmount.ToString("N2") €
+                              </td>
+                              <td>
+                                @(order.State)
+                              </td>
+                              <td>
+                                <span class="text-center-last-col">
+                                  @if (!order.State.Equals(""))
+                                  {
+                                    <button type="button" class="btn btn-primary">
+                                      <i class="fa fa-retweet"></i>
+                                    </button>
+                                  }
+                                </span>
+                              </td>
                             </tr>
-                        </thead>
-                        @foreach (var order in Model.Orders)
-                        {
-                            <tr>
-                                <td>
-                                    @if (order.OrderNumber == -1)
-                                    {
-            
-                                    }
-                                    else
-                                    {
-                                        @order.OrderNumber
-                                    }
-                                </td>
-                                <td>@order.OrderDate</td>
-                                <td>
-                                    @if (order.OrderAmount == -1)
-                                    {            
-                                    }
-                                    else
-                                    {
-                                        @order.OrderAmount.ToString("C")
-                                    }</td>
-                                <td>@(order.State)</td>
-                                <td>
-                                    <span class="text-center-last-col">
-                                        @if (order.State.Equals(""))
-                                        {
-                                        }
-                                        else
-                                        {
-                                           <button type="button" class="btn btn-primary">
-                                            <i class="fa fa-retweet"></i>
-                                        </button> 
-                                        }
-                                    </span>
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </div>
-                @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.sessionString }, FormMethod.Post))
-                {                
+                          }
+                      </table>
+                  </div>
+                  @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                  {                
                     <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
-                }
-            </div>
-        </div>
-    </div>
-</body>
+                  }
+              </div>
+          </div>
+      </div>
+  </body>
 </html>
