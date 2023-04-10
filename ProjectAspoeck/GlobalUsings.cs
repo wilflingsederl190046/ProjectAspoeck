@@ -1,0 +1,11 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using System.Security.Cryptography;
+global using Microsoft.EntityFrameworkCore;
+global using BreakfastDBLib;
+global using Microsoft.AspNetCore.Mvc;
+global using ProjectAspoeck.Models;
+global using System.Globalization;
