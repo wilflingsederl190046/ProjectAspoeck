@@ -7,7 +7,11 @@ using Newtonsoft.Json.Linq;
 using ProjectAspoeck.Models;
 using System.Globalization;
 using System.Runtime.InteropServices.JavaScript;
+using System.Text.Encodings.Web;
 using System.Text.Json.Nodes;
+using Newtonsoft.Json;
+using static Azure.Core.HttpHeader;
+using System.Text;
 
 namespace ProjectAspoeck.Controllers;
 
@@ -162,43 +166,86 @@ public class HomeController : Controller
         return View(place_Order);
     }
 
-    /*public IActionResult ShoppingBasket(Shopping_BasketModel model)
-    {
-        if (ModelState.IsValid)
-        {
-            if (!string.IsNullOrEmpty(Request.Form["orderJson"]))
-            {
-                var orderItemsJson = Request.Form["orderJson"];
-                model.OrderItems = JsonConvert.DeserializeObject<List<OrderItem>>(orderItemsJson);
-            }
-            // Additional logic here
-            return View(model);
-        }
-        return View(model);
-    }*/
+
+    /* [HttpPost]
+      public IActionResult Shopping_Basket(string sessionKey, IFormCollection form)
+      {
+
+          var names = form["item.Bezeichnung"].ToString().Split(',');
+          var prices = form["item.Kosten"].ToString().Split(',').Select(p => double.Parse(p.Replace(',', '.').Replace(" €", ""))).ToArray();
+          var units = form["item.Units"].ToString().Split(',').Select(u => int.Parse(u)).ToArray();
+
+          var orderItems = new List<OrderItem>();
+          for (int i = 0; i < names.Length; i++)
+          {
+              var item = new Item
+              {
+                  Name = names[i],
+                  Price = prices[i],
+              };
+              var orderItem = new OrderItem { Item = item, Price = item.Price, Quantity = units[i] };
+              orderItems.Add(orderItem);
+          }
+          Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+          shopping_Basket.OrderItems = orderItems;
+          shopping_Basket.sessionString = sessionKey;
+          return View(shopping_Basket);
+
+      }*/
+
+
     [HttpPost]
-    public IActionResult Shopping_Basket(string sessionKey, IFormCollection form)
+    public ActionResult Shopping_Basket(string sessionKey, IFormCollection form)
     {
+      /*return View(shopping_Basket);*/
 
-        var names = form["item.Bezeichnung"].ToString().Split(',');
-        var prices = form["item.Kosten"].ToString().Split(',').Select(p => double.Parse(p.Replace(',', '.').Replace(" €", ""))).ToArray();
-        var units = form["item.Units"].ToString().Split(',').Select(u => int.Parse(u)).ToArray();
 
-        var orderItems = new List<OrderItem>();
-        for (int i = 0; i < names.Length; i++)
-        {
-            var item = new Item
-            {
-                Name = names[i],
-                Price = prices[i],
-            };
-            var orderItem = new OrderItem { Item = item, Price = item.Price, Quantity = units[i] };
-            orderItems.Add(orderItem);
-        }
         Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-        shopping_Basket.OrderItems = orderItems;
+        //shopping_Basket.OrderItems = orderItems;
+        //Console.WriteLine(orderItems);
         shopping_Basket.sessionString = sessionKey;
-        return View(shopping_Basket);
+
+
+        //var orderItemsJson = form["orderItems"];
+        // Console.WriteLine(orderItems.Count);
+        List<OrderItem> orderItems = new List<OrderItem>();
+        foreach (var key in form.Keys)
+        {
+            if (key.StartsWith("Name"))
+            {
+                var index = key.Replace("Name", "");
+                var item = new OrderItem
+                {
+                    Name = form["Name" + index],
+                    Price = decimal.Parse(form["Price" + index]),
+                    Quantity = int.Parse(form["Quantity" + index])
+                };
+                orderItems.Add(item);
+            }
+        }
+        // Perform necessary actions to add items to shopping basket using sessionKey
+        Console.WriteLine(orderItems.Count);
+
+        // Redirect to a new action that will return a new HTML page with the shopping basket data in its model
+        return RedirectToAction("Shopping_Basket_Page", "Home", new { sessionKey = sessionKey });
     }
 
+    public class OrderItem
+    {
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+    }
+    public ActionResult Shopping_Basket_Page(string sessionKey)
+    {
+        // Retrieve the necessary data for the shopping basket from sessionKey
+        // Create a new instance of the Shopping_BasketModel class and set its properties accordingly
+        Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+        shopping_Basket.sessionString = sessionKey;
+        // Add any necessary data to the shopping basket model
+
+        // Return a view called Shopping_Basket_Page with the shopping basket model
+        return View("Shopping_Basket", shopping_Basket);
+    }
+    
 }

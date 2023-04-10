@@ -118,7 +118,7 @@
                     let timer = setInterval(updateDate, 1000);
                 </script>
         </div>
-        <form method="post"> </form>
+        
         <div class="row mt-3">
             <div class="col">
                 <div class="form-group d-flex align-items-center">
@@ -130,7 +130,7 @@
                     <input type="text" class="form-control mr-2" placeholder="Suche..." id="search" style="margin-left: 20px;">
                 </div>
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                <table class="table table-bordered" id="productTable">
+                    <table class="table table-bordered" id="productTable">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Bild</th>
@@ -149,15 +149,17 @@
                                 </th>
                                 <td class="itemName">@item.Bezeichnung</td>
                                 <td>@item.Kosten</td>
-                                <td class="stueck">@item.Units</td> <!-- add a class name to the Stück cell for easier selection -->
+                                <td class="stueck">@item.Units</td> 
                                 <td class="d-flex justify-content-center">
-                                    <button class="btn btn-sm btn-outline-secondary ml-3 plus-button"   onclick="getData()"value="@Model.PlusButton">+</button> <!-- add a class name to the plus button for easier selection -->
+                                        <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">+</button>
                                 </td>
                                 <td class="d-flex justify-content-center">
-                                    <button class="btn btn-sm btn-outline-secondary ml-3 minus-button">-</button> <!-- add a class name to the plus button for easier selection -->
+                                        <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">-</button>
+
                                 </td>
                             </tr>
                         }
+
                         <script>
                             // select all the plus buttons on the page
                             const plusButtons = document.querySelectorAll('.plus-button');
@@ -187,7 +189,7 @@
                                     // get the current Stück value and decrement it by one
                                     let currentStueck = parseInt(stueckCell.textContent);
                                     currentStueck -= 1;
-
+                                    
                                     // make sure the Stück value is at least 0
                                     currentStueck = Math.max(currentStueck, 0);
 
@@ -201,13 +203,33 @@
                                 // Get the item unit and name
                                 const itemUnit = document.querySelector(".stueck").innerText;
                                 const itemName = document.querySelector(".itemName").innerText;
+                                    alert("You have added " + itemUnit);
+                                
+                                const productTable = document.getElementById('productTable');
+                                const rows = productTable.rows;
+                                const orderItems = [];
+                                for (let i = 1; i < rows.length; i++) {
+                                        const cells = rows[i].cells;
+                                        const orderItem = {
+                                            name: cells[0].textContent,
+                                            price: cells[1].textContent,
+                                            quantity: cells[2].textContent
+                                        };
 
-                                // Do something with the item unit and name, such as add it to the cart
-                               // alert("You have added " + itemUnit + " x " + itemName + " to your shopping cart!");
-                            }
+                                        orderItems.push(orderItem);
+                                }
+                                //alert("You have added " + orderItems);
+                               
+                                }
+                               // const table = $('#productTable');
+                                //const tr = $('<tr>').appendTo(table);
+                                //$('<td>').html('xxxxxx').css('border','1px solid black').appendTo(tr);
+                               // location.reload();
+                                
                         </script>                        
                     </tbody>
                 </table>
+        
                 </div>
             </div>
         </div>
@@ -216,49 +238,120 @@
                 <a href="#" class="btn btn-warning" onclick="history.back()">Zurück</a>
             </div>
             <div class="col-6 text-right">
-                @*<button type="button" class="btn btn-success" id="warenkorbButton" onclick="submitForm()">Warenkorb</button>*@
-                
-                    @using (Html.BeginForm("Shopping_Basket", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
-                    {
-                        @foreach (var item in Model.OrderItems)
-                        {
-                            @Html.HiddenFor(orderItem => item.Units)
-                            @Html.HiddenFor(orderItems => item.Kosten)
-                            @Html.HiddenFor(orderItems => item.Bezeichnung)
-                        }
 
-                        <button type="submit" href="#" class="btn btn-success" onclick="submitForm()">Warenkorb</button>
-                    }                                
-            </div>    
+                
+                   @*<button type="submit" class="btn btn-success" id="warenkorbButton" onclick="openNew()">Warenkorb</button>*@
+                <button type="submit" class="btn btn-success" id="warenkorbButton" onclick="openNew()">Warenkorb</button>
+
+               
+                <script>
+                    // This function is called when the form is submitted
+                    function prepareOrderItems() {
+                        var orderItems = [];
+                        $('#productTable tbody tr').each(function () {
+                            var item = {
+                                Name: $(this).find('.itemName').text(),
+                                Price: $(this).find('td:nth-child(3)').text(),
+                                Quantity: $(this).find('.stueck').text()
+                            };
+                            orderItems.push(item);
+                        });
+
+                        // Add hidden fields for each element of the orderItems list
+                        for (var i = 0; i < orderItems.length; i++) {
+                            $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Name" value="' + orderItems[i].Name + '" />');
+                            $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Price" value="' + orderItems[i].Price + '" />');
+                            $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Quantity" value="' + orderItems[i].Quantity + '" />');
+                        }
+                    }
+
+                    $(function () {
+                        $('#shoppingBasketForm').submit(prepareOrderItems);
+                    });
+                    $.ajax({
+                        url: '@Url.Action("Shopping_Basket", "Home", new { sessionKey = Model.SessionString })',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ orderItems: orderItems }),
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        success: function (result) {
+                            window.location.href = '@Url.Action("Shopping_Basket_Page", "Home", new { sessionKey = Model.SessionString })';
+
+                        },
+                        error: function () {
+                            alert("!Error!")
+                        }
+                    });
+                </script>
+                <!-- Include the jQuery library -->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            </div> 
+            
         </div>
     </div>
-    <script>
-        function submitForm() {
-            // Collect data from the table and create a JSON object
-            const productTable = document.getElementById('productTable');
-            const rows = productTable.rows;
-            const orderItems = [];
-            for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].cells;
-                const orderItem = {
-                    name: cells[0].textContent,
-                    price: cells[1].textContent,
-                    quantity: cells[2].textContent
-                };
-                orderItems.push(orderItem);
-            }
-            alert("You have added " + orderItems);
 
-            JSON orderJson = JSON.stringify(orderItems);
-            const form = document.getElementById("myForm");
-            const input = document.createElement("input");
-            input.setAttribute("type", "hidden");
-            input.setAttribute("name", "orderJson");
-            input.setAttribute("value", orderJson); // corrected variable name
-            form.appendChild(input);
-            form.submit();
+    <script>
+        function openNew() {
+            // Handler for the "Add to Cart" button click event            
+                var orderItems = [];
+                // Loop through each table row
+                $('#productTable tbody tr').each(function () {
+                    // Extract the data for the current row
+                    var item = {
+                    Name: $(this).find('.itemName').text(),
+                    Price: $(this).find('td:nth-child(3)').text(),
+                    Quantity: $(this).find('.stueck').text()
+                    };
+                    // Add the data to the order items array
+                    orderItems.push(item);
+                });
+                console.log(orderItems);
+                // Send an AJAX request to the Shopping_Basket action
+
+            function prepareOrderItems() {
+                var orderItems = [];
+                $('#productTable tbody tr').each(function () {
+                    var item = {
+                        Name: $(this).find('.itemName').text(),
+                        Price: $(this).find('td:nth-child(3)').text(),
+                        Quantity: $(this).find('.stueck').text()
+                    };
+                    orderItems.push(item);
+                });
+
+                // Add hidden fields for each element of the orderItems list
+                for (var i = 0; i < orderItems.length; i++) {
+                    $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Name" value="' + orderItems[i].Name + '" />');
+                    $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Price" value="' + orderItems[i].Price + '" />');
+                    $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Quantity" value="' + orderItems[i].Quantity + '" />');
+                }
+            }
+
+            $(function () {
+                $('#shoppingBasketForm').submit(prepareOrderItems);
+            });
+                $.ajax({
+                    url: '@Url.Action("Shopping_Basket", "Home", new { sessionKey = Model.SessionString })',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ orderItems: orderItems }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                    success: function (result) {
+                    window.location.href = '@Url.Action("Shopping_Basket_Page", "Home", new { sessionKey = Model.SessionString })';
+
+                    },
+                    error: function () {
+                        alert("!Error!")
+                    }
+                });   
         }
-    </script>
+</script>            
 </body>
 
 </html>
