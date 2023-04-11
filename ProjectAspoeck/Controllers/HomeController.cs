@@ -84,6 +84,62 @@ public class HomeController : Controller
             SessionString = sessionKey
         };
 
+    homeModel.SessionString = sessionKey;
+    return View(homeModel);
+  }
+
+  public IActionResult All_Orders(string sessionKey)
+  {
+    string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+
+    string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+    User user = _db.Users
+      .Where(x => x.UserName == username)
+      .FirstOrDefault() ?? new();
+
+    var ordersListForUser = _db.Orders
+      .Include(x => x.User)
+      .Include(x => x.OrderState)
+      .Include(x => x.OrderItems)
+      .ThenInclude(x => x.Item)
+      .Where(x => x.UserId == user.UserId)
+      .Select(x => x)
+      .OrderBy(x => x.OrderId)
+      .ToList();
+
+    var orders = ordersListForUser
+      .OrderByDescending(x => x.OrderDate)
+      .Select(x => new AllOrderViewModel
+      {
+        OrderNumber = ordersListForUser.IndexOf(x) + 1,
+        OrderDate = x.OrderDate.ToString("d"),
+        OrderContent = x.ToString(),
+        OrderAmount = x.OrderItems.Sum(y => y.Price),
+        OrderState = x.OrderState.Name
+      })
+      .ToList();
+
+    if (orders.Count == 0)
+    {
+      orders = new List<AllOrderViewModel>
+      {
+        new AllOrderViewModel { OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "" },
+      };
+    }
+
+    var allOrderModel = new All_OrdersModel
+    {
+      Orders = orders,
+      SessionString = sessionKey
+    };
+
+    return View(allOrderModel);
+  }
+
+  public IActionResult Settings(string sessionKey)
+  {
+    string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+    string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
         homeModel.SessionString = sessionKey;
         return View(homeModel);
     }
@@ -142,23 +198,23 @@ public class HomeController : Controller
             DaysBefore = settings.DaysBefore
         };
 
-        return View(settingsModel);
-    }
-    public IActionResult All_Orders(string sessionKey)
-    {
-        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-        string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-        User user = _db.Users
-          .Where(x => x.UserName == username)
-          .FirstOrDefault() ?? new();
+    return View(settingsModel);
+  }
+  //public IActionResult All_Orders(string sessionKey)
+  //{
+  //  string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+  //  string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+  //  User user = _db.Users
+  //    .Where(x => x.UserName == username)
+  //    .FirstOrDefault() ?? new();
 
-        var all_Orders = new All_OrdersModel
-        {
-            SessionString = sessionKey
-        };
-        return View(all_Orders);
-    }
-    public IActionResult Order_Detail(string sessionKey) => View(new Order_DetailModel { SessionString = sessionKey });
+  //  var all_Orders = new All_OrdersModel
+  //  {
+  //    SessionString = sessionKey
+  //  };
+  //  return View(all_Orders);
+  //}
+  public IActionResult Order_Detail(string sessionKey) => View(new Order_DetailModel { SessionString = sessionKey });
 
     public IActionResult Privacy() => View();
     [HttpGet]
@@ -216,28 +272,28 @@ public class HomeController : Controller
         return View(place_Order);
     }
 
-    /*public IActionResult ShoppingBasket(Shopping_BasketModel model)
-    {
-        if (ModelState.IsValid)
-        {
-            if (!string.IsNullOrEmpty(Request.Form["orderJson"]))
-            {
-                var orderItemsJson = Request.Form["orderJson"];
-                model.OrderItems = JsonConvert.DeserializeObject<List<OrderItem>>(orderItemsJson);
-            }
-            // Additional logic here
-            return View(model);
-        }
-        return View(model);
-    }*/
-    /*[HttpPost]
-    public IActionResult Shopping_Basket(string sessionKey, IFormCollection form)
-    {
-      string[] names = form["item.Bezeichnung"].ToString().Split(',');
-      double[] prices = form["item.Kosten"].ToString().Split(',')
-        .Select(p => double.Parse(p.Replace(',', '.')
-        .Replace(" €", "")))
-        .ToArray();
+  /*public IActionResult ShoppingBasket(Shopping_BasketModel model)
+  {
+      if (ModelState.IsValid)
+      {
+          if (!string.IsNullOrEmpty(Request.Form["orderJson"]))
+          {
+              var orderItemsJson = Request.Form["orderJson"];
+              model.OrderItems = JsonConvert.DeserializeObject<List<OrderItem>>(orderItemsJson);
+          }
+          // Additional logic here
+          return View(model);
+      }
+      return View(model);
+  }*/
+  /*[HttpPost]
+  public IActionResult Shopping_Basket(string sessionKey, IFormCollection form)
+  {
+    string[] names = form["item.Bezeichnung"].ToString().Split(',');
+    double[] prices = form["item.Kosten"].ToString().Split(',')
+      .Select(p => double.Parse(p.Replace(',', '.')
+      .Replace(" €", "")))
+      .ToArray();
 
             var names = form["item.Bezeichnung"].ToString().Split(',');
             var prices = form["item.Kosten"].ToString().Split(',').Select(p => double.Parse(p.Replace(',', '.').Replace(" €", ""))).ToArray();
@@ -271,7 +327,7 @@ public class HomeController : Controller
         Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
         //shopping_Basket.OrderItems = orderItems;
         //Console.WriteLine(orderItems);
-        shopping_Basket.sessionString = sessionKey;
+        shopping_Basket.SessionString = sessionKey;
 
 
         //var orderItemsJson = form["orderItems"];
@@ -309,7 +365,7 @@ public class HomeController : Controller
         // Retrieve the necessary data for the shopping basket from sessionKey
         // Create a new instance of the Shopping_BasketModel class and set its properties accordingly
         Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-        shopping_Basket.sessionString = sessionKey;
+        shopping_Basket.SessionString = sessionKey;
         // Add any necessary data to the shopping basket model
 
         // Return a view called Shopping_Basket_Page with the shopping basket model

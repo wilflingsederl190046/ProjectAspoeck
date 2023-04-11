@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.sessionString }, FormMethod.Post))
+                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                                     {
                             <button type="submit" class="btn btn-lg">
                             <i class="fa fa-gear"></i>
@@ -164,7 +164,10 @@
         </div>
         <div class="row mt-3">
             <div class="col-6 text-left">
-                <button href="#" class="btn btn-warning" onclick="history.back()">Zurück</button>
+               @using (Html.BeginForm("Place_Order", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                {
+                  <button href="#" class="btn btn-warning">Zurück</button>
+                }
             </div>
             <div class="col-6 text-right">
                 <button href="#" class="btn btn-success">Bestellung aufgeben</button>
