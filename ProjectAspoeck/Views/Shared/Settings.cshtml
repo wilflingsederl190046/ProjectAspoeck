@@ -18,6 +18,8 @@
           crossorigin="anonymous" />
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
     <!-- Custom CSS -->
     <style>
         .header {
@@ -77,9 +79,9 @@
                 width: auto;
             }
     </style>
-  </head>
-  <body>
-      <header class="bg-light py-3" style="height: 150px">
+</head>
+<body>
+    <header class="bg-light py-3" style="height: 150px">
         <div class="container-fluid h-100">
             <div class="row align-items-center h-100">
                 <div class="col-3 header-image">
@@ -95,7 +97,7 @@
                         @using (Html.BeginForm("Home", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
                         {
                             <button type="submit" class="btn btn-lg">
-                            <i class="fa fa-house"></i>
+                                <i class="fa fa-house"></i>
                             </button>
                         }
                     </span>
@@ -106,65 +108,99 @@
 
     <div class="container-fluid">
         <div class="row">
-          <div class="col headline">
-            <h3>Benachrichtigungen</h3>
-          </div>
+            <div class="col headline">
+                <h3>Benachrichtigungen</h3>
+            </div>
         </div>
         <form>
-          <div class="form-group">
-            <label for="email">E-Mail:</label>
-            <input type="email" value="@Model.Email" class="form-control div-email" id="email" />
-          </div>
-          <div class="border p-3 d-inline-block">
-            <p><strong>Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten.</strong></p>
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="checkbox1" value="" checked="@Model.RememberToOrder">
-              <label class="form-check-label" for="checkbox1">Ja</label>
+            <div class="form-group">
+                <label for="email">E-Mail:</label>
+                <input type="email" value="@Model.Email" class="form-control div-email" id="email" />
             </div>
-            <div class="form-group mt-3">
-              <p>Wann möchtest du benachrichtigt werden?</p>
-              <select class="form-control selecters" id="selectMinutesBefore">
-                <option>15</option>
-                <option>30</option>
-                <option>60</option>
-              </select>
-              <span>min vor 8:00</span>
+            <div class="border p-3 d-inline-block">
+                <p><strong>Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten.</strong></p>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="checkRTO" value="" checked="@Model.RememberToOrder">
+                    <label class="form-check-label" for="checkbox1">Ja</label>
+                </div>
+                <div class="form-group mt-3">
+                    <p>Wann möchtest du benachrichtigt werden?</p>
+                    <select class="form-control selecters" id="selectMinutesBefore">
+                        <option>15</option>
+                        <option>30</option>
+                        <option>60</option>
+                    </select>
+                    <span>min vor 8:00</span>
+                </div>
+                <div class="form-group mt-3">
+                    <p><strong>Ich möchte über das Ende der Zahlungsfrist informiert werden.</strong></p>
+                    <div class="form-check ">
+                        <input type="checkbox" class="form-check-input" id="checkRTP" value="" checked="@Model.RememberToPay">
+                        <label class="form-check-label" for="checkbox2">Ja</label>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <p>Wann möchtest du benachrichtigt werden?</p>
+                    <select class="form-control selecters" id="selectDaysBefore">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>
+                    <span>Tag(e) vor Ende des Monats</span>
+                </div>
+                <script>
+                    var comboBox = document.getElementById("selectMinutesBefore");
+                    comboBox.value = @Model.MinutesBefore;
+
+                    comboBox = document.getElementById("selectDaysBefore");
+                    comboBox.value = @Model.DaysBefore;
+                </script>
             </div>
-            <div class="form-group mt-3">
-              <p><strong>Ich möchte über das Ende der Zahlungsfrist informiert werden.</strong></p>
-              <div class="form-check ">
-                <input type="checkbox" class="form-check-input" id="checkbox2" value="" checked="@Model.RememberToPay">
-                <label class="form-check-label" for="checkbox2">Ja</label>
-              </div>
-            </div>
-            <div class="form-group mt-3">
-              <p>Wann möchtest du benachrichtigt werden?</p>
-              <select class="form-control selecters" id="selectDaysBefore">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-              </select>
-              <span>Tag(e) vor Ende des Monats</span>
-            </div>
-            <script>
-                var comboBox = document.getElementById("selectMinutesBefore");
-                comboBox.value = @Model.MinutesBefore;
-                
-                comboBox = document.getElementById("selectDaysBefore");
-                comboBox.value = @Model.DaysBefore;
-             </script>
-          </div>
-   
+
         </form>
-        @*@using (Html.BeginForm("SaveSettings", "HomeController", FormMethod.Post))
-        {
-            @Html.TextBoxFor(m => m.Property1, new { @class = "form-control" })
-            @Html.TextBoxFor(m => m.Property2, new { @class = "form-control" })
-            @Html.TextBoxFor(m => m.Property3, new { @class = "form-control" })
-*@
-            <button type="submit" class="btn btn-warning mt-3">Speichern</button>
-        @*}*@
-       
+
+        <button id="saveSettings" type="submit" class="btn btn-warning mt-3">Speichern</button>
+
+        <script>
+            document.getElementById("saveSettings").addEventListener("click", function (event) {
+                event.preventDefault();
+                var emailField = document.getElementById("email");
+                var emailValue = emailField.value;
+
+                var checkBoxRTO = document.getElementById("checkRTO");
+                var checkRTOValue = checkBoxRTO.checked;
+
+                var checkBoxRTP = document.getElementById("checkRTP");
+                var checkRTPValue = checkBoxRTP.checked;
+
+                var optionalTimeBefore = document.getElementById("selectMinutesBefore");
+                var minutesBeforeValue = parseInt(optionalTimeBefore.value);
+
+                var optionalTimeDays = document.getElementById("selectDaysBefore");
+                var daysBeforeValue = parseInt(optionalTimeDays.value);
+
+                $.ajax({
+                    url: "@Url.Action("SaveSettings", "Home")",
+                    method: "POST",
+                    data: {
+                        email: emailValue,
+                        checkRTO: checkRTOValue,
+                        checkRTP: checkRTPValue,
+                        minutesBefore: minutesBeforeValue,
+                        daysBefore: daysBeforeValue
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            });
+        </script>
+
+
+
     </div>
-  </body>
+</body>
 </html>
