@@ -161,13 +161,13 @@
 
                       function updateDate() {
                           dateElement.textContent = formatter.format(new Date());
-                          if (new Date().getHours() >= 0 && new Date().getHours() <= 11) 
+                          if (new Date().getHours() >= 0 && new Date().getHours() <= 18) 
                           {
                               dateElement.style.backgroundColor = '#50C878';
 
                               statusElement.textContent = "Bestellung möglich"
                               statusElement.style.backgroundColor = '#50C878';
-                              //btnPlaceOrder.disabled = false;
+                              btnPlaceOrder.disabled = false;
                           }
                           else 
                           {
@@ -185,7 +185,7 @@
               </div>
               <div class="col-md-7 right-row">
                   <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                      <table class="table table-bordered table-striped table-scroll">
+                      <table class="table table-bordered table-striped">
                           <thead>
                               <tr>
                                   <th>Nr</th>

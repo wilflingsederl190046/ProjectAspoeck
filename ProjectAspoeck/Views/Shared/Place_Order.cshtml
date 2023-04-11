@@ -235,7 +235,10 @@
         </div>
         <div class="row mt-3">
             <div class="col-6 text-left">
-                <a href="#" class="btn btn-warning" onclick="history.back()">Zurück</a>
+                @using (Html.BeginForm("Home_Page", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                {
+                  <button href="#" class="btn btn-warning">Zurück</button>
+                }
             </div>
             <div class="col-6 text-right">
 

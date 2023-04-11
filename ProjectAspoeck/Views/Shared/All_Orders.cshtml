@@ -1,5 +1,4 @@
-﻿
-@using ProjectAspoeck.Models
+﻿@using ProjectAspoeck.Models
 
 @model ProjectAspoeck.Models.All_OrdersModel
 @{
@@ -120,140 +119,78 @@
                     </select>
                 </div>
                 <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped" id="table">
                     <thead>
                         <tr>
                             <th scope="col">Nr</th>
                             <th scope="col">Datum</th>
                             <th scope="col" class="col-5">Inhalt</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Kosten</th>
-                            <th scope="col"></th>
+                            <th scope="col">Status</th>
+                            <th scope="col" style="align-items:center"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>06.03.2023</td>
-                            <td>Semmel mit Butter</td>
-                            <td>Bestellt</td>
-                            <td>4,50 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>05.03.2023</td>
-                            <td>Brezel</td>
-                            <td>Geliefert</td>
-                            <td>4,00 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>04.03.2023</td>
-                            <td>Kornspitz</td>
-                            <td>Storniert</td>
-                            <td>2,00 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>06.03.2023</td>
-                            <td>Semmel mit Butter</td>
-                            <td>Bestellt</td>
-                            <td>4,50 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>05.03.2023</td>
-                            <td>Brezel</td>
-                            <td>Geliefert</td>
-                            <td>4,00 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>04.03.2023</td>
-                            <td>Kornspitz</td>
-                            <td>Storniert</td>
-                            <td>2,00 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td>06.03.2023</td>
-                            <td>Semmel mit Butter</td>
-                            <td>Bestellt</td>
-                            <td>4,50 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>05.03.2023</td>
-                            <td>Brezel</td>
-                            <td>Geliefert</td>
-                            <td>4,00 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">9</th>
-                            <td>04.03.2023</td>
-                            <td>Kornspitz</td>
-                            <td>Storniert</td>
-                            <td>2,00 €</td>
-                            <td class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-retweet"></i>
-                                </button> 
-                            </td>
-                        </tr>
+                        @foreach (var order in Model.Orders)
+                          {
+                            <tr>
+                              <td>
+                                @if (order.OrderNumber != -1) @order.OrderNumber
+                              </td>
+                              <td>
+                                @order.OrderDate
+                              </td>
+                              <td>
+                                @order.OrderContent
+                              </td>
+                              <td>
+                                @if (order.OrderAmount != -1) @order.OrderAmount.ToString("N2") €
+                              </td>
+                              <td>
+                                @(order.OrderState)
+                              </td>
+                              <td>
+                                <span class="text-center-last-col">
+                                  @if (!order.OrderState.Equals(""))
+                                  {
+                                    <button type="button" class="btn btn-primary">
+                                      <i class="fa fa-retweet"></i>
+                                    </button>
+                                  }
+                                </span>
+                              </td>
+                            </tr>
+                          }
                     </tbody>
                 </table>
                 </div>
             </div>
         </div>
+
+        <script>
+          $("#table tr").click(function(){
+             $(this).addClass('selected').siblings().removeClass('selected');    
+             var value=$(this).find('td:first').html();
+             alert(value);    
+          });
+
+          $('.ok').on('click', function(e){
+              alert($("#table tr.selected td:first").html());
+          });
+        </script>
+
         <div class="row mt-3">
             <div class="col-6 text-left">
-                <input type="button" class="btn btn-warning" value="Zurück" onclick="history.back()" />
+                @using (Html.BeginForm("Home_Page", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                {
+                  <button href="#" class="btn btn-warning">Zurück</button>
+                }
             </div>
             <div class="col-6 text-right">
                 @using (Html.BeginForm("Order_Detail", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
-                        {
-                <button href="#" class="btn btn-warning">Detailansicht aufrufen</button>
-                        }
+                {
+                  <button href="#" class="btn btn-warning">Detailansicht aufrufen</button>
+                }
             </div>
         </div>
     </div>

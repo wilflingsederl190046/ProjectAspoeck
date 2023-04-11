@@ -1,13 +1,7 @@
-﻿using BreakfastDBLib;
-
-namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models;
 
 public class Shopping_BasketModel
 {
-  public string sessionString { get; set; } = null!;
-    public List<Item> OrderItems { get; set; }
-
-
-   
-
+  public string SessionString { get; set; } = null!;
+  public List<Item> OrderItems { get; set; }
 }
