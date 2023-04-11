@@ -2,7 +2,7 @@
 
 @model ProjectAspoeck.Models.SettingsModel
 @{
-    ViewData["Title"] = "Startseite";
+    ViewData["Title"] = "Einstellung";
 }
 
 <!DOCTYPE html>
@@ -50,7 +50,7 @@
         }
 
         .headline {
-            padding-top: 10px;
+            /*padding-top: 10px;*/
         }
 
         .btn {
@@ -64,7 +64,7 @@
 
         .div-email,
         .border {
-            width: 700px;
+            width: 680px;
         }
 
         .selecters {
@@ -109,7 +109,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col headline">
-                <h3>Benachrichtigungen</h3>
+                <h4>Benachrichtigungen</h4>
             </div>
         </div>
         <form>
@@ -184,13 +184,13 @@
                     method: "POST",
                     data: {
                         email: emailValue,
-                        checkRTO: checkRTOValue,
-                        checkRTP: checkRTPValue,
-                        minutesBefore: minutesBeforeValue,
-                        daysBefore: daysBeforeValue
+                        rto: checkRTOValue,
+                        rtp: checkRTPValue,
+                        minBef: minutesBeforeValue,
+                        daysBef: daysBeforeValue
                     },
                     success: function (response) {
-                        console.log(response);
+                        window.location.href = '@Url.Action("Home_Page", "Home", new { sessionKey = Model.SessionString })';
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log(textStatus, errorThrown);

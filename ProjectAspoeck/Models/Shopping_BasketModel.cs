@@ -3,5 +3,5 @@
 public class Shopping_BasketModel
 {
   public string SessionString { get; set; } = null!;
-  public List<Item> OrderItems { get; set; }
+  public List<OrderItem> OrderItems { get; set; }
 }

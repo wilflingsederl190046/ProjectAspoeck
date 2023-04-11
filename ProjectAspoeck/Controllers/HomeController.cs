@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using Newtonsoft.Json.Linq;
+
+namespace ProjectAspoeck.Controllers;
 
 public class HomeController : Controller
 {
@@ -158,10 +160,10 @@ public class HomeController : Controller
     settings.NotificationPaymentDeadline = rtp;
     settings.DaysBefore = daysBef;
     settings.MinutesBefore = minBef;
-    _db.Update(user);
-    _db.Update(settings);
+    //_db.Update(user);
+    //_db.Update(settings);
     _db.SaveChanges();
-    return Json(new { success = true });
+    return Ok(email);
   }
 
 
@@ -186,7 +188,8 @@ public class HomeController : Controller
       RememberToOrder = settings.NotificationOrderDeadline,
       RememberToPay = settings.NotificationPaymentDeadline,
       MinutesBefore = settings.MinutesBefore,
-      DaysBefore = settings.DaysBefore
+      DaysBefore = settings.DaysBefore,
+      SessionString = sessionKey
     };
 
     return View(settingsModel);
@@ -250,104 +253,94 @@ public class HomeController : Controller
     return View(place_Order);
   }
 
-  /*public IActionResult ShoppingBasket(Shopping_BasketModel model)
+  [HttpPost]
+  public ActionResult<string> Shopping_BasketPlace([FromBody] NewOrderDto newOrderDto)
   {
-      if (ModelState.IsValid)
-      {
-          if (!string.IsNullOrEmpty(Request.Form["orderJson"]))
-          {
-              var orderItemsJson = Request.Form["orderJson"];
-              model.OrderItems = JsonConvert.DeserializeObject<List<OrderItem>>(orderItemsJson);
-          }
-          // Additional logic here
-          return View(model);
-      }
-      return View(model);
-  }*/
-  /*[HttpPost]
-  public IActionResult Shopping_Basket(string sessionKey, IFormCollection form)
-  {
-    string[] names = form["item.Bezeichnung"].ToString().Split(',');
-    double[] prices = form["item.Kosten"].ToString().Split(',')
-      .Select(p => double.Parse(p.Replace(',', '.')
-      .Replace(" €", "")))
-      .ToArray();
 
-            var names = form["item.Bezeichnung"].ToString().Split(',');
-            var prices = form["item.Kosten"].ToString().Split(',').Select(p => double.Parse(p.Replace(',', '.').Replace(" €", ""))).ToArray();
-            var units = form["item.Units"].ToString().Split(',').Select(u => int.Parse(u)).ToArray();
-
-            var orderItems = new List<OrderItem>();
-            for (int i = 0; i < names.Length; i++)
-            {
-                var item = new Item
-                {
-                    Name = names[i],
-                    Price = prices[i],
-                };
-                var orderItem = new OrderItem { Item = item, Price = item.Price, Quantity = units[i] };
-                orderItems.Add(orderItem);
-            }
-            Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-            shopping_Basket.OrderItems = orderItems;
-            shopping_Basket.sessionString = sessionKey;
-            return View(shopping_Basket);
-
-        }*/
-
+    Console.WriteLine("POST Shopping_Basket");
+    string s = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
+    Console.WriteLine(s);
+    HttpContext.Session.SetString("BasketItems", s);
+    //return RedirectToAction("Shopping_Basket_Page", "Home", new { shopping_Basket });
+    //return View(shopping_Basket);
+    // Console.WriteLine(s);
+    return Ok(s);
+  }
 
   [HttpPost]
-  public ActionResult Shopping_Basket(string sessionKey, IFormCollection form)
+  public ActionResult<string> DummyPost([FromBody] DummyData dummyData)
   {
-    /*return View(shopping_Basket);*/
-
-
+    Console.WriteLine("POST Dummy");
+    string s = System.Text.Json.JsonSerializer.Serialize(dummyData);
+    Console.WriteLine(s);
     Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-    //shopping_Basket.OrderItems = orderItems;
-    //Console.WriteLine(orderItems);
-    shopping_Basket.SessionString = sessionKey;
+    JObject jObject = JObject.Parse(s);
+    Order order = new Order();
+    shopping_Basket.SessionString = jObject["SessionKey"].ToString();
 
-
-    //var orderItemsJson = form["orderItems"];
-    // Console.WriteLine(orderItems.Count);
-    List<OrderItem> orderItems = new List<OrderItem>();
-    foreach (var key in form.Keys)
+    var orderItems = new List<OrderItem>();
+    JArray jArray = (JArray)jObject["OrderItems"];
+    foreach (JToken jToken in jArray)
     {
-      if (key.StartsWith("Name"))
-      {
-        var index = key.Replace("Name", "");
-        var item = new OrderItem
-        {
-          Name = form["Name" + index],
-          Price = decimal.Parse(form["Price" + index]),
-          Quantity = int.Parse(form["Quantity" + index])
-        };
-        orderItems.Add(item);
-      }
+      OrderItem orderItem = new OrderItem();
+      var name = jToken["Name"].ToString();
+      orderItem.Item.Name = name;
+      orderItem.Item.Price = _db.Items
+          .SingleOrDefault(x => x.Name.Equals(name)).Price;
+      orderItem.Price = int.Parse(jToken["Price"].ToString());
+      orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
+      //order.OrderItems.Add(orderItem);
+      orderItems.Add(orderItem);
     }
-    // Perform necessary actions to add items to shopping basket using sessionKey
-    Console.WriteLine(orderItems.Count);
 
-    // Redirect to a new action that will return a new HTML page with the shopping basket data in its model
-    return RedirectToAction("Shopping_Basket_Page", "Home", new { sessionKey = sessionKey });
+    Console.WriteLine(orderItems);
+    return Ok(s);
   }
-
-  public class OrderItem
+  public class DummyData
   {
-    public string Name { get; set; }
-    public decimal Price { get; set; }
+    public int IntVal { get; set; }
+    public string StrVal { get; set; } = "x";
+  }
+  public class NewOrderDto
+  {
+    public string SessionKey { get; set; } = "-";
+    public List<GetOrderItem> OrderItems { get; set; } = new();
+  }
+  public class GetOrderItem
+  {
+    public string Name { get; set; } = "-";
+    public int Price { get; set; }
     public int Quantity { get; set; }
   }
-  public ActionResult Shopping_Basket_Page(string sessionKey)
+
+  public IActionResult Shopping_Basket(string sessionKey)
   {
-    // Retrieve the necessary data for the shopping basket from sessionKey
-    // Create a new instance of the Shopping_BasketModel class and set its properties accordingly
+    string s = HttpContext.Session.GetString("BasketItems");
     Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-    shopping_Basket.SessionString = sessionKey;
-    // Add any necessary data to the shopping basket model
+    JObject jObject = JObject.Parse(s);
+    Order order = new Order();
+    shopping_Basket.SessionString = jObject["SessionKey"].ToString();
 
-    // Return a view called Shopping_Basket_Page with the shopping basket model
-    return View("Shopping_Basket", shopping_Basket);
+    var orderItems = new List<OrderItem>();
+    JArray jArray = (JArray)jObject["OrderItems"];
+    foreach (JToken jToken in jArray)
+    {
+      OrderItem orderItem = new OrderItem();
+      var item = new Item();
+      var name = jToken["Name"].ToString();
+      item.Name = name;
+      var price = _db.Items
+          .SingleOrDefault(x => x.Name.Equals(name)).Price;
+      item.Price = price;
+      orderItem.Price = price;
+      orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
+      orderItem.Item = item;
+      //order.OrderItems.Add(orderItem);
+      if (orderItem.Quantity != 0) { orderItems.Add(orderItem); }
+
+    }
+    Console.WriteLine(orderItems);
+    shopping_Basket.OrderItems = orderItems;
+    return View(shopping_Basket);
   }
-
 }

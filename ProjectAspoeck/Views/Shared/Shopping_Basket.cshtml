@@ -99,72 +99,38 @@
                             <th scope="col">Preis</th>
                             <th scope="col">Anzahl</th>
                             <th scope="col">Gesamt</th>
-                            <th scope="col"></th>
+                           
                         </tr>
                     </thead>
                     <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
                         <tr>
                             <th scope="row">
-                                <img src="https://via.placeholder.com/50x50.png?text=Semmel"
-                                     alt="Semmel" />
+                                <img src="" alt="@item.Item.Name" />
                             </th>
-                            <td>Semmel mit Butter</td>
-                            <td>1,50 €</td>
-                            <td>3</td>
-                            <td>7,50 €</td>
-                            <td>
-                                <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-danger">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </span>
+                            <td class="itemName">@item.Item.Name</td>
+                            <td class="price">@item.Item.Price €</td>
+                            <td class="stueck">@item.Quantity</td>
+
+
+                            <td class="allPrice">
+                                @{
+                                    var priceString = new string(item.Item.Price.ToString().Where(char.IsDigit).ToArray());
+                                    var price = double.Parse(priceString)/10;
+                                    var total = price * item.Quantity;
+                                }
+                                @total €
                             </td>
                         </tr>
-                        <tr>
-                            <th scope="row">
-                                <img src="https://via.placeholder.com/50x50.png?text=Brezel"
-                                     alt="Brezel" />
-                            </th>
-                            <td>Brezel</td>
-                            <td>2,00 €</td>
-                            <td>2</td>
-                            <td>6,00 €</td>
-                            <td>
-                                <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-danger">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <img src="https://via.placeholder.com/50x50.png?text=Kornspitz"
-                                     alt="Kornspitz" />
-                            </th>
-                            <td>Kornspitz</td>
-                            <td>2,00 €</td>
-                            <td>5</td>
-                            <td>10,00 €</td>
-                            <td>
-                                <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-danger">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colspan="4" scope="row">Summe</th>
-                            <td>23,50 €</td>
-                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-6 text-left">
-               @using (Html.BeginForm("Place_Order", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                @using (Html.BeginForm("Place_Order", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                 {
                   <button href="#" class="btn btn-warning">Zurück</button>
                 }
