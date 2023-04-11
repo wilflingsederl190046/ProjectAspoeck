@@ -2,87 +2,87 @@
 
 public class HomeController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
-    private readonly ILogger<HomeController> _logger;
-    public HomeController(ILogger<HomeController> logger) => _logger = logger;
+  private readonly BreakfastDBContext _db = new();
+  private readonly ILogger<HomeController> _logger;
+  public HomeController(ILogger<HomeController> logger) => _logger = logger;
 
-    public string _sessKey = "";
+  public string _sessKey = "";
 
-    [HttpGet]
-    public IActionResult Index() => View(new LoginModel());
-    [HttpPost]
-    public IActionResult Index(LoginModel loginModel)
+  [HttpGet]
+  public IActionResult Index() => View(new LoginModel());
+  [HttpPost]
+  public IActionResult Index(LoginModel loginModel)
+  {
+    User? user = _db.Users.Where(m => m.UserName == loginModel.LoginId && m.ChipNumber == loginModel.Password).FirstOrDefault();
+    if (user == null)
     {
-        User? user = _db.Users.Where(m => m.UserName == loginModel.LoginId && m.ChipNumber == loginModel.Password).FirstOrDefault();
-        if (user == null)
-        {
-            ViewBag.LoginStatus = 0;
-            return View(loginModel);
-        }
-        else
-        {
-            // Generate session key
-            string sessionKey = Guid.NewGuid().ToString();
-            //_sessKey = sessionKey;
-            // Encrypt username and password using session key
-            string encryptedUsername = EncryptionHelper.Encrypt(loginModel.LoginId, sessionKey);
-            string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
-
-            // Store session key and encrypted username and password in session
-            HttpContext.Session.SetString("SessionKey", sessionKey);
-            HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
-            HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
-
-            // Redirect to home page with session key in query string
-            return RedirectToAction("Home_Page", "Home", new { sessionKey });
-        }
+      ViewBag.LoginStatus = 0;
+      return View(loginModel);
     }
-
-    public IActionResult Home_Page(string sessionKey)
+    else
     {
-        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-        string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
+      // Generate session key
+      string sessionKey = Guid.NewGuid().ToString();
+      //_sessKey = sessionKey;
+      // Encrypt username and password using session key
+      string encryptedUsername = EncryptionHelper.Encrypt(loginModel.LoginId, sessionKey);
+      string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
 
-        string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-        User user = _db.Users
-          .Where(x => x.UserName == username)
-          .FirstOrDefault() ?? new();
+      // Store session key and encrypted username and password in session
+      HttpContext.Session.SetString("SessionKey", sessionKey);
+      HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
+      HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
 
-        var ordersListForUser = _db.Orders
-          .Include(x => x.User)
-          .Include(x => x.OrderState)
-          .Include(x => x.OrderItems)
-          .Where(x => x.UserId == user.UserId)
-          .Select(x => x)
-          .OrderBy(x => x.OrderId)
-          .ToList();
+      // Redirect to home page with session key in query string
+      return RedirectToAction("Home_Page", "Home", new { sessionKey });
+    }
+  }
 
-        var orders = ordersListForUser
-          .Skip(Math.Max(0, ordersListForUser.Count - 5))
-          .OrderByDescending(x => x.OrderDate)
-          .Select(x => new OrderViewModel
-          {
-              OrderNumber = ordersListForUser.IndexOf(x) + 1,
-              State = x.OrderState.Name,
-              OrderDate = x.OrderDate.ToString("d"),
-              OrderAmount = x.OrderItems.Sum(y => y.Price)
-          })
-          .ToList();
+  public IActionResult Home_Page(string sessionKey)
+  {
+    string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+    string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
 
-        if (orders.Count == 0)
-        {
-            orders = new List<OrderViewModel>
+    string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+    User user = _db.Users
+      .Where(x => x.UserName == username)
+      .FirstOrDefault() ?? new();
+
+    var ordersListForUser = _db.Orders
+      .Include(x => x.User)
+      .Include(x => x.OrderState)
+      .Include(x => x.OrderItems)
+      .Where(x => x.UserId == user.UserId)
+      .Select(x => x)
+      .OrderBy(x => x.OrderId)
+      .ToList();
+
+    var orders = ordersListForUser
+      .Skip(Math.Max(0, ordersListForUser.Count - 5))
+      .OrderByDescending(x => x.OrderDate)
+      .Select(x => new OrderViewModel
+      {
+        OrderNumber = ordersListForUser.IndexOf(x) + 1,
+        State = x.OrderState.Name,
+        OrderDate = x.OrderDate.ToString("d"),
+        OrderAmount = x.OrderItems.Sum(y => y.Price)
+      })
+      .ToList();
+
+    if (orders.Count == 0)
+    {
+      orders = new List<OrderViewModel>
       {
         new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
       };
-        }
+    }
 
-        var homeModel = new Home_PageModel
-        {
-            UserName = username,
-            Orders = orders,
-            SessionString = sessionKey
-        };
+    var homeModel = new Home_PageModel
+    {
+      UserName = username,
+      Orders = orders,
+      SessionString = sessionKey
+    };
 
     homeModel.SessionString = sessionKey;
     return View(homeModel);
@@ -136,141 +136,119 @@ public class HomeController : Controller
     return View(allOrderModel);
   }
 
+  [HttpPost]
+  public IActionResult SaveSettings(string email, bool rto, bool rtp, int minBef, int daysBef)
+  {
+    string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+    string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
+
+    User user = _db.Users
+      .Where(x => x.UserName == username)
+      .FirstOrDefault() ?? new();
+
+
+    Setting settings = _db.Settings
+      .Where(x => x.UserId == user.UserId)
+      .FirstOrDefault() ?? new();
+
+
+
+    user.Email = email;
+    settings.NotificationOrderDeadline = rto;
+    settings.NotificationPaymentDeadline = rtp;
+    settings.DaysBefore = daysBef;
+    settings.MinutesBefore = minBef;
+    _db.Update(user);
+    _db.Update(settings);
+    _db.SaveChanges();
+    return Json(new { success = true });
+  }
+
+
   public IActionResult Settings(string sessionKey)
   {
     string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
     string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-        homeModel.SessionString = sessionKey;
-        return View(homeModel);
-    }
+
+    User user = _db.Users
+      .Where(x => x.UserName == username)
+      .FirstOrDefault() ?? new();
 
 
-    [HttpPost]
-    public IActionResult SaveSettings(string email, bool rto, bool rtp, int minBef, int daysBef)
+    Setting settings = _db.Settings
+      .Where(x => x.UserId == user.UserId)
+      .FirstOrDefault() ?? new();
+
+
+    var settingsModel = new SettingsModel
     {
-        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-        string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
-
-        User user = _db.Users
-          .Where(x => x.UserName == username)
-          .FirstOrDefault() ?? new();
-        
-
-        Setting settings = _db.Settings
-          .Where(x => x.UserId == user.UserId)
-          .FirstOrDefault() ?? new();
-     
-
-
-        user.Email = email;
-        settings.NotificationOrderDeadline = rto;
-        settings.NotificationPaymentDeadline = rtp;
-        settings.DaysBefore = daysBef;
-        settings.MinutesBefore = minBef;
-        _db.Update(user);
-        _db.Update(settings);
-        _db.SaveChanges();
-        return Json(new { success = true });
-    }
-
-
-    public IActionResult Settings(string sessionKey)
-    {
-        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-        string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-
-        User user = _db.Users
-          .Where(x => x.UserName == username)
-          .FirstOrDefault() ?? new();
-        
-
-        Setting settings = _db.Settings
-          .Where(x => x.UserId == user.UserId)
-          .FirstOrDefault() ?? new();
-       
-
-        var settingsModel = new SettingsModel
-        {
-            Email = user.Email,
-            RememberToOrder = settings.NotificationOrderDeadline,
-            RememberToPay = settings.NotificationPaymentDeadline,
-            MinutesBefore = settings.MinutesBefore,
-            DaysBefore = settings.DaysBefore
-        };
+      Email = user.Email,
+      RememberToOrder = settings.NotificationOrderDeadline,
+      RememberToPay = settings.NotificationPaymentDeadline,
+      MinutesBefore = settings.MinutesBefore,
+      DaysBefore = settings.DaysBefore
+    };
 
     return View(settingsModel);
   }
-  //public IActionResult All_Orders(string sessionKey)
-  //{
-  //  string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-  //  string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-  //  User user = _db.Users
-  //    .Where(x => x.UserName == username)
-  //    .FirstOrDefault() ?? new();
 
-  //  var all_Orders = new All_OrdersModel
-  //  {
-  //    SessionString = sessionKey
-  //  };
-  //  return View(all_Orders);
-  //}
   public IActionResult Order_Detail(string sessionKey) => View(new Order_DetailModel { SessionString = sessionKey });
 
-    public IActionResult Privacy() => View();
-    [HttpGet]
-    public IActionResult LoginWithChip() => View(new LoginModel());
+  public IActionResult Privacy() => View();
+  [HttpGet]
+  public IActionResult LoginWithChip() => View(new LoginModel());
 
-    [HttpPost]
-    public IActionResult LoginWithChip(LoginModel loginModel)
+  [HttpPost]
+  public IActionResult LoginWithChip(LoginModel loginModel)
+  {
+    User? user = _db.Users
+      .Where(m => m.ChipNumber == loginModel.Password)
+      .FirstOrDefault();
+
+    if (user == null)
     {
-        User? user = _db.Users
-          .Where(m => m.ChipNumber == loginModel.Password)
-          .FirstOrDefault();
-
-        if (user == null)
-        {
-            ViewBag.LoginStatus = 0;
-            return View(loginModel);
-        }
-
-        // Generate session key
-        string sessionKey = Guid.NewGuid().ToString();
-
-        // Encrypt username and password using session key
-        string encryptedUsername = EncryptionHelper.Encrypt(user.UserName, sessionKey);
-        string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
-
-        // Store session key and encrypted username and password in session
-        HttpContext.Session.SetString("SessionKey", sessionKey);
-        HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
-        HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
-
-        // Redirect to home page with session key in query string
-        return RedirectToAction("Home_Page", "Home", new { sessionKey });
+      ViewBag.LoginStatus = 0;
+      return View(loginModel);
     }
 
-    public IActionResult Place_Order(string sessionKey)
+    // Generate session key
+    string sessionKey = Guid.NewGuid().ToString();
+
+    // Encrypt username and password using session key
+    string encryptedUsername = EncryptionHelper.Encrypt(user.UserName, sessionKey);
+    string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
+
+    // Store session key and encrypted username and password in session
+    HttpContext.Session.SetString("SessionKey", sessionKey);
+    HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
+    HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
+
+    // Redirect to home page with session key in query string
+    return RedirectToAction("Home_Page", "Home", new { sessionKey });
+  }
+
+  public IActionResult Place_Order(string sessionKey)
+  {
+    var culture = CultureInfo.GetCultureInfo("fr-FR");
+    var orderItems = _db.Items
+      .Where(x => x.Active == true)
+      .Select(x => new Place_OrderViewModel
+      {
+        Bezeichnung = x.Name,
+        ImageUrl = x.Name,
+        Units = 0,
+        Kosten = x.Price.ToString("C", culture)
+      })
+      .ToList();
+
+    var place_Order = new Place_OrderModel
     {
-        var culture = CultureInfo.GetCultureInfo("fr-FR");
-        var orderItems = _db.Items
-          .Where(x => x.Active == true)
-          .Select(x => new Place_OrderViewModel
-          {
-              Bezeichnung = x.Name,
-              ImageUrl = x.Name,
-              Units = 0,
-              Kosten = x.Price.ToString("C", culture)
-          })
-          .ToList();
+      SessionString = sessionKey,
+      OrderItems = orderItems
+    };
 
-        var place_Order = new Place_OrderModel
-        {
-            SessionString = sessionKey,
-            OrderItems = orderItems
-        };
-
-        return View(place_Order);
-    }
+    return View(place_Order);
+  }
 
   /*public IActionResult ShoppingBasket(Shopping_BasketModel model)
   {
@@ -318,58 +296,58 @@ public class HomeController : Controller
         }*/
 
 
-    [HttpPost]
-    public ActionResult Shopping_Basket(string sessionKey, IFormCollection form)
+  [HttpPost]
+  public ActionResult Shopping_Basket(string sessionKey, IFormCollection form)
+  {
+    /*return View(shopping_Basket);*/
+
+
+    Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+    //shopping_Basket.OrderItems = orderItems;
+    //Console.WriteLine(orderItems);
+    shopping_Basket.SessionString = sessionKey;
+
+
+    //var orderItemsJson = form["orderItems"];
+    // Console.WriteLine(orderItems.Count);
+    List<OrderItem> orderItems = new List<OrderItem>();
+    foreach (var key in form.Keys)
     {
-        /*return View(shopping_Basket);*/
-
-
-        Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-        //shopping_Basket.OrderItems = orderItems;
-        //Console.WriteLine(orderItems);
-        shopping_Basket.SessionString = sessionKey;
-
-
-        //var orderItemsJson = form["orderItems"];
-        // Console.WriteLine(orderItems.Count);
-        List<OrderItem> orderItems = new List<OrderItem>();
-        foreach (var key in form.Keys)
+      if (key.StartsWith("Name"))
+      {
+        var index = key.Replace("Name", "");
+        var item = new OrderItem
         {
-            if (key.StartsWith("Name"))
-            {
-                var index = key.Replace("Name", "");
-                var item = new OrderItem
-                {
-                    Name = form["Name" + index],
-                    Price = decimal.Parse(form["Price" + index]),
-                    Quantity = int.Parse(form["Quantity" + index])
-                };
-                orderItems.Add(item);
-            }
-        }
-        // Perform necessary actions to add items to shopping basket using sessionKey
-        Console.WriteLine(orderItems.Count);
-
-        // Redirect to a new action that will return a new HTML page with the shopping basket data in its model
-        return RedirectToAction("Shopping_Basket_Page", "Home", new { sessionKey = sessionKey });
+          Name = form["Name" + index],
+          Price = decimal.Parse(form["Price" + index]),
+          Quantity = int.Parse(form["Quantity" + index])
+        };
+        orderItems.Add(item);
+      }
     }
+    // Perform necessary actions to add items to shopping basket using sessionKey
+    Console.WriteLine(orderItems.Count);
 
-    public class OrderItem
-    {
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; }
-    }
-    public ActionResult Shopping_Basket_Page(string sessionKey)
-    {
-        // Retrieve the necessary data for the shopping basket from sessionKey
-        // Create a new instance of the Shopping_BasketModel class and set its properties accordingly
-        Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-        shopping_Basket.SessionString = sessionKey;
-        // Add any necessary data to the shopping basket model
+    // Redirect to a new action that will return a new HTML page with the shopping basket data in its model
+    return RedirectToAction("Shopping_Basket_Page", "Home", new { sessionKey = sessionKey });
+  }
 
-        // Return a view called Shopping_Basket_Page with the shopping basket model
-        return View("Shopping_Basket", shopping_Basket);
-    }
+  public class OrderItem
+  {
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public int Quantity { get; set; }
+  }
+  public ActionResult Shopping_Basket_Page(string sessionKey)
+  {
+    // Retrieve the necessary data for the shopping basket from sessionKey
+    // Create a new instance of the Shopping_BasketModel class and set its properties accordingly
+    Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+    shopping_Basket.SessionString = sessionKey;
+    // Add any necessary data to the shopping basket model
+
+    // Return a view called Shopping_Basket_Page with the shopping basket model
+    return View("Shopping_Basket", shopping_Basket);
+  }
 
 }
