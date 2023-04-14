@@ -231,7 +231,38 @@ public class HomeController : Controller
 
     public IActionResult Place_Order(string sessionKey)
     {
+        string s = HttpContext.Session.GetString("BackToBasket");
+        var orderItemsFromBasket = new List<OrderItem>();
+        if (s != null) {
+
+            Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+            JObject jObject = JObject.Parse(s);
+            Order order = new Order();
+            shopping_Basket.SessionString = jObject["SessionKey"].ToString();
+
+            
+            JArray jArray = (JArray)jObject["OrderItems"];
+            foreach (JToken jToken in jArray)
+            {
+                OrderItem orderItem = new OrderItem();
+                var item = new Item();
+                var name = jToken["Name"].ToString();
+                item.Name = name;
+                var price = _db.Items
+                    .SingleOrDefault(x => x.Name.Equals(name)).Price;
+                item.Price = price;
+                orderItem.Price = price;
+                orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
+                orderItem.Item = item;
+                //order.OrderItems.Add(orderItem);
+                orderItemsFromBasket.Add(orderItem);
+
+            }
+
+        }
+        
         var culture = CultureInfo.GetCultureInfo("fr-FR");
+
         var orderItems = _db.Items
           .Where(x => x.Active == true)
           .Select(x => new Place_OrderViewModel
@@ -242,7 +273,17 @@ public class HomeController : Controller
               Kosten = x.Price.ToString("C", culture)
           })
           .ToList();
-
+        if (orderItemsFromBasket != null) {
+            orderItems.ForEach(item =>
+            {
+                var orderItemFromBasket = orderItemsFromBasket.FirstOrDefault(e => e.Item.Name == item.Bezeichnung);
+                if (orderItemFromBasket != null)
+                {
+                    item.Units = orderItemFromBasket.Quantity;
+                }
+            });
+        }
+        
         var place_Order = new Place_OrderModel
         {
             SessionString = sessionKey,
@@ -265,9 +306,6 @@ public class HomeController : Controller
         // Console.WriteLine(s);
         return Ok(s);
     }
-
-
-
 
     public IActionResult Shopping_Basket(string sessionKey)
     {
@@ -311,66 +349,5 @@ public class HomeController : Controller
         return Ok(returnToPlaceOrderItems);
     }
 
-    public IActionResult Place_OrderWithItemsFromBasket(string sessionKey)
-    {
-
-        string s = HttpContext.Session.GetString("BackToBasket");
-        Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
-        JObject jObject = JObject.Parse(s);
-        Order order = new Order();
-        shopping_Basket.SessionString = jObject["SessionKey"].ToString();
-
-        var orderItemsFromBasket = new List<OrderItem>();
-        JArray jArray = (JArray)jObject["OrderItems"];
-        foreach (JToken jToken in jArray)
-        {
-            OrderItem orderItem = new OrderItem();
-            var item = new Item();
-            var name = jToken["Name"].ToString();
-            item.Name = name;
-            var price = _db.Items
-                .SingleOrDefault(x => x.Name.Equals(name)).Price;
-            item.Price = price;
-            orderItem.Price = price;
-            orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
-            orderItem.Item = item;
-            //order.OrderItems.Add(orderItem);
-            orderItemsFromBasket.Add(orderItem);
-
-        }
-
-
-        var culture = CultureInfo.GetCultureInfo("fr-FR");
-
-        var orderItems = _db.Items
-          .Where(x => x.Active == true)
-          .Select(x => new Place_OrderViewModel
-          {
-              Bezeichnung = x.Name,
-              ImageUrl = x.Name,
-              Units = 0,
-              Kosten = x.Price.ToString("C", culture)
-          })
-          .ToList();
-
-        orderItems.ForEach(item =>
-        {
-            var orderItemFromBasket = orderItemsFromBasket.FirstOrDefault(e => e.Item.Name == item.Bezeichnung);
-            if (orderItemFromBasket != null)
-            {
-                item.Units = orderItemFromBasket.Quantity;
-            }
-        });
-        var place_Order = new Place_OrderModel
-        {
-            SessionString = sessionKey,
-            OrderItems = orderItems
-        };
-
-        return View(place_Order);
-    }
-
-
-
-
+    
 }

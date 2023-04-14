@@ -184,7 +184,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function (result) {
-                    window.location.href = '@Url.Action("Place_OrderWithItemsFromBasket", "Home", new { sessionKey = Model.SessionString})';
+                    window.location.href = '@Url.Action("Place_Order", "Home", new { sessionKey = Model.SessionString})';
                     console.log('*******************success');
                 }
             })
