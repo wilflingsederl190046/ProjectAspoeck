@@ -91,7 +91,7 @@
             </div>
         </div>
         <div class="row mt-3">
-                <table class="table table-bordered table-striped">
+            <table id="productTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Bild</th>
@@ -110,8 +110,8 @@
                                 <img src="" alt="@item.Item.Name" />
                             </th>
                             <td class="itemName">@item.Item.Name</td>
-                            <td class="price">@item.Item.Price €</td>
-                            <td class="stueck">@item.Quantity</td>
+                            <td class="itemPrice">@item.Item.Price €</td>
+                            <td class="itemQuantity">@item.Quantity</td>
 
 
                             <td class="allPrice">
@@ -130,10 +130,12 @@
         </div>
         <div class="row mt-3">
             <div class="col-6 text-left">
-                @using (Html.BeginForm("Place_Order", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                @*@using (Html.BeginForm("Place_Order", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                 {
-                  <button href="#" class="btn btn-warning">Zurück</button>
-                }
+                  
+                }*@
+            <button href="#" class="btn btn-warning" onclick="openNew()">Zurück</button>
+               
             </div>
             <div class="col-6 text-right">
                 <button href="#" class="btn btn-success">Bestellung aufgeben</button>
@@ -142,3 +144,54 @@
     </div>
 </body>
 </html>
+
+
+@section scripts{
+    <script>
+        // This function is called when the form is submitted
+        function prepareOrderItems() {
+            console.log('prepareOrderItems');
+            var orderItems = [];
+            $('#productTable tbody tr').each(function () {
+                var item = {
+                    name: $(this).find('.itemName').text(),
+                    price: 66,//$(this).find('price').text(),
+                    quantity: +$(this).find('.itemQuantity').text() //make it a number
+                };
+                orderItems.push(item);
+            });
+
+            // Add hidden fields for each element of the orderItems list
+            for (var i = 0; i < orderItems.length; i++) {
+                $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Name" value="' + orderItems[i].Name + '" />');
+                $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Price" value="' + orderItems[i].Price + '" />');
+                $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Quantity" value="' + orderItems[i].Quantity + '" />');
+            }
+            return orderItems;
+        }
+        function openNew() {
+            console.log('---------------------------openNew');
+            const orderItems = prepareOrderItems();
+            console.log('orderItems', JSON.stringify(orderItems));
+            const postData = {
+                sessionKey: '@Model.SessionString',
+                orderItems: orderItems
+            };
+            console.log('postData:', JSON.stringify(postData, null, 2));
+            $.ajax({
+                url: '@Url.Action("ReturnToPlaceOrder", "Home")',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                success: function (result) {
+                    window.location.href = '@Url.Action("Place_OrderWithItemsFromBasket", "Home", new { sessionKey = Model.SessionString})';
+                    console.log('*******************success');
+                }
+            })
+                .then(x => console.log('--------------------------------- Shopping_Basket done'));
+
+
+        }
+
+    </script>
+}

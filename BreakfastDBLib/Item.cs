@@ -7,7 +7,7 @@ public partial class Item
 {
     public int ItemId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; } = null!;
 
     public bool? Active { get; set; }
 
