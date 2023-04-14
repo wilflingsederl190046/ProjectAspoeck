@@ -319,17 +319,20 @@ public class HomeController : Controller
         JArray jArray = (JArray)jObject["OrderItems"];
         foreach (JToken jToken in jArray)
         {
-            OrderItem orderItem = new OrderItem();
-            var item = new Item();
             var name = jToken["Name"].ToString();
-            item.Name = name;
-            var price = _db.Items
-                .SingleOrDefault(x => x.Name.Equals(name)).Price;
-            item.Price = price;
-            orderItem.Price = price;
-            orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
+            var item = _db.Items.SingleOrDefault(x => x.Name.Equals(name));
+            if (item == null)
+            {
+                // Handle invalid item
+            }
+
+            var orderItem = new OrderItem();
             orderItem.Item = item;
+            orderItem.Price = item.Price;
+            orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
             //order.OrderItems.Add(orderItem);
+            order.OrderStateId = 1;
+           // orderItemsFromBasket.Add(orderItem);
             if (orderItem.Quantity != 0) { orderItems.Add(orderItem); }
 
         }
@@ -349,5 +352,65 @@ public class HomeController : Controller
         return Ok(returnToPlaceOrderItems);
     }
 
-    
+    [HttpPost]
+    public ActionResult<string> SaveBasket([FromBody] NewOrderDto newOrderDto)
+    {
+
+        Console.WriteLine("POST SaveBasket");
+        var orderItemsFromBasket = new List<OrderItem>();
+        string returnToPlaceOrderItems = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
+        if (returnToPlaceOrderItems != null)
+        {
+
+            Shopping_BasketModel shopping_Basket = new Shopping_BasketModel();
+            JObject jObject = JObject.Parse(returnToPlaceOrderItems);
+            Order order = new Order();
+            shopping_Basket.SessionString = jObject["SessionKey"].ToString();
+
+
+            JArray jArray = (JArray)jObject["OrderItems"];
+            foreach (JToken jToken in jArray)
+            {
+                var name = jToken["Name"].ToString();
+                var item = _db.Items.SingleOrDefault(x => x.Name.Equals(name));
+                if (item == null)
+                {
+                    // Handle invalid item
+                }
+
+                var orderItem = new OrderItem();
+                orderItem.Item = item;
+                orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
+                orderItem.Price = (double)(item.Price*orderItem.Quantity);
+
+                orderItem.OrderItemId = _db.OrderItems.Max(x => x.OrderItemId)+1;
+                order.OrderItems.Add(orderItem);
+                order.OrderStateId = 1;
+                orderItemsFromBasket.Add(orderItem);
+
+            }
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+            string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
+
+            User user = _db.Users
+              .Where(x => x.UserName == username)
+              .FirstOrDefault();
+            if (user != null)
+            {
+                order.UserId = user.UserId;
+                order.OrderId = _db.Orders.Count()+ 1;
+                _db.Orders.Add(order);
+                
+                _db.SaveChanges();
+            }
+        }
+
+
+        Console.WriteLine($" Save Order: {returnToPlaceOrderItems}");
+        HttpContext.Session.SetString("BackToBasket", returnToPlaceOrderItems);
+        return Ok(returnToPlaceOrderItems);
+    }
+
+
+
 }

@@ -138,7 +138,9 @@
                
             </div>
             <div class="col-6 text-right">
-                <button href="#" class="btn btn-success">Bestellung aufgeben</button>
+            <button href="#" class="btn btn-success" onclick="placeOrder()">Bestellung aufgeben</button>
+
+
             </div>
         </div>
     </div>
@@ -190,6 +192,29 @@
             })
                 .then(x => console.log('--------------------------------- Shopping_Basket done'));
 
+
+        }
+        function placeOrder()
+        {
+            console.log('---------------------------Place order');
+            const orderItems = prepareOrderItems();
+            console.log('orderItems', JSON.stringify(orderItems));
+            const postData = {
+                sessionKey: '@Model.SessionString',
+                orderItems: orderItems
+            };
+            console.log('postData:', JSON.stringify(postData, null, 2));
+            $.ajax({
+                url: '@Url.Action("SaveBasket", "Home")',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                success: function (result) {
+                    window.location.href = '@Url.Action("Home_Page", "Home", new { sessionKey = Model.SessionString})';
+                    console.log('*******************success');
+                }
+            })
+                .then(x => console.log('--------------------------------- Shopping_Basket done'));
 
         }
 
