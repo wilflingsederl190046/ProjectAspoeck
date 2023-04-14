@@ -56,6 +56,7 @@ public class HomeController : Controller
           .Include(x => x.OrderState)
           .Include(x => x.OrderItems)
           .Where(x => x.UserId == user.UserId)
+          .Where(x=> x.OrderStateId == 1)
           .Select(x => x)
           .OrderBy(x => x.OrderId)
           .ToList();
@@ -72,12 +73,12 @@ public class HomeController : Controller
           })
           .ToList();
 
-        if (orders.Count == 0)
+        if (orders.Count == 0 || orders == null)
         {
             orders = new List<OrderViewModel>
-      {
-        new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
-      };
+          {
+            new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
+          };
         }
 
         var homeModel = new Home_PageModel
@@ -395,14 +396,19 @@ public class HomeController : Controller
             User user = _db.Users
               .Where(x => x.UserName == username)
               .FirstOrDefault();
-            if (user != null)
+            
+            if (orderItemsFromBasket.Count> 0)
             {
+               
+            }
+            else {
                 order.UserId = user.UserId;
-                order.OrderId = _db.Orders.Count()+ 1;
+                order.OrderId = _db.Orders.Count() + 1;
                 _db.Orders.Add(order);
-                
+
                 _db.SaveChanges();
             }
+            
         }
 
 
