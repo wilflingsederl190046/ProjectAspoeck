@@ -192,7 +192,7 @@
                                   <th>Datum</th>
                                   <th>Kosten</th>
                                   <th>Status</th>
-                                  <th></th>
+                                  
                               </tr>
                           </thead>
                           @foreach (var order in Model.Orders)
@@ -204,7 +204,10 @@
                               <td>
                                 @order.OrderDate</td>
                               <td>
-                                        @if (order.OrderAmount == -1) { }else @order.OrderAmount.ToString("N2") €
+                                        @if (order.OrderAmount != -1)
+                                    {
+                                        @order.OrderAmount.ToString("C");
+                                    }  
                                 </td>
                               <td>
                                 @(order.State)
@@ -220,15 +223,21 @@
                                 </span>
                               </td>
                             </tr>
+                            
                           }
+                       
                       </table>
                   </div>
                   @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                   {                
                     <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
                   }
+                <h4 class="mb-0">Offener Betrag:  @Model.MoneyLeftToPay €</h4>
               </div>
+            
+            
           </div>
+        
       </div>
   </body>
 </html>

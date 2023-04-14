@@ -80,12 +80,17 @@ public class HomeController : Controller
             new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
           };
         }
+        var sumRestPriceToPay = _db.OrderItems
+            .Where(x => x.Order.User.UserId == user.UserId).Where(x => x.Order.OrderStateId == 2).Sum(x => x.Price);
+
 
         var homeModel = new Home_PageModel
         {
             UserName = username,
             Orders = orders,
-            SessionString = sessionKey
+            SessionString = sessionKey,
+            MoneyLeftToPay = sumRestPriceToPay
+            
         };
 
         homeModel.SessionString = sessionKey;
