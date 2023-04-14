@@ -9,3 +9,5 @@ global using BreakfastDBLib;
 global using Microsoft.AspNetCore.Mvc;
 global using ProjectAspoeck.Models;
 global using System.Globalization;
+global using DTOLibary;
+global using Newtonsoft.Json.Linq;
