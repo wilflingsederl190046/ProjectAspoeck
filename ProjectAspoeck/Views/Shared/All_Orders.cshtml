@@ -144,8 +144,9 @@
                                 @order.OrderContent
                               </td>
                               <td>
-                                @if (order.OrderAmount != -1) @order.OrderAmount.ToString("N2") €
-                              </td>
+                                                @if(order.OrderAmount != -1) { }else {@order.OrderAmount.ToString("N2"); 
+                                                 }
+                                        </td>
                               <td>
                                 @(order.OrderState)
                               </td>

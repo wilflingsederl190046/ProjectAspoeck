@@ -6,5 +6,6 @@
         public string? UserName { get; set; }       
         public string SessionString { get; set; } = null!;
         public List<Admin_OrderListDTO> Orders { get; set; }
+
     }
 }

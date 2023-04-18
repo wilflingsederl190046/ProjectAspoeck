@@ -69,11 +69,11 @@ public class HomeController : Controller
 
         var ordersList = _db.Orders.Include(x => x.OrderItems)
             .Where(x => x.OrderDate.Date == DateTime.Today.Date)
-            .Take(5)            
+            .Take(5)
             .Select(x => new Admin_OrderListDTO {
                 OrderNumber = 1,
                 Date = x.OrderDate,
-                Description = x.ToString(),
+                Description = x.OrderItems.Select(x => $"{x.Quantity}x {x.Item.Name} ").First().ToString(),
                 State = x.OrderState.Name,
                 Price = x.OrderItems.Sum(x => x.Price)
 
@@ -199,6 +199,56 @@ public class HomeController : Controller
         };
 
         return View(allOrderModel);
+    }
+
+    [HttpPost]
+    public IActionResult Admin_All_Orders(string sessionKey)
+    {
+        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+
+        string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+        User user = _db.Users
+          .Where(x => x.UserName == username)
+          .FirstOrDefault() ?? new();
+
+        var ordersListForUser = _db.Orders
+          .Include(x => x.User)
+          .Include(x => x.OrderState)
+          .Include(x => x.OrderItems)
+          .ThenInclude(x => x.Item)
+          .Where(x => x.UserId == user.UserId)
+          .Select(x => x)
+          .OrderBy(x => x.OrderId)
+          .ToList();
+
+        var orders = ordersListForUser
+          .OrderByDescending(x => x.OrderDate)
+          .Select(x => new AllOrderViewModel
+          {
+              OrderNumber = ordersListForUser.IndexOf(x) + 1,
+              OrderDate = x.OrderDate.ToString("d"),
+              OrderContent = x.ToString(),
+              OrderAmount = x.OrderItems.Sum(y => y.Price),
+              OrderState = x.OrderState.Name
+          })
+          .ToList();
+
+        if (orders.Count == 0)
+        {
+            orders = new List<AllOrderViewModel>
+              {
+                new AllOrderViewModel { OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "" },
+              };
+        }
+
+        
+        
+        var adminAllOrdersModel = new Admin_All_OrdersModel
+        {
+            Orders = orders,
+            SessionString = sessionKey
+        };
+        return View(adminAllOrdersModel);
     }
 
     [HttpPost]
@@ -428,20 +478,24 @@ public class HomeController : Controller
             JObject jObject = JObject.Parse(returnToPlaceOrderItems);
             Order order = new Order();
             shopping_Basket.SessionString = jObject["SessionKey"].ToString();
-            int curMaxOrderItemId = _db.OrderItems.Max(x => x.OrderItemId);
+            int curMaxOrderItemId = 1;
+            if (_db.OrderItems.Count() != 0)
+            {
+                curMaxOrderItemId = _db.OrderItems.Max(x => x.OrderItemId);
+            }
 
             JArray jArray = (JArray)jObject["OrderItems"];
             foreach (JToken jToken in jArray)
             {
                 var name = jToken["Name"].ToString();
-                var item = _db.Items.SingleOrDefault(x => x.Name.Equals(name));
+                var item = _db.Items.SingleOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
 
                 var orderItem = new OrderItem();
                 orderItem.Item = item;
                 orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
                 orderItem.Price = (double)(item.Price*orderItem.Quantity);
                 
-                curMaxOrderItemId = curMaxOrderItemId + 1;
+                
                 orderItem.OrderItemId = curMaxOrderItemId;
 
                 orderItem.Order = order;
@@ -461,8 +515,13 @@ public class HomeController : Controller
             {
                 order.UserId = user.UserId;
                 order.OrderStateId = 1;
-                order.OrderId = _db.Orders.Max(x => x.OrderId) + 1;
+                var orderId = 1;
+                if (_db.Orders.Count() != 0)
+                {
 
+                     orderId = _db.Orders.Max(x => x.OrderId) + 1;
+                }
+                order.OrderId = orderId;
                 _db.Orders.Add(order);
 
                 _db.OrderItems.AddRange(orderItemsFromBasket);

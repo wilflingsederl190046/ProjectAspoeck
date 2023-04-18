@@ -25,10 +25,10 @@ public partial class BreakfastDBContext : DbContext
         //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\lukas\\OneDrive\\Desktop\\POS\\#sonstigeProjekte\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
 
         //Ben
-        //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\4_Klasse\\PRASPÖCK\\Project\\Project\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
+        => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\4_Klasse\\PRASPÖCK\\Project\\Project\\ProjectAspoeck\\BreakfastDBLib\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
 
         //Simon
-        => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\Test\\source\\repos\\wilflingsederl190046\\ProjectAspoeck\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
+        //=> optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\Test\\source\\repos\\wilflingsederl190046\\ProjectAspoeck\\BreakfastDB.mdf;integrated security=True; MultipleActiveResultSets=True");
 
 
 
