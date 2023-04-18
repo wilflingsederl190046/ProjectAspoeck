@@ -428,26 +428,25 @@ public class HomeController : Controller
             JObject jObject = JObject.Parse(returnToPlaceOrderItems);
             Order order = new Order();
             shopping_Basket.SessionString = jObject["SessionKey"].ToString();
-
+            int curMaxOrderItemId = _db.OrderItems.Max(x => x.OrderItemId);
 
             JArray jArray = (JArray)jObject["OrderItems"];
             foreach (JToken jToken in jArray)
             {
                 var name = jToken["Name"].ToString();
                 var item = _db.Items.SingleOrDefault(x => x.Name.Equals(name));
-                if (item == null)
-                {
-                    // Handle invalid item
-                }
 
                 var orderItem = new OrderItem();
                 orderItem.Item = item;
                 orderItem.Quantity = int.Parse(jToken["Quantity"].ToString());
                 orderItem.Price = (double)(item.Price*orderItem.Quantity);
+                
+                curMaxOrderItemId = curMaxOrderItemId + 1;
+                orderItem.OrderItemId = curMaxOrderItemId;
 
-                orderItem.OrderItemId = _db.OrderItems.Max(x => x.OrderItemId)+1;
+                orderItem.Order = order;
+
                 order.OrderItems.Add(orderItem);
-                order.OrderStateId = 1;
                 orderItemsFromBasket.Add(orderItem);
 
             }
@@ -458,14 +457,15 @@ public class HomeController : Controller
               .Where(x => x.UserName == username)
               .FirstOrDefault();
             
-            if (orderItemsFromBasket.Count< 0)
+            if (order.OrderItems.Count > 0)
             {
-               
-            }
-            else {
                 order.UserId = user.UserId;
-                order.OrderId = _db.Orders.Max(x => x.OrderId) + 1; 
+                order.OrderStateId = 1;
+                order.OrderId = _db.Orders.Max(x => x.OrderId) + 1;
+
                 _db.Orders.Add(order);
+
+                _db.OrderItems.AddRange(orderItemsFromBasket);
 
                 _db.SaveChanges();
             }
