@@ -17,17 +17,9 @@ public class HomeController : Controller
     public IActionResult Index(LoginModel loginModel)
     {
         User? user = _db.Users.Where(m => m.UserName == loginModel.LoginId && m.ChipNumber == loginModel.Password).FirstOrDefault();
-        if (user == null)
+        string sessionKey = Guid.NewGuid().ToString();
+        if (user.UserName.Equals("lwilflingseder"))
         {
-            ViewBag.LoginStatus = 0;
-            return View(loginModel);
-        }
-        else
-        {
-            // Generate session key
-            string sessionKey = Guid.NewGuid().ToString();
-            //_sessKey = sessionKey;
-            // Encrypt username and password using session key
             string encryptedUsername = EncryptionHelper.Encrypt(loginModel.LoginId, sessionKey);
             string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
 
@@ -35,10 +27,74 @@ public class HomeController : Controller
             HttpContext.Session.SetString("SessionKey", sessionKey);
             HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
             HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
-
-            // Redirect to home page with session key in query string
-            return RedirectToAction("Home_Page", "Home", new { sessionKey });
+            return RedirectToAction("Admin_Home_Page", "Home", new { sessionKey });
         }
+        else
+        {
+            if (user == null)
+            {
+                ViewBag.LoginStatus = 0;
+                return View(loginModel);
+            }
+            else
+            {
+                // Generate session key
+
+                //_sessKey = sessionKey;
+                // Encrypt username and password using session key
+                string encryptedUsername = EncryptionHelper.Encrypt(loginModel.LoginId, sessionKey);
+                string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
+
+                // Store session key and encrypted username and password in session
+                HttpContext.Session.SetString("SessionKey", sessionKey);
+                HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
+                HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
+
+                // Redirect to home page with session key in query string
+                return RedirectToAction("Home_Page", "Home", new { sessionKey });
+            }
+        }
+
+    }
+
+    public IActionResult Admin_Home_Page(string sessionKey)
+    {
+        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+        string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
+
+        string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+        User user = _db.Users
+          .Where(x => x.UserName == username)
+          .FirstOrDefault() ?? new();
+
+        var ordersList = _db.Orders.Include(x => x.OrderItems)
+            .Where(x => x.OrderDate.Date == DateTime.Today.Date)
+            .Take(5)            
+            .Select(x => new Admin_OrderListDTO {
+                OrderNumber = 1,
+                Date = x.OrderDate,
+                Description = x.ToString(),
+                State = x.OrderState.Name,
+                Price = x.OrderItems.Sum(x => x.Price)
+
+            }).ToList();
+
+       /* if (ordersList.Count == 0 || ordersList == null)
+        {
+            ordersList = new List<Admin_OrderListDTO>
+          {
+            new Admin_OrderListDTO { OrderNumber= -1, Date = "", OrderItems = -1, State = "" },
+          };
+        }*/
+        var adminhomeModel = new Admin_Home_PageModel
+        {
+            UserName = username,
+            Orders = ordersList,
+            SessionString = sessionKey,
+        };
+
+        adminhomeModel.SessionString = sessionKey;
+        return View(adminhomeModel);
     }
 
     public IActionResult Home_Page(string sessionKey)
@@ -402,13 +458,13 @@ public class HomeController : Controller
               .Where(x => x.UserName == username)
               .FirstOrDefault();
             
-            if (orderItemsFromBasket.Count> 0)
+            if (orderItemsFromBasket.Count< 0)
             {
                
             }
             else {
                 order.UserId = user.UserId;
-                order.OrderId = _db.Orders.Count() + 1;
+                order.OrderId = _db.Orders.Max(x => x.OrderId) + 1; 
                 _db.Orders.Add(order);
 
                 _db.SaveChanges();

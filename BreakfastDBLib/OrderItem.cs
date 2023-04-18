@@ -18,4 +18,6 @@ public partial class OrderItem
     public virtual Item Item { get; set; } = null!;
 
     public virtual Order Order { get; set; } = null!;
+
+
 }

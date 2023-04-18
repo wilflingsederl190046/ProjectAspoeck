@@ -1,6 +1,6 @@
 ﻿@using ProjectAspoeck.Models
 
-@model ProjectAspoeck.Models.Home_PageModel
+@model ProjectAspoeck.Models.Admin_Home_PageModel
 @{
     ViewData["Title"] = "Admin-Startseite";
 }
@@ -103,41 +103,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2023-03-01</td>
-                                    <td>Jause 1</td>
-                                    <td>in Bearbeitung</td>
-                                    <td>10,00 €</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>2023-03-02</td>
-                                    <td>Jause 2</td>
-                                    <td>verschickt</td>
-                                    <td>8,50 €</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>2023-03-03</td>
-                                    <td>Jause 3</td>
-                                    <td>geliefert</td>
-                                    <td>12,30 €</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>2023-03-04</td>
-                                    <td>Jause 4</td>
-                                    <td>abgeschlossen</td>
-                                    <td>7,90 €</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>2023-03-05</td>
-                                    <td>Jause 5</td>
-                                    <td>in Bearbeitung</td>
-                                    <td>9,20 €</td>
-                                </tr>
+                                @foreach (var order in Model.Orders)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (order.OrderNumber != -1)
+                                                @order.OrderNumber
+
+                                            </td>
+                                            <td>
+                                                @order.Date
+                                            </td>
+                                            <td>
+                                                @if (order.Description !="")
+                                            {
+                                                @order.Description
+                                                
+                                            }
+                                        </td>
+                                        <td>
+                                            @(order.State)
+                                        </td>
+                                        <td>
+                                            @order.Price.ToString("C");
+                                        </td>
+                                    </tr>
+
+                                }
                             </tbody>
                         </table>
                     </div>

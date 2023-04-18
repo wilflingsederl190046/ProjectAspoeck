@@ -19,16 +19,15 @@ public partial class Order
 
   public virtual User User { get; set; } = null!;
 
-  public override string? ToString()
-  {
-    string result = "";
-
-    foreach (var orderItem in OrderItems)
+    public override string? ToString()
     {
-      result += $"{orderItem.Quantity}x {orderItem.Item.Name}";
-      if (OrderItems.Last() != orderItem) result += ", ";
-    }
+        string result = "";
+        foreach (var orderItem in OrderItems)
+        {
+            result += $"{orderItem.Quantity}x {orderItem.Item.Name}";
+            if (OrderItems.Last() != orderItem) result += ", ";
+        }
 
-    return result;
-  }
+        return result;
+    }
 }
