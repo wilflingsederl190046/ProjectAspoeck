@@ -75,7 +75,7 @@ public class HomeController : Controller
                 Date = x.OrderDate,
                 Description = x.OrderItems.Select(x => $"{x.Quantity}x {x.Item.Name} ").First().ToString(),
                 State = x.OrderState.Name,
-                Price = x.OrderItems.Sum(x => x.Price)
+                Price = Math.Round(x.OrderItems.Sum(x => x.Price),2)
 
             }).ToList();
 
@@ -174,7 +174,7 @@ public class HomeController : Controller
 
         var orders = ordersListForUser
           .OrderByDescending(x => x.OrderDate)
-          .Select(x => new AllOrderViewModel
+          .Select(x => new AllOrdersViewModel
           {
               OrderNumber = ordersListForUser.IndexOf(x) + 1,
               OrderDate = x.OrderDate.ToString("d"),
@@ -186,9 +186,9 @@ public class HomeController : Controller
 
         if (orders.Count == 0)
         {
-            orders = new List<AllOrderViewModel>
+            orders = new List<AllOrdersViewModel>
       {
-        new AllOrderViewModel { OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "" },
+        new AllOrdersViewModel { OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "" },
       };
         }
 
@@ -223,21 +223,22 @@ public class HomeController : Controller
 
         var orders = ordersListForUser
           .OrderByDescending(x => x.OrderDate)
-          .Select(x => new AllOrderViewModel
+          .Select(x => new AllOrdersViewModel
           {
               OrderNumber = ordersListForUser.IndexOf(x) + 1,
               OrderDate = x.OrderDate.ToString("d"),
               OrderContent = x.ToString(),
               OrderAmount = x.OrderItems.Sum(y => y.Price),
-              OrderState = x.OrderState.Name
+              OrderState = x.OrderState.Name,
+              OrderPrice = x.OrderItems.Sum(x=>x.Price) 
           })
           .ToList();
 
         if (orders.Count == 0)
         {
-            orders = new List<AllOrderViewModel>
+            orders = new List<AllOrdersViewModel>
               {
-                new AllOrderViewModel { OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "" },
+                new AllOrdersViewModel { OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "" , OrderPrice = -1},
               };
         }
 
@@ -481,7 +482,7 @@ public class HomeController : Controller
             int curMaxOrderItemId = 1;
             if (_db.OrderItems.Count() != 0)
             {
-                curMaxOrderItemId = _db.OrderItems.Max(x => x.OrderItemId);
+                curMaxOrderItemId = _db.OrderItems.Max(x => x.OrderItemId)+1;
             }
 
             JArray jArray = (JArray)jObject["OrderItems"];
@@ -519,7 +520,7 @@ public class HomeController : Controller
                 if (_db.Orders.Count() != 0)
                 {
 
-                     orderId = _db.Orders.Max(x => x.OrderId) + 1;
+                     orderId = _db.Orders.Count() + 1;
                 }
                 order.OrderId = orderId;
                 _db.Orders.Add(order);

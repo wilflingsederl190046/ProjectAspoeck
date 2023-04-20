@@ -144,7 +144,7 @@
                                 @order.OrderContent
                               </td>
                               <td>
-                                                @if(order.OrderAmount != -1) { }else {@order.OrderAmount.ToString("N2"); 
+                                                @if(order.OrderAmount != -1) { }else {@order.OrderAmount.ToString("N2"); }) 
                                                  }
                                         </td>
                               <td>
@@ -188,10 +188,10 @@
                 }
             </div>
             <div class="col-6 text-right">
-                @using (Html.BeginForm("Order_Detail", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+               @using (Html.BeginForm("Order_Detail", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                 {
                   <button href="#" class="btn btn-warning">Detailansicht aufrufen</button>
-                }
+                } 
             </div>
         </div>
     </div>
