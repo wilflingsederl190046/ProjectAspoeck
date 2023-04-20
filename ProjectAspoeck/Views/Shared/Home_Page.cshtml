@@ -125,15 +125,17 @@
                       <span class="headingDateStatus">Willkommen @Model.UserName!</span>
                   </p>
                   <p>
+                    <span class="mb-0 headingDateStatus">Offener Betrag: @Model.MoneyLeftToPay €</span>
+                  </p> 
+                  <p>
                       <span class="headingDateStatus">Datum:</span>
                       <span class="date status" id="date">Montag, 01. Jänner 2023 um 00:00:00</span>
                   </p>
-
-                 
                   <p>
                       <span class="headingDateStatus">Bestellstatus:</span>
                       <span id="orderstate" class="status">Bestellzeitraum abgelaufen</span>
                   </p>
+                  
                   @using (Html.BeginForm("Place_Order", "Home",new { sessionKey = Model.SessionString} ,FormMethod.Post))
                   {
                     
@@ -205,13 +207,10 @@
                               <td>
                                 @order.OrderDate</td>
                               <td>
-                                        @if (order.OrderAmount != -1)
-                                    {
-                                        @order.OrderAmount.ToString("C");
-                                    }  
-                                </td>
+                                @if(order.OrderAmount != -1) @order.OrderAmount.ToString("N2") €
+                              </td>
                               <td>
-                                @(order.State)
+                                @order.State
                               </td>
                               <td>
                                 <span class="text-center-last-col">
@@ -233,7 +232,7 @@
                   {                
                     <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
                   }
-                <h4 class="mb-0">Offener Betrag:  @Model.MoneyLeftToPay €</h4>
+                
               </div>
             
             

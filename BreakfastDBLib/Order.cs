@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BreakfastDBLib;
+namespace BreakfastDbLib;
 
 public partial class Order
 {
@@ -19,15 +19,15 @@ public partial class Order
 
   public virtual User User { get; set; } = null!;
 
-    public override string? ToString()
+  public override string? ToString()
+  {
+    string result = "";
+    foreach (var orderItem in OrderItems)
     {
-        string result = "";
-        foreach (var orderItem in OrderItems)
-        {
-            result += $"{orderItem.Quantity}x {orderItem.Item.Name}";
-            if (OrderItems.Last() != orderItem) result += ", ";
-        }
-
-        return result;
+      result += $"{orderItem.Quantity}x {orderItem.Item.Name}";
+      if (OrderItems.Last() != orderItem) result += ", ";
     }
+
+    return result;
+  }
 }

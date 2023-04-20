@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectAspoeck", "ProjectAs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOLibary", "DTOLibary\DTOLibary.csproj", "{42392D3B-0887-4DC0-A62B-903C22324344}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BreakfastDBLib", "BreakfastDBLib\BreakfastDBLib.csproj", "{82884EA6-4FC3-4728-BF55-863706FB5CC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BreakfastDbLib", "BreakfastDBLib\BreakfastDbLib.csproj", "{82884EA6-4FC3-4728-BF55-863706FB5CC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

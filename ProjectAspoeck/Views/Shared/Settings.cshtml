@@ -198,9 +198,12 @@
                 });
             });
         </script>
-
-
-
+        <div class="">
+          @using (Html.BeginForm("Home_Page", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+          {
+            <button href="#" class="btn btn-warning">Zurück zur Startseite</button>
+          }
+        </div>
     </div>
 </body>
 </html>

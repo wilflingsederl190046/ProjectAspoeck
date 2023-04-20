@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BreakfastDBLib;
+namespace BreakfastDbLib;
 
 public partial class Setting
 {

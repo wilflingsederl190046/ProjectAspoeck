@@ -5,7 +5,7 @@ global using System.Text;
 global using Microsoft.AspNetCore.Mvc.Rendering;
 global using System.Security.Cryptography;
 global using Microsoft.EntityFrameworkCore;
-global using BreakfastDBLib;
+global using BreakfastDbLib;
 global using Microsoft.AspNetCore.Mvc;
 global using ProjectAspoeck.Models;
 global using System.Globalization;
