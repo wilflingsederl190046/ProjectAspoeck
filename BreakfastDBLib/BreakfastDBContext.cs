@@ -1,78 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace BreakfastDbLib;
 
 public partial class BreakfastDBContext : DbContext
 {
-    public BreakfastDBContext()
+  public BreakfastDBContext()
+  {
+  }
+
+  public BreakfastDBContext(DbContextOptions<BreakfastDBContext> options)
+      : base(options)
+  {
+  }
+
+  public virtual DbSet<Image> Images { get; set; }
+
+  public virtual DbSet<Item> Items { get; set; }
+
+  public virtual DbSet<Order> Orders { get; set; }
+
+  public virtual DbSet<OrderItem> OrderItems { get; set; }
+
+  public virtual DbSet<OrderState> OrderStates { get; set; }
+
+  public virtual DbSet<Setting> Settings { get; set; }
+
+  public virtual DbSet<User> Users { get; set; }
+
+  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+  //Lukas
+  => optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Users\lukas\OneDrive\Desktop\POS\#sonstigeProjekte\ProjectAspoeck\BreakfastDbLib\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
+
+  //Ben
+  //=> optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Temp\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
+
+  //Simon
+  //=> optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Temp\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
+
+
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    modelBuilder.Entity<Item>(entity =>
     {
-    }
+      entity.HasIndex(e => e.ImageId, "IX_Items_ImageId");
 
-    public BreakfastDBContext(DbContextOptions<BreakfastDBContext> options)
-        : base(options)
+      entity.HasOne(d => d.Image).WithMany(p => p.Items).HasForeignKey(d => d.ImageId);
+    });
+
+    modelBuilder.Entity<Order>(entity =>
     {
-    }
+      entity.HasIndex(e => e.OrderStateId, "IX_Orders_OrderStateId");
 
-    public virtual DbSet<Image> Images { get; set; }
+      entity.HasIndex(e => e.UserId, "IX_Orders_UserId");
 
-    public virtual DbSet<Item> Items { get; set; }
+      entity.HasOne(d => d.OrderState).WithMany(p => p.Orders).HasForeignKey(d => d.OrderStateId);
 
-    public virtual DbSet<Order> Orders { get; set; }
+      entity.HasOne(d => d.User).WithMany(p => p.Orders).HasForeignKey(d => d.UserId);
+    });
 
-    public virtual DbSet<OrderItem> OrderItems { get; set; }
-
-    public virtual DbSet<OrderState> OrderStates { get; set; }
-
-    public virtual DbSet<Setting> Settings { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(LocalDB)\\mssqllocaldb;attachdbfilename=C:\\Users\\Admin\\OneDrive\\Desktop\\POS\\#sonstigeProjekte\\ProjectAspoeck\\BreakfastDbLib\\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    modelBuilder.Entity<OrderItem>(entity =>
     {
-        modelBuilder.Entity<Item>(entity =>
-        {
-            entity.HasIndex(e => e.ImageId, "IX_Items_ImageId");
+      entity.HasIndex(e => e.ItemId, "IX_OrderItems_ItemId");
 
-            entity.HasOne(d => d.Image).WithMany(p => p.Items).HasForeignKey(d => d.ImageId);
-        });
+      entity.HasIndex(e => e.OrderId, "IX_OrderItems_OrderId");
 
-        modelBuilder.Entity<Order>(entity =>
-        {
-            entity.HasIndex(e => e.OrderStateId, "IX_Orders_OrderStateId");
+      entity.HasOne(d => d.Item).WithMany(p => p.OrderItems).HasForeignKey(d => d.ItemId);
 
-            entity.HasIndex(e => e.UserId, "IX_Orders_UserId");
+      entity.HasOne(d => d.Order).WithMany(p => p.OrderItems).HasForeignKey(d => d.OrderId);
+    });
 
-            entity.HasOne(d => d.OrderState).WithMany(p => p.Orders).HasForeignKey(d => d.OrderStateId);
+    modelBuilder.Entity<Setting>(entity =>
+    {
+      entity.HasIndex(e => e.UserId, "IX_Settings_UserId");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Orders).HasForeignKey(d => d.UserId);
-        });
+      entity.HasOne(d => d.User).WithMany(p => p.Settings).HasForeignKey(d => d.UserId);
+    });
 
-        modelBuilder.Entity<OrderItem>(entity =>
-        {
-            entity.HasIndex(e => e.ItemId, "IX_OrderItems_ItemId");
+    OnModelCreatingPartial(modelBuilder);
+  }
 
-            entity.HasIndex(e => e.OrderId, "IX_OrderItems_OrderId");
-
-            entity.HasOne(d => d.Item).WithMany(p => p.OrderItems).HasForeignKey(d => d.ItemId);
-
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems).HasForeignKey(d => d.OrderId);
-        });
-
-        modelBuilder.Entity<Setting>(entity =>
-        {
-            entity.HasIndex(e => e.UserId, "IX_Settings_UserId");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Settings).HasForeignKey(d => d.UserId);
-        });
-
-        OnModelCreatingPartial(modelBuilder);
-    }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+  partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
