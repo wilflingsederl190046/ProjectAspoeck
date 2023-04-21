@@ -2,8 +2,8 @@
 
 public class Place_OrderViewModel
 {
-  public string ImageUrl { get; set; }
-    public string Bezeichnung { get; set; } = null;
+  public byte[] ImageUrl { get; set; }
+  public string Bezeichnung { get; set; } = null;
   public string Kosten { get; set; }
   public int? Units { get; set; }
 }

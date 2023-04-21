@@ -195,7 +195,6 @@
                                   <th>Datum</th>
                                   <th>Kosten</th>
                                   <th>Status</th>
-                                  
                               </tr>
                           </thead>
                           @foreach (var order in Model.Orders)
@@ -223,21 +222,15 @@
                                 </span>
                               </td>
                             </tr>
-                            
                           }
-                       
                       </table>
                   </div>
                   @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                   {                
                     <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
                   }
-                
               </div>
-            
-            
           </div>
-        
       </div>
   </body>
 </html>

@@ -47,11 +47,12 @@ public class PlaceOrderController : Controller
     var culture = CultureInfo.GetCultureInfo("de-DE");
 
     var orderItems = _db.Items
+      .Include(x => x.Image)
       .Where(x => x.Active == true)
       .Select(x => new Place_OrderViewModel
       {
         Bezeichnung = x.Name,
-        ImageUrl = x.Name,
+        ImageUrl = x.Image.ImageData,
         Units = 0,
         Kosten = x.Price.ToString("C", culture)
       })

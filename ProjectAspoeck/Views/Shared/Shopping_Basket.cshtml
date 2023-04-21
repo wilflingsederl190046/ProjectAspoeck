@@ -110,7 +110,7 @@
                                 <img src="" alt="@item.Item.Name" />
                             </th>
                             <td class="itemName">@item.Item.Name</td>
-                            <td class="itemPrice">@item.Item.Price €</td>
+                            <td class="itemPrice">@item.Item.Price.ToString("N2") €</td>
                             <td class="itemQuantity">@item.Quantity</td>
 
 
@@ -119,7 +119,7 @@
                                     var priceString = new string(item.Item.Price.ToString().Where(char.IsDigit).ToArray());
                                     var price = double.Parse(priceString) / 10;
                                     var total = price * item.Quantity;
-                                    
+   
                                 }
                                 @Math.Round(Convert.ToDecimal(total), 2).ToString("0.00") €
                             </td>
@@ -131,20 +131,14 @@
         </div>
         <div class="row mt-3">
             <div class="col-6 text-left">
-                @*@using (Html.BeginForm("Place_Order", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
-                {
-                  
-                }*@
             <button href="#" class="btn btn-warning" onclick="openNew()">Zurück</button>
                
             </div>
             <div class="col-6 text-right">
             <button href="#" class="btn btn-success" onclick="placeOrder()">Bestellung aufgeben</button>
-
-
             </div>
         </div>
-    </div>
+    
 </body>
 </html>
 
@@ -214,6 +208,7 @@
                     window.location.href = '@Url.Action("Home_Page", "Home", new { sessionKey = Model.SessionString})';
                     console.log('*******************success');
                 }
+       
             })
                 .then(x => console.log('--------------------------------- Shopping_Basket done'));
 

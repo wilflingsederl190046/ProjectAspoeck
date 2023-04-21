@@ -109,7 +109,7 @@ public class HomeController : Controller
       .Where(x => x.UserId == user.UserId)
       .Where(x => x.OrderStateId == 1)
       .Select(x => x)
-      .OrderBy(x => x.OrderId)
+      .OrderBy(x => x.OrderDate)
       .ToList();
 
     var orders = ordersListForUser
@@ -127,9 +127,9 @@ public class HomeController : Controller
     if (orders.Count == 0 || orders == null)
     {
       orders = new List<OrderViewModel>
-          {
-            new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
-          };
+      {
+        new OrderViewModel { OrderNumber = -1, OrderDate = "", OrderAmount = -1, State = "" },
+      };
     }
     double sumRestPriceToPay = _db.OrderItems
         .Where(x => x.Order.User.UserId == user.UserId).Where(x => x.Order.OrderStateId == 2).Sum(x => x.Price);
@@ -140,7 +140,6 @@ public class HomeController : Controller
       Orders = orders,
       SessionString = sessionKey,
       MoneyLeftToPay = sumRestPriceToPay
-
     };
 
     homeModel.SessionString = sessionKey;
@@ -331,6 +330,10 @@ public class HomeController : Controller
 
   public IActionResult Place_Order(string sessionKey)
   {
+    if(DateTime.Now.Hour > 9)
+    {
+      RedirectToAction("Home_Page", "Home", new { sessionKey });
+    }
     string s = HttpContext.Session.GetString("BackToBasket");
     var orderItemsFromBasket = new List<OrderItem>();
     if (s != null)
@@ -368,11 +371,12 @@ public class HomeController : Controller
     var culture = CultureInfo.GetCultureInfo("de-DE");
 
     var orderItems = _db.Items
+      .Include(x => x.Image)
       .Where(x => x.Active == true)
       .Select(x => new Place_OrderViewModel
       {
         Bezeichnung = x.Name,
-        ImageUrl = x.Name,
+        ImageUrl = x.Image.ImageData,
         Units = 0,
         Kosten = x.Price.ToString("C", culture)
       })
@@ -460,6 +464,10 @@ public class HomeController : Controller
   [HttpPost]
   public ActionResult<string> SaveBasket([FromBody] NewOrderDto newOrderDto)
   {
+    //if (DateTime.Now.Hour > 9)
+    //{
+    //  return Ok();
+    //}
 
     Console.WriteLine("POST SaveBasket");
     var orderItemsFromBasket = new List<OrderItem>();
@@ -471,11 +479,6 @@ public class HomeController : Controller
       var jObject = JObject.Parse(returnToPlaceOrderItems);
       var order = new Order();
       shopping_Basket.SessionString = jObject["SessionKey"].ToString();
-      int curMaxOrderItemId = 1;
-      if (_db.OrderItems.Any())
-      {
-        curMaxOrderItemId = _db.OrderItems.Max(x => x.OrderItemId) + 1;
-      }
 
       var jArray = (JArray)jObject["OrderItems"];
       foreach (JToken jToken in jArray)
@@ -489,7 +492,6 @@ public class HomeController : Controller
           Quantity = int.Parse(jToken["Quantity"].ToString())
         };
         orderItem.Price = (double)(item.Price * orderItem.Quantity);
-        orderItem.OrderItemId = curMaxOrderItemId;
         orderItem.Order = order;
         order.OrderItems.Add(orderItem);
 
@@ -506,12 +508,6 @@ public class HomeController : Controller
       {
         order.UserId = user.UserId;
         order.OrderStateId = 1;
-        int orderId = 1;
-        if (_db.Orders.Any())
-        {
-          orderId = _db.Orders.Count() + 1;
-        }
-        order.OrderId = orderId;
         _db.Orders.Add(order);
 
         _db.OrderItems.AddRange(orderItemsFromBasket);
