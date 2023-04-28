@@ -6,7 +6,7 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -95,7 +95,7 @@
                         <table class="table table-bordered table-striped table-scroll">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Nr</th>
                                     <th>Datum</th>
                                     <th>Inhalt</th>
                                     <th>Status</th>
@@ -117,15 +117,14 @@
                                             <td>
                                                 @if (order.Description !="")
                                             {
-                                                @order.Description
-                                                
+                                                @order.Description                                                
                                             }
                                         </td>
                                         <td>
                                             @(order.State)
                                         </td>
                                         <td>
-                                            @order.Price.ToString("€");
+                                            @order.Price.ToString("N2") €
                                         </td>
                                     </tr>
 

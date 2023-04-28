@@ -72,6 +72,12 @@
         body {
             overflow: hidden;
         }
+        
+        .col-md-3 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -87,15 +93,18 @@
                     <div class="col-6 header-text">
                         <h1 class="mb-0">Jausen Bestellung</h1>
                     </div>
-                    <div class="col-3 text-center py-2 ">
+                    @*<div class="col-3 text-center py-2 ">
                         <span class="header-button">
-                            @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                           @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
                             {
                                 <button type="submit" class="btn btn-lg">
                                     <i class="fa fa-gear"></i>
                                 </button>
                             }
                         </span>
+                    </div>*@
+                    <div class="col-3 text-center bg-warning py-2">
+                        <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
                     </div>
                 </div>
             </div>
@@ -123,12 +132,12 @@
                         <table class="table table-bordered table-striped" id="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Nr</th>
-                                    <th scope="col">Datum</th> 
-                                    <th scope="col" >Inhalt</th>
-                                    <th scope="col">Kosten</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col" style="align-items:center"></th>
+                                    <th>Nr</th>
+                                    <th>Datum</th> 
+                                    <th>Inhalt</th>
+                                    <th>Status</th>
+                                    <th>Kosten</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -147,12 +156,12 @@
                                                 @order.OrderContent
                                             </td>
                                             <td>
-                                                @if (order.OrderPrice != -1)
-                                                @order.OrderPrice.ToString("N2")
-         €
-                                            </td>
-                                            <td>
                                                 @(order.OrderState)
+
+                                        </td>
+                                            <td>
+                                                @if (order.OrderPrice != -1)
+                                                @order.OrderPrice.ToString("N2") €
                                         </td>
                                         
                                     </tr>

@@ -13,7 +13,7 @@ public class HomeController : Controller
   {
     User? user = _db.Users.Where(m => m.UserName == loginModel.LoginId && m.ChipNumber == loginModel.Password).FirstOrDefault();
     string sessionKey = Guid.NewGuid().ToString();
-    if (user.UserName.Equals("lwilflingseder"))
+    if (user.UserName.Equals("Admin"))
     {
       string encryptedUsername = EncryptionHelper.Encrypt(loginModel.LoginId, sessionKey);
       string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
@@ -208,8 +208,7 @@ public class HomeController : Controller
       .Include(x => x.User)
       .Include(x => x.OrderState)
       .Include(x => x.OrderItems)
-      .ThenInclude(x => x.Item)
-      .Where(x => x.UserId == user.UserId)
+      .ThenInclude(x => x.Item)      
       .Select(x => x)
       .OrderBy(x => x.OrderId)
       .ToList();
@@ -224,7 +223,7 @@ public class HomeController : Controller
         OrderAmount = x.OrderItems.Sum(y => y.Price),
         OrderState = x.OrderState.Name,
         OrderPrice = x.OrderItems.Sum(x => x.Price)
-      })
+      }).OrderBy(x=> x.OrderNumber)
       .ToList();
 
     if (orders.Count == 0)
