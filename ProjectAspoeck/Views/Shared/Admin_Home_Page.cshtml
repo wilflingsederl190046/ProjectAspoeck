@@ -132,7 +132,7 @@
                             </tbody>
                         </table>
                     </div>
-                    @using (Html.BeginForm("Admin_All_Orders", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                    @using (Html.BeginForm("Admin_All_Orders", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
                       {                
                         <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
                       }

@@ -80,7 +80,7 @@
         </div>
         <div class="col-3 text-center py-2 ">
           <span class="header-button">
-            @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+            @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
             {
               <button type="submit" class="btn btn-lg">
                 <i class="fa fa-gear"></i>
@@ -294,12 +294,12 @@
         };
         console.log('postData:', JSON.stringify(postData, null, 2));
         $.ajax({
-                url: '@Url.Action("Shopping_BasketPlace", "Home")',
+                url: '@Url.Action("Shopping_BasketPlace", "ShoppingBasket")',
             method:'POST',
             contentType:'application/json',
             data: JSON.stringify(postData),
                 success: function (result) {
-                window.location.href = '@Url.Action("Shopping_Basket", "Home", new { sessionKey = Model.SessionString})';
+                    window.location.href = '@Url.Action("Shopping_Basket", "ShoppingBasket", new { sessionKey = Model.SessionString})';
                 console.log('*******************success');
                 }
         })

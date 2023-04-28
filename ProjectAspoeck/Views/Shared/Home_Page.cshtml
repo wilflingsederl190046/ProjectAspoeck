@@ -105,7 +105,7 @@
                   </div>
                   <div class="col-3 text-center py-2 ">
                       <span class="header-button">
-                          @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                          @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
                           {
                               <button type="submit" class="btn btn-lg">
                               <i class="fa fa-gear"></i>
@@ -136,7 +136,7 @@
                       <span id="orderstate" class="status">Bestellzeitraum abgelaufen</span>
                   </p>
                   
-                  @using (Html.BeginForm("Place_Order", "Home",new { sessionKey = Model.SessionString} ,FormMethod.Post))
+                  @using (Html.BeginForm("Place_Order", "PlaceOrder",new { sessionKey = Model.SessionString} ,FormMethod.Post))
                   {
                     
                       <button type="submit" class="btn btn-warning" id="btnPlaceOrder" >
@@ -225,7 +225,7 @@
                           }
                       </table>
                   </div>
-                  @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                  @using (Html.BeginForm("All_Orders", "AllOrders", new { sessionKey = Model.SessionString }, FormMethod.Post))
                   {                
                     <button type="submit" class="btn btn-warning btn-block" >Alle Bestellungen ansehen</button>
                   }

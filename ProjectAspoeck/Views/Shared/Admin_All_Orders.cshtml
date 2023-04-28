@@ -15,13 +15,7 @@
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
-        .header {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            background-color: #f2f2f2;
-        }
-
+        
         .header-image {
             padding-left: 50px;
             height: 100%;
@@ -186,7 +180,7 @@
 
             <div class="row mt-3">
                 <div class="col-6 text-left">
-                    @using (Html.BeginForm("Admin_Home_Page", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                    @using (Html.BeginForm("Admin_Home_Page", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
                     {
                         <button href="#" class="btn btn-warning">Zurück</button>
                     }
