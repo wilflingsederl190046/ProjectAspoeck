@@ -43,9 +43,7 @@ public class PlaceOrderController : Controller
         orderItemsFromBasket.Add(orderItem);
       }
     }
-
     var culture = CultureInfo.GetCultureInfo("de-DE");
-
     var orderItems = _db.Items
       .Include(x => x.Image)
       .Where(x => x.Active == true)
@@ -57,7 +55,6 @@ public class PlaceOrderController : Controller
         Kosten = x.Price.ToString("C", culture)
       })
       .ToList();
-
     if (orderItemsFromBasket != null)
     {
       orderItems.ForEach(item =>
@@ -69,7 +66,6 @@ public class PlaceOrderController : Controller
         }
       });
     }
-
     var place_Order = new Place_OrderModel
     {
       SessionString = sessionKey,
@@ -78,4 +74,5 @@ public class PlaceOrderController : Controller
 
     return View(place_Order);
   }
+
 }

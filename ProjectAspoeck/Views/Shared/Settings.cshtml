@@ -176,7 +176,7 @@
                 var daysBeforeValue = parseInt(optionalTimeDays.value);
 
                 $.ajax({
-                    url: "@Url.Action("SaveSettings", "Home")",
+                    url: "@Url.Action("SaveSettings", "Settings")",
                     method: "POST",
                     data: {
                         email: emailValue,

@@ -69,4 +69,64 @@ public class ShoppingBasketController : Controller
     HttpContext.Session.SetString("BackToBasket", returnToPlaceOrderItems);
     return Ok(returnToPlaceOrderItems);
   }
+
+
+    [HttpPost]
+    public ActionResult<string> SaveBasket([FromBody] NewOrderDto newOrderDto)
+    {
+        //if (DateTime.Now.Hour > 9)
+        //{
+        //  return Ok();
+        //}
+
+        Console.WriteLine("POST SaveBasket");
+        var orderItemsFromBasket = new List<OrderItem>();
+        string returnToPlaceOrderItems = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
+        if (returnToPlaceOrderItems != null)
+        {
+
+            var shopping_Basket = new Shopping_BasketModel();
+            var jObject = JObject.Parse(returnToPlaceOrderItems);
+            var order = new Order();
+            shopping_Basket.SessionString = jObject["SessionKey"].ToString();
+
+            var jArray = (JArray)jObject["OrderItems"];
+            foreach (JToken jToken in jArray)
+            {
+                string name = jToken["Name"].ToString();
+                var item = _db.Items.SingleOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
+
+                var orderItem = new OrderItem
+                {
+                    Item = item,
+                    Quantity = int.Parse(jToken["Quantity"].ToString())
+                };
+                orderItem.Price = (double)(item.Price * orderItem.Quantity);
+                orderItem.Order = order;
+                order.OrderItems.Add(orderItem);
+
+                orderItemsFromBasket.Add(orderItem);
+            }
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+            string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
+
+            User user = _db.Users
+              .Where(x => x.UserName == username)
+              .FirstOrDefault();
+
+            if (order.OrderItems.Count > 0)
+            {
+                order.UserId = user.UserId;
+                order.OrderStateId = 1;
+                _db.Orders.Add(order);
+
+                _db.OrderItems.AddRange(orderItemsFromBasket);
+                _db.SaveChanges();
+            }
+        }
+
+        Console.WriteLine($" Save Order: {returnToPlaceOrderItems}");
+        HttpContext.Session.SetString("BackToBasket", returnToPlaceOrderItems);
+        return Ok(returnToPlaceOrderItems);
+    }
 }

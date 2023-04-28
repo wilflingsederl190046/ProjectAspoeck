@@ -176,12 +176,12 @@
             };
             console.log('postData:', JSON.stringify(postData, null, 2));
             $.ajax({
-                url: '@Url.Action("ReturnToPlaceOrder", "Home")',
+                url: '@Url.Action("ReturnToPlaceOrder", "ShoppingBasket")',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function (result) {
-                    window.location.href = '@Url.Action("Place_Order", "Home", new { sessionKey = Model.SessionString})';
+                    window.location.href = '@Url.Action("Place_Order", "PlaceOrder", new { sessionKey = Model.SessionString})';
                     console.log('*******************success');
                 }
             })
@@ -200,7 +200,7 @@
             };
             console.log('postData:', JSON.stringify(postData, null, 2));
             $.ajax({
-                url: '@Url.Action("SaveBasket", "Home")',
+                url: '@Url.Action("SaveBasket", "ShoppingBasket")',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
