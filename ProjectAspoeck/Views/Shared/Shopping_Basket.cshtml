@@ -2,19 +2,19 @@
 
 @model ProjectAspoeck.Models.Shopping_BasketModel
 @{
-    ViewData["Title"] = "Warenkorb";
+  ViewData["Title"] = "Warenkorb";
 }
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Warenkorb</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Warenkorb</title>
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <style>
         .header {
             height: 150px;
             display: flex;
@@ -58,93 +58,93 @@
     </style>
 </head>
 <body>
-    <header class="bg-light py-3" style="height: 150px">
-        <div class="container-fluid h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-3 header-image">
-                    <img src="~/Images/aspoeck-logo-sm.png"
-                         class="img-fluid align-middle"
-                         alt="Logo" />
-                </div>
-                <div class="col-6 header-text">
-                    <h1 class="mb-0">Jausen Bestellung</h1>
-                </div>
-                <div class="col-3 text-center py-2 ">
-                    <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
-                                    {
-                            <button type="submit" class="btn btn-lg">
-                            <i class="fa fa-gear"></i>
-                        </button>
-                        }
-                        
-                    </span>
-                </div>
-            </div>
-        </div>
-    </header>
+<header class="bg-light py-3" style="height: 150px">
+  <div class="container-fluid h-100">
+    <div class="row align-items-center h-100">
+      <div class="col-3 header-image">
+        <img src="~/Images/aspoeck-logo-sm.png"
+             class="img-fluid align-middle"
+             alt="Logo"/>
+      </div>
+      <div class="col-6 header-text">
+        <h1 class="mb-0">Jausen Bestellung</h1>
+      </div>
+      <div class="col-3 text-center py-2 ">
+        <span class="header-button">
+          @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
+          {
+            <button type="submit" class="btn btn-lg">
+              <i class="fa fa-gear"></i>
+            </button>
+          }
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col headline">
-                <h4>Warenkorb</h4>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <table id="productTable" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Bild</th>
-                            <th scope="col">Artikel</th>
-                            <th scope="col">Preis</th>
-                            <th scope="col">Anzahl</th>
-                            <th scope="col">Gesamt</th>
-                           
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var item in Model.OrderItems)
-                    {
-                        <tr>
-                            <th scope="row">
-                                <img src="" alt="@item.Item.Name" />
-                            </th>
-                            <td class="itemName">@item.Item.Name</td>
-                            <td class="itemPrice">@item.Item.Price.ToString("N2") €</td>
-                            <td class="itemQuantity">@item.Quantity</td>
+        </span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col headline">
+      <h4>Warenkorb</h4>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <table id="productTable" class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Bild</th>
+        <th scope="col">Artikel</th>
+        <th scope="col">Preis</th>
+        <th scope="col">Anzahl</th>
+        <th scope="col">Gesamt</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model.OrderItems)
+      {
+        <tr>
+          <th scope="row">
+            <img src="" alt="@item.Item.Name"/>
+          </th>
+          <td class="itemName">@item.Item.Name</td>
+          <td class="itemPrice">@item.Item.Price.ToString("N2") €</td>
+          <td class="itemQuantity">@item.Quantity</td>
 
 
-                            <td class="allPrice">
-                                @{
-                                    var priceString = new string(item.Item.Price.ToString().Where(char.IsDigit).ToArray());
-                                    var price = double.Parse(priceString) / 10;
-                                    var total = price * item.Quantity;
-   
-                                }
-                                @Math.Round(Convert.ToDecimal(total), 2).ToString("0.00") €
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-6 text-left">
-            <button href="#" class="btn btn-warning" onclick="openNew()">Zurück</button>
-               
-            </div>
-            <div class="col-6 text-right">
-            <button href="#" class="btn btn-success" onclick="placeOrder()">Bestellung aufgeben</button>
-            </div>
-        </div>
-    
+          <td class="allPrice">
+            @{
+              var priceString = new string(item.Item.Price.ToString().Where(char.IsDigit).ToArray());
+              var price = double.Parse(priceString) / 10;
+              var total = price * item.Quantity;
+
+            }
+            @Math.Round(Convert.ToDecimal(total), 2).ToString("0.00") €
+          </td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-6 text-left">
+    <button href="#" class="btn btn-warning" onclick="openNew()">Zurück</button>
+
+  </div>
+  <div class="col-6 text-right">
+    <button href="#" class="btn btn-success" onclick="placeOrder()">Bestellung aufgeben</button>
+  </div>
+</div>
+
 </body>
 </html>
 
 
 @section scripts{
-    <script>
+  <script>
         // This function is called when the form is submitted
         function prepareOrderItems() {
             console.log('prepareOrderItems');
@@ -181,7 +181,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function (result) {
-                    window.location.href = '@Url.Action("Place_Order", "PlaceOrder", new { sessionKey = Model.SessionString})';
+                    window.location.href = '@Url.Action("Place_Order", "PlaceOrder", new { sessionKey = Model.SessionString })';
                     console.log('*******************success');
                 }
             })
@@ -205,7 +205,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function (result) {
-                    window.location.href = '@Url.Action("Home_Page", "Home", new { sessionKey = Model.SessionString})';
+                    window.location.href = '@Url.Action("Home_Page", "Home", new { sessionKey = Model.SessionString })';
                     console.log('*******************success');
                 }
        

@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                        @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
                                     {
                             <button type="submit" class="btn btn-lg">
                             <i class="fa fa-gear"></i>
@@ -133,7 +133,7 @@
         </div>
         <div class="row mt-3">
             <div class="col">
-                @using (Html.BeginForm("All_Orders", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                @using (Html.BeginForm("All_Orders", "AllOrders", new { sessionKey = Model.SessionString }, FormMethod.Post))
                 {
                   <button href="#" class="btn btn-warning">Zurück</button>
                 }
