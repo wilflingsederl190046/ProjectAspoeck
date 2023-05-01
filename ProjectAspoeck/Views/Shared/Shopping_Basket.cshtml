@@ -167,9 +167,9 @@
         // This function is called when the form is submitted
         function prepareOrderItems() {
             console.log('prepareOrderItems');
-            var orderItems = [];
+            const orderItems = [];
             $('#productTable tbody tr').each(function () {
-                var item = {
+                const item = {
                     name: $(this).find('.itemName').text(),
                     price: 66,//$(this).find('price').text(),
                     quantity: +$(this).find('.itemQuantity').text() //make it a number

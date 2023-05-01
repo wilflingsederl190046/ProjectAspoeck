@@ -84,7 +84,6 @@ public class ShoppingBasketController : Controller
         string returnToPlaceOrderItems = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
         if (returnToPlaceOrderItems != null)
         {
-
             var shopping_Basket = new Shopping_BasketModel();
             var jObject = JObject.Parse(returnToPlaceOrderItems);
             var order = new Order();
@@ -101,7 +100,7 @@ public class ShoppingBasketController : Controller
                     Item = item,
                     Quantity = int.Parse(jToken["Quantity"].ToString())
                 };
-                orderItem.Price = (double)(item.Price * orderItem.Quantity);
+                orderItem.Price = item.Price * orderItem.Quantity;
                 orderItem.Order = order;
                 order.OrderItems.Add(orderItem);
 
@@ -110,7 +109,7 @@ public class ShoppingBasketController : Controller
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
             string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
 
-            User user = _db.Users
+            var user = _db.Users
               .Where(x => x.UserName == username)
               .FirstOrDefault();
 
@@ -118,6 +117,7 @@ public class ShoppingBasketController : Controller
             {
                 order.UserId = user.UserId;
                 order.OrderStateId = 1;
+                order.UserOderNr = _db.Orders.Where(x => x.UserId == user.UserId).Count() + 1;
                 _db.Orders.Add(order);
 
                 _db.OrderItems.AddRange(orderItemsFromBasket);
