@@ -49,17 +49,17 @@ public class PlaceOrderController : Controller
       .Where(x => x.Active == true)
       .Select(x => new Place_OrderViewModel
       {
-        Bezeichnung = x.Name,
+        Name = x.Name,
         ImageUrl = x.Image.ImageData,
         Units = 0,
-        Kosten = x.Price.ToString("C", culture)
+        Price = x.Price
       })
       .ToList();
     if (orderItemsFromBasket != null)
     {
       orderItems.ForEach(item =>
       {
-        var orderItemFromBasket = orderItemsFromBasket.FirstOrDefault(e => e.Item.Name == item.Bezeichnung);
+        var orderItemFromBasket = orderItemsFromBasket.FirstOrDefault(e => e.Item.Name == item.Name);
         if (orderItemFromBasket != null)
         {
           item.Units = orderItemFromBasket.Quantity;

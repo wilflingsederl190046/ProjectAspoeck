@@ -11,7 +11,6 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jausen Bestellung</title>
-  <!-- Bootstrap CSS -->
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -20,8 +19,11 @@
         href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
   
   <style>
-    
-      
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+    }
   </style>
 </head>
 
@@ -45,7 +47,6 @@
               <i class="fa fa-gear"></i>
             </button>
           }
-
         </span>
       </div>
     </div>
@@ -76,17 +77,24 @@
           Bestellung aufgeben
         </button>
       }
+      
+      @using (Html.BeginForm("Index", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+      {
+        <button type="submit" class="btn btn-warning" style="margin-top: 10px">
+          Abmelden
+        </button>
+      }
 
     </div>
     <div class="col-md-7 right-row">
-      <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped">
           <thead>
           <tr>
             <th>Nr</th>
             <th>Datum</th>
             <th>Kosten</th>
             <th>Status</th>
+            <th></th>
           </tr>
           </thead>
           @foreach (var order in Model.Orders)
@@ -102,11 +110,10 @@
                 @order.OrderDate
               </td>
               <td>
-                @if (order.OrderAmount != -1)
+                @if (order.Price != -1)
                 {
-                  @order.OrderAmount.ToString("N2")
-                  @Html.Raw("€")
-                  ;
+                  @order.Price.ToString("N2")
+                  @Html.Raw(" €")
                 }
               </td>
               <td>
@@ -125,7 +132,6 @@
             </tr>
           }
         </table>
-      </div>
       @using (Html.BeginForm("All_Orders", "AllOrders", new { sessionKey = Model.SessionString }, FormMethod.Post))
       {
         <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>

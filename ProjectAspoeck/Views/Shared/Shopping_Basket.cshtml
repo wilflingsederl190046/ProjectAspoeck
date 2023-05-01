@@ -13,7 +13,7 @@
   <link rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
   <style>
-        .header {
+        header {
             height: 150px;
             display: flex;
             align-items: center;
@@ -52,6 +52,18 @@
 
         .headline {
             padding-top: 10px;
+        }
+        
+        .img-container {
+          width: 200px;
+          height: 130px;
+          overflow: hidden;
+        }
+        
+        .img-container img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
     </style>
 </head>
@@ -104,20 +116,29 @@
       @foreach (var item in Model.OrderItems)
       {
         <tr>
-          <th scope="row">
-            <img src="" alt="@item.Item.Name"/>
-          </th>
+            <td>
+                @* <div class="img-container"> *@
+                @*     @if (item.Item.Image.ImageData != null && item.Item.Image.ImageData.Length > 0) *@
+                @*     { *@
+                @*         <img src="@($"data:image;base64,{Convert.ToBase64String(item.Item.Image.ImageData)}")" alt="@item.Item.Name" class="img-fixed-size"/> *@
+                @*     } *@
+                @*     else *@
+                @*     { *@
+                @*         <span>Kein Bild verfügbar</span> *@
+                @*     } *@
+                @* *@
+                @* </div> *@
+                <img src="" alt="@item.Item.Name"/>
+            </td>
           <td class="itemName">@item.Item.Name</td>
           <td class="itemPrice">@item.Item.Price.ToString("N2") €</td>
           <td class="itemQuantity">@item.Quantity</td>
 
-
-          <td class="allPrice">
+            <td class="allPrice">
             @{
               var priceString = new string(item.Item.Price.ToString().Where(char.IsDigit).ToArray());
               var price = double.Parse(priceString) / 10;
               var total = price * item.Quantity;
-
             }
             @Math.Round(Convert.ToDecimal(total), 2).ToString("0.00") €
           </td>

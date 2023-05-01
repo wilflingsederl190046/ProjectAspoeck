@@ -1,145 +1,191 @@
 ﻿@model ProjectAspoeck.Models.Place_OrderModel
 @{
-  ViewData["Title"] = "Bestellung aufgeben";
+    ViewData["Title"] = "Bestellung aufgeben";
 }
+
 
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bestellung aufgeben</title>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-  <style>
-    .header {
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bestellung aufgeben</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <style>
+    header {
         height: 150px;
         display: flex;
         align-items: center;
         background-color: #f2f2f2;
     }
-
+    
     .header-image {
         padding-left: 50px;
         height: 100%;
     }
-
+    
     img {
         max-width: 100%;
         max-height: 100%;
         display: block;
     }
-
+    
     .header-button {
         height: 100px
     }
-
+    
     .header-text {
         text-align: center;
     }
-
+    
     .btn {
         font-weight: bold;
         font-size: 1.5rem;
     }
-
+    
     .table th,
     .table td {
         font-size: 1.2rem;
     }
-
+    
     .my-custom-scrollbar {
         position: relative;
         height: 370px;
         overflow: auto;
     }
-
+    
     .table-wrapper-scroll-y {
         display: block;
     }
-
+    
     .headline {
         padding-top: 10px;
+    }
+    
+    /*.img-fixed-size {*/
+    /*    width: 200px;*/
+    /*    height: 100px;*/
+    /*}*/
+    
+    .img-container {
+      width: 200px;
+      height: 130px;
+      overflow: hidden;
+    }
+    
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
 <body>
 <header class="bg-light py-3" style="height: 150px">
-  <div class="container-fluid h-100">
-    <div class="row align-items-center h-100">
-      <div class="col-3 header-image">
-        <img src="~/Images/aspoeck-logo-sm.png"
-             class="img-fluid align-middle"
-             alt="Logo"/>
-      </div>
-      <div class="col-6 header-text">
-        <h1 class="mb-0">Jausen Bestellung</h1>
-      </div>
-      <div class="col-3 text-center py-2 ">
-        <span class="header-button">
-          @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
-          {
-            <button type="submit" class="btn btn-lg">
-              <i class="fa fa-gear"></i>
-            </button>
-          }
-        </span>
-      </div>
+    <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-3 header-image">
+                <img src="~/Images/aspoeck-logo-sm.png"
+                     class="img-fluid align-middle"
+                     alt="Logo"/>
+            </div>
+            <div class="col-6 header-text">
+                <h1 class="mb-0">Jausen Bestellung</h1>
+            </div>
+            <div class="col-3 text-center py-2 ">
+                <span class="header-button">
+                    @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                    {
+                        <button type="submit" class="btn btn-lg">
+                            <i class="fa fa-gear"></i>
+                        </button>
+                    }
+                </span>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col headline">
-      <h4>Angebot vom <span id="date">Montag 1. Jänner 2023</span>:</h4>
+    <div class="row">
+        <div class="col headline">
+            <h4>Angebot vom <span id="dateOnly">Montag, 1. Jänner 2023</span>:</h4>
+        </div>
     </div>
-  </div>
 
-  <div class="row mt-3">
-    <div class="col">
-      <div class="form-group d-flex align-items-center">
-        <select class="form-control" id="filter" style="width: 150px">
-          <option value="">Alle</option>
-          <option value="Semmerl">Semmerl</option>
-          <option value="Flesserl">Flesserl</option>
-        </select>
-        <input type="text" class="form-control mr-2" placeholder="Suche..." id="search" style="margin-left: 20px;">
-      </div>
-      <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered" id="productTable">
-          <thead class="thead-light">
-          <tr>
-            <th scope="col">Bild</th>
-            <th scope="col">Bezeichnung</th>
-            <th scope="col">Kosten</th>
-            <th scope="col">Stück</th>
-            <th scope="col" class="col-1"></th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach (var item in Model.OrderItems)
-          {
-            <tr>
-              <th scope="row">
-                <img src="@item.ImageUrl" alt="@item.Bezeichnung"/>
-              </th>
-              <td class="itemName">@item.Bezeichnung</td>
-              <td class="price">@item.Kosten</td>
-              <td class="stueck">@item.Units</td>
-              <td class="d-flex justify-content-center">
-                <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">+</button>
-              </td>
-              <td class="d-flex justify-content-center">
-                <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">-</button>
+    <script>
+        const dateElement = document.getElementById('dateOnly');
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        const formatter = new Intl.DateTimeFormat('de-DE', options);
+        
+        function updateDate() {
+            dateElement.textContent = formatter.format(new Date());
+        }
+        
+        let timer = setInterval(updateDate, 1000);
+    </script>
 
-              </td>
-            </tr>
-          }
+    <div class="row mt-3">
+        <div class="col">
+            <div class="form-group d-flex align-items-center">
+                <select class="form-control" id="filter" style="width: 150px">
+                    <option value="">Alle</option>
+                    <option value="Semmerl">Semmerl</option>
+                    <option value="Flesserl">Flesserl</option>
+                </select>
+                <input type="text" class="form-control mr-2" placeholder="Suche..." id="search" style="margin-left: 20px;">
+            </div>
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <table class="table table-bordered" id="productTable">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Bild</th>
+                        <th scope="col">Bezeichnung</th>
+                        <th scope="col">Kosten</th>
+                        <th scope="col">Stück</th>
+                        <th scope="col" class="col-1"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>
+                                <div class="img-container">
+                                    @if (item.ImageUrl != null && item.ImageUrl.Length > 0)
+                                    {
+                                        <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageUrl)}")" alt="@item.Name"/>
+                                    }
+                                    else
+                                    {
+                                        <span>Kein Bild verfügbar</span>
+                                    }
+                                </div>
+                            </td>
+                            <td class="itemName">@item.Name</td>
+                            <td class="price">
+                                @item.Price.ToString("N2")
+                                @Html.Raw(" €")
+                            </td>
+                            <td class="stueck">@item.Units</td>
+                            <td class="d-flex justify-content-center">
+                                <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">+</button>
+                            </td>
+                            <td class="d-flex justify-content-center">
+                                <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">-</button>
+                            </td>
+                        </tr>
+                    }
 
-          <script>
+                    <script>
                 // select all the plus buttons on the page
                 const plusButtons = document.querySelectorAll('.plus-button');
                 const minusButtons = document.querySelectorAll('.minus-button');
@@ -195,30 +241,27 @@
                     }
                 }
               </script>
-          </tbody>
-        </table>
-      </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col-6 text-left">
-      @using (Html.BeginForm("Home_Page", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
-      {
-        <button href="#" class="btn btn-warning">Zurück</button>
-      }
+    <div class="row mt-3">
+        <div class="col-6 text-left">
+            @using (Html.BeginForm("Home_Page", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+            {
+                <button href="#" class="btn btn-warning">Zurück</button>
+            }
+        </div>
+        <div class="col-6 text-right">
+            <button type="submit" class="btn btn-success" id="warenkorbButton" onclick="openNew()">Warenkorb</button>
+        </div>
     </div>
-    <div class="col-6 text-right">
-      <button type="submit" class="btn btn-success" id="warenkorbButton" onclick="openNew()">Warenkorb</button>
-    </div>
-  </div>
 </div>
 </body>
 </html>
 
-<script src="js/PlaceOrder.js"></script>
-
-
-  <script>
+<script>
     // This function is called when the form is submitted
     function prepareOrderItems() {
         console.log('prepareOrderItems');
