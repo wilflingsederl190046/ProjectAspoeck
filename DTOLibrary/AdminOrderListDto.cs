@@ -1,6 +1,6 @@
-﻿namespace DTOLibary;
+﻿namespace DTOLibrary;
 
-public class Admin_OrderListDTO
+public class AdminOrderListDto
 {
   public int OrderNumber { get; set; }
   public DateTime Date { get; set; }
