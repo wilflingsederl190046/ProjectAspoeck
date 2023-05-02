@@ -9,25 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="Added Button for &quot;Liste exportieren&quot; and began with Admin">
-      <change afterPath="$PROJECT_DIR$/DTOLibrary/AdminUserDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DTOLibrary/GetOrderItemDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DTOLibrary/NewOrderDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/AdminManageUsersModel.cs" afterDir="false" />
+    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DTOLibary/Admin_OrderListDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DTOLibrary/AdminOrderListDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DTOLibary/DTOLibary.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DTOLibrary/DTOLibrary.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DTOLibary/GetOrderItem.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DTOLibary/NewOrderDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DTOLibary/UserDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DTOLibrary/UserDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck.sln" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/GlobalUsings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/GlobalUsings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Models/Admin_Home_PageModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/Admin_Home_PageModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/ProjectAspoeck.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/ProjectAspoeck.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Manage_Users.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Manage_Users.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/wwwroot/js/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/wwwroot/js/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +114,7 @@
       <workItem from="1682667830992" duration="1341000" />
       <workItem from="1683011368378" duration="382000" />
       <workItem from="1683013828165" duration="116000" />
-      <workItem from="1683016085666" duration="8891000" />
+      <workItem from="1683016085666" duration="10904000" />
     </task>
     <task id="LOCAL-00001" summary="Added Button for &quot;Liste exportieren&quot; and began with Admin">
       <created>1683018757232</created>
@@ -139,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683018757232</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database">
+      <created>1683038394905</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683038394905</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,6 +168,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Added Button for &quot;Liste exportieren&quot; and began with Admin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Button for &quot;Liste exportieren&quot; and began with Admin" />
+    <MESSAGE value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
   </component>
 </project>
