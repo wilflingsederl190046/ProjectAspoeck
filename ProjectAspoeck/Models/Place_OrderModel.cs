@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Models;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace ProjectAspoeck.Models;
 
 public class Place_OrderModel
 {

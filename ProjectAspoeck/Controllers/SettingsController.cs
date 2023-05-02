@@ -33,7 +33,7 @@ public class SettingsController : Controller
   }
 
   [HttpPost]
-  public IActionResult Save(string email, bool rto, bool rtp, int minBef, int daysBef)
+  public IActionResult SaveSettings(string email, bool rto, bool rtp, int minBef, int daysBef)
   {
     string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
     string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));

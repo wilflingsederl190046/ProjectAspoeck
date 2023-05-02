@@ -49,10 +49,6 @@
             text-align: center;
         }
 
-        .headline {
-            /*padding-top: 10px;*/
-        }
-
         .btn {
             font-weight: bold;
             font-size: 1.5rem;
@@ -94,7 +90,7 @@
                 </div>
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
-                        @using (Html.BeginForm("Home", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                        @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
                         {
                             <button type="submit" class="btn btn-lg">
                                 <i class="fa fa-house"></i>
@@ -180,7 +176,7 @@
                 var daysBeforeValue = parseInt(optionalTimeDays.value);
 
                 $.ajax({
-                    url: "@Url.Action("SaveSettings", "Home")",
+                    url: "@Url.Action("SaveSettings", "Settings")",
                     method: "POST",
                     data: {
                         email: emailValue,
