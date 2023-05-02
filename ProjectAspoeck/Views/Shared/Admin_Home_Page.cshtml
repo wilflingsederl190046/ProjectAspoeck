@@ -83,11 +83,17 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3">
-        <button type="button" class="btn btn-warning btn-block mb-3">
-          Jausen Liste bearbeiten
-        </button>
+        @using (Html.BeginForm("Admin_All_Orders", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
+        {
+          <button type="button" class="btn btn-warning btn-block mb-3">
+            Jausen Liste bearbeiten
+          </button>
+        }
         <button type="button" class="btn btn-warning btn-block">
           User verwalten
+        </button>
+        <button type="button" class="btn btn-success btn-block">
+          Liste exportieren
         </button>
       </div>
       <div class="col-md-9 table-height">
