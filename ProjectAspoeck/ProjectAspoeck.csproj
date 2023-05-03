@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BreakfastDBLib\BreakfastDbLib.csproj" />
-    <ProjectReference Include="..\DTOLibary\DTOLibary.csproj" />
+    <ProjectReference Include="..\DTOLibrary\DTOLibrary.csproj" />
   </ItemGroup>
 
 </Project>

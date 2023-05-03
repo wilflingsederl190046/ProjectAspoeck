@@ -31,3 +31,4 @@ function updateDate() {
 }
 
 let timer = setInterval(updateDate, 1000);
+

@@ -30,7 +30,7 @@ public class AllOrdersController : Controller
           .OrderByDescending(x => x.OrderDate)
           .Select(x => new AllOrdersViewModel
           {
-              OrderNumber = ordersListForUser.IndexOf(x) + 1,
+              OrderNumber = x.UserOderNr,
               OrderDate = x.OrderDate.ToString("d"),
               OrderContent = x.ToString(),
               OrderAmount = x.OrderItems.Sum(y => y.Price),
