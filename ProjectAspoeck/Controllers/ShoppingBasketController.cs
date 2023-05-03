@@ -70,7 +70,26 @@ public class ShoppingBasketController : Controller
     return Ok(returnToPlaceOrderItems);
   }
 
+  [HttpPost]
+  public ActionResult BackToBasket(string basket)
+  {
+      var shopping_Basket = new Shopping_BasketModel();
+      string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
 
+      string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
+
+      
+      User user = _db.Users
+          .Where(x => x.UserName == username)
+          .FirstOrDefault() ?? new();
+
+      string[] itemsInBasket = basket.Split("x");
+      
+      
+      return Ok(shopping_Basket);
+  }
+
+  
     [HttpPost]
     public ActionResult<string> SaveBasket([FromBody] NewOrderDto newOrderDto)
     {

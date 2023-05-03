@@ -34,7 +34,8 @@ public class AllOrdersController : Controller
               OrderDate = x.OrderDate.ToString("d"),
               OrderContent = x.ToString(),
               OrderAmount = x.OrderItems.Sum(y => y.Price),
-              OrderState = x.OrderState.Name
+              OrderState = x.OrderState.Name,
+              OrderId = x.OrderId
           })
           .ToList();
 
