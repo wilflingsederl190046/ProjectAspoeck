@@ -1,4 +1,8 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+
+namespace ProjectAspoeck.Controllers;
+
 public class ShoppingBasketController : Controller
 {
   private readonly BreakfastDBContext _db = new();
@@ -51,10 +55,15 @@ public class ShoppingBasketController : Controller
   {
     _logger.Log(LogLevel.Information, "POST Shopping_Basket");
     Console.WriteLine("POST Shopping_Basket");
-
     string returnToShoppingBasket = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
-    Console.WriteLine($" Back to ShoppingBasket with: {returnToShoppingBasket}");
-    HttpContext.Session.SetString("BasketItems", returnToShoppingBasket);
+
+    if (newOrderDto != null)
+    {
+        Console.WriteLine($" Back to ShoppingBasket with: {returnToShoppingBasket}");
+        HttpContext.Session.SetString("BasketItems", returnToShoppingBasket);
+    }
+
+    
     return Ok(returnToShoppingBasket);
   }
 
@@ -147,5 +156,38 @@ public class ShoppingBasketController : Controller
         Console.WriteLine($" Save Order: {returnToPlaceOrderItems}");
         HttpContext.Session.SetString("BackToBasket", returnToPlaceOrderItems);
         return Ok(returnToPlaceOrderItems);
+    }
+    [HttpPost]
+    public ActionResult<int> ReBuyOrder(int orderId)
+    {
+        var order = _db.Orders
+            .Where(x => x.OrderId == orderId)
+            .Select(x => new NewOrderDto
+            {
+                OrderItems = x.OrderItems.Select(x => new GetOrderItemDto
+                {
+                    Name = x.Item.Name,
+                    Price = x.Price,
+                    Quantity = x.Quantity
+                }).ToList()
+                
+            }).ToList();
+        
+        var shoppingBasketJson = new JObject(
+            new JProperty("SessionKey", HttpContext.Session.GetString("SessionKey")),
+            new JProperty("OrderItems",
+                new JArray(
+                    order.SelectMany(o => o.OrderItems).Select(oi => new JObject(
+                        new JProperty("Name", oi.Name),
+                        new JProperty("Price", oi.Price),
+                        new JProperty("Quantity", oi.Quantity)
+                    ))
+                )
+            )
+        ).ToString();
+        // var jsonList = JsonSerializer.SerializeToElement(order).ToString();
+            HttpContext.Session.SetString("BasketItems", shoppingBasketJson);
+            Console.WriteLine($" ReBuyOrder: {shoppingBasketJson}");
+        return Ok();
     }
 }

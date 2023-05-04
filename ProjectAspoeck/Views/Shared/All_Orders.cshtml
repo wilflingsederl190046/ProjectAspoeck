@@ -201,9 +201,21 @@
   <script> 
         function placeOrder(orderId) {
           console.log(`---------------------------Place order ev.target ${orderId}`);          
-          const item = this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
-              console.log(item);
-              
+          //const item = this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+              //console.log(orderid);     
+              $.ajax({
+                  url: "@Url.Action("ReBuyOrder", "ShoppingBasket")",
+                  method: "POST",
+                  data: {
+                      orderId: orderId
+                  },
+                  success: function (response) {
+                      window.location.href = '@Url.Action("Shopping_Basket", "ShoppingBasket", new { sessionKey = Model.SessionString })';
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
+                      //console.log(textStatus, errorThrown);
+                  }
+              });
         }
         </script>
 }
