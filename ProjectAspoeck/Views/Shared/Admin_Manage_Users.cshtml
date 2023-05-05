@@ -51,15 +51,13 @@
     </style>
 </head>
 <body>
-<!-- Header -->
 <header class="bg-light py-3" style="height: 150px">
   <div class="container-fluid h-100">
     <div class="row align-items-center h-100">
       <div class="col-3 header-image">
-        <img
-          src="path/to/image.jpg"
-          class="img-fluid align-middle"
-          alt="Logo"/>
+        <img src="~/Images/aspoeck-logo-sm.png"
+             class="img-fluid align-middle"
+             alt="Logo"/>
       </div>
       <div class="col-6 header-text">
         <h1 class="mb-0">Jausen Bestellung</h1>
@@ -71,135 +69,134 @@
   </div>
 </header>
 
-<!-- Main Content -->
 <div class="container-fluid mt-3">
-<div class="row">
-  <div
-    class="col-md-1 d-flex flex-column justify-content-center font:bold">
-    <p class="font:bold">Filtern:</p>
-  </div>
-  <div class="col-md-5">
-    <div class="form-group">
-      <label for="von-datum"  style="display: inline-block; width: 150px;">Von Erstellungsdatum:</label>
-      <input
-        type="date"
-        class="form-control"
-        id="von-datum"
-        name="von-datum"/>
+  <div class="row">
+    <div
+      class="col-md-1 d-flex flex-column justify-content-center font:bold">
+      <p class="font:bold">Filtern:</p>
     </div>
-    <div class="form-group">
-      <label for="bis-datum">Bis Erstellungsdatum:</label>
-      <input
-        type="date"
-        class="form-control"
-        id="bis-datum"
-        name="bis-datum"/>
+    <div class="col-md-5">
+      <div class="form-group">
+        <label for="von-datum" style="display: inline-block; width: 150px;">Von Erstellungsdatum:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="von-datum"
+          name="von-datum"/>
+      </div>
+      <div class="form-group">
+        <label for="bis-datum">Bis Erstellungsdatum:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="bis-datum"
+          name="bis-datum"/>
+      </div>
     </div>
-  </div>
-  <div class="col-md-1">
-    <div class="form-group">
-      <label for="von-benutzer">Von Benutzer:</label>
-      <input
-        type="number"
-        class="form-control"
-        id="von-benutzer"
-        name="von-benutzer"
-        min="0"
-        max="9999"/>
+    <div class="col-md-1">
+      <div class="form-group">
+        <label for="von-benutzer">Von Benutzer:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="von-benutzer"
+          name="von-benutzer"
+          min="0"
+          max="9999"/>
+      </div>
+      <div class="form-group">
+        <label for="bis-benutzer">Bis Benutzer:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="bis-benutzer"
+          name="bis-benutzer"
+          min="0"
+          max="9999"/>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="bis-benutzer">Bis Benutzer:</label>
-      <input
-        type="number"
-        class="form-control"
-        id="bis-benutzer"
-        name="bis-benutzer"
-        min="0"
-        max="9999"/>
-    </div>
-  </div>
-  <div class="col-md-0">
-    <div class="form-group">
-      <label for="active">Aktiv:</label>
+    <div class="col-md-0">
+      <div class="form-group">
+        <label for="active">Aktiv:</label>
 
-      <input type="checkbox" class="form-control" id="active" checked/>
+        <input type="checkbox" class="form-control" id="active" checked/>
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-12 table-height">
-    <div class="table-scroll">
-      <table class="table table-bordered table-striped table-scroll">
-        <thead>
-        <tr>
-          <th>Nr</th>
-          <th>Erstellt am</th>
-          <th>Name</th>
-          <th>Passwort</th>
-          <th>Chip</th>
-          <th>Status</th>
-          <th>Löschen</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var user in Model.Users)
-        {
+  <div class="row">
+    <div class="col-md-12 table-height">
+      <div class="table-scroll">
+        <table class="table table-bordered table-striped table-scroll">
+          <thead>
           <tr>
-            <td>
-              @user.UserId
-            </td>
-            <td>@user.CreatedDate.ToString("d")</td>
-            <td>
-              <input type="text" name="firstname" value="@user.FirstName"/>
-              <input
-                type="text"
-                name="lastname"
-                value="@user.LastName"/><br/>
-              <input type="email" name="email" value="@user.Email"/>
-               <input type="text" name="username" value="@user.UserName"/>
-            </td>
-            <td>
-              <input type="password" name="password" value="@user.UserPassword"/>
-            </td>
-            <td>
-              <input type="text" name="chip" value="@user.ChipNumber"/>
-            </td>
-            <td>
-              @if (user.Active)
-              {
-                <input
-                  type="checkbox"
-                  name="status"
-                  checked/>
-              }
-              else
-              {
-                <input type="checkbox" name="status"/>
-              }
-              Aktiv
-            </td>
-            <td>
-              <span class="text-center-last-col">
-                <button type="button" class="btn btn-danger">
-                  <i class="fa fa-trash"></i>
-                </button>
-              </span>
-            </td>
+            <th>Nr</th>
+            <th>Erstellt am</th>
+            <th>Name</th>
+            <th>Passwort</th>
+            <th>Chip</th>
+            <th>Status</th>
+            <th>Löschen</th>
           </tr>
-        }
-        
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          @foreach (var user in Model.Users)
+          {
+            <tr>
+              <td>
+                @user.UserId
+              </td>
+              <td>@user.CreatedDate.ToString("d")</td>
+              <td>
+                <input type="text" name="firstname" value="@user.FirstName"/>
+                <input
+                  type="text"
+                  name="lastname"
+                  value="@user.LastName"/><br/>
+                <input type="email" name="email" value="@user.Email"/>
+                <input type="text" name="username" value="@user.UserName"/>
+              </td>
+              <td>
+                <input type="password" name="password" value="@user.UserPassword"/>
+              </td>
+              <td>
+                <input type="text" name="chip" value="@user.ChipNumber"/>
+              </td>
+              <td>
+                @if (user.Active)
+                {
+                  <input
+                    type="checkbox"
+                    name="status"
+                    checked/>
+                }
+                else
+                {
+                  <input type="checkbox" name="status"/>
+                }
+                Aktiv
+              </td>
+              <td>
+                <span class="text-center-last-col">
+                  <button type="button" class="btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </span>
+              </td>
+            </tr>
+          }
+
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <button class="btn btn-warning float-left">Zurück</button>
-    <button class="btn btn-warning float-right">Neuer Benutzer</button>
-    <button class="btn btn-warning float-right">Speichern</button>
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn btn-warning float-left">Zurück</button>
+      <button class="btn btn-warning float-right">Neuer Benutzer</button>
+      <button class="btn btn-warning float-right">Speichern</button>
+    </div>
   </div>
-</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

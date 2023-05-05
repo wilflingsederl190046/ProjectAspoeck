@@ -50,6 +50,23 @@ public class AdminController : Controller
         return View(adminhomeModel);
     }
 
+    [HttpGet]
+    public void Admin_Export_List()
+    {
+       // string file = "Downloads/liste.xlsx";
+        string file = "C:\\Users\\Test\\Downloads\\liste.xls";
+
+        using (StreamWriter writer = new StreamWriter(file))
+        {
+            writer.WriteLine($"{DateTime.Now.Date}");
+            writer.WriteLine();
+            foreach(Order orderFromTheDay in _db.Orders.Include(x => x.OrderItems).Include(x => x.User).ToList())
+            {
+                writer.WriteLine($"{orderFromTheDay.User.LastName};{orderFromTheDay.ToString()};{orderFromTheDay.OrderItems.Sum(x => x.Price)}");
+            }
+        }
+    }
+
     [HttpPost]
     public IActionResult Admin_All_Orders()
     {

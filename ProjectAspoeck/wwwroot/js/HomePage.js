@@ -31,4 +31,6 @@ function updateDate() {
 }
 
 let timer = setInterval(updateDate, 1000);
-
+window.onunload = function() {
+    clearInterval(timer);
+};
