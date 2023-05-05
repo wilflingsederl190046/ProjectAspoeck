@@ -117,14 +117,16 @@
       {
         <tr>
             <td>
+                <div class="img-container">
                 @if (item.Item.ImageData != null && item.Item.ImageData.Length > 0)
-                 {
-                     <img src="@($"data:image;base64,{Convert.ToBase64String(item.Item.ImageData)}")" alt="@item.Item.Name"/>
-                 }
-                 else
-                 {
-                     <span>Kein Bild verfügbar</span>
-                 }
+                {
+                    <img src="@($"data:image;base64,{Convert.ToBase64String(item.Item.ImageData)}")" alt="@item.Item.Name"/>
+                }
+                else
+                {
+                    <span>Kein Bild verfügbar</span>
+                }
+                </div>
             </td>
           <td class="itemName">@item.Item.Name</td>
           <td class="itemPrice">@item.Item.Price.ToString("N2") €</td>
