@@ -2,19 +2,19 @@
 
 @model ProjectAspoeck.Models.Admin_Home_PageModel
 @{
-  ViewData["Title"] = "Admin-Startseite";
+    ViewData["Title"] = "Admin-Startseite";
 }
 
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jausen Bestellung</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-  <style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jausen Bestellung</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <style>
         /* Additional CSS styling */
         .header-image {
             padding-left: 50px;
@@ -49,104 +49,107 @@
         }
 
         /*.my-custom-scrollbar {
-                position: relative;
-                height: 490px;
-                overflow: auto;
-              }
-              .table-wrapper-scroll-y {
-                display: block;
-              }*/
+                        position: relative;
+                        height: 490px;
+                        overflow: auto;
+                      }
+                      .table-wrapper-scroll-y {
+                        display: block;
+                      }*/
     </style>
 </head>
 <body>
-<!-- Header -->
-<header class="bg-light py-3" style="height: 150px">
-  <div class="container-fluid h-100">
-    <div class="row align-items-center h-100">
-      <div class="col-3 header-image">
-        <img src="path/to/image.jpg"
-             class="img-fluid align-middle"
-             alt="Logo"/>
-      </div>
-      <div class="col-6 header-text">
-        <h1 class="mb-0">Jausen Bestellung</h1>
-      </div>
-      <div class="col-3 text-center bg-warning py-2">
-        <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- Main content -->
-<main class="py-3">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3">
-
-        <button type="button" class="btn btn-warning btn-block mb-3">
-          Jausen Liste bearbeiten
-        </button>
-
-        @using (Html.BeginForm("Admin_Manage_Users", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
-        {
-          <button type="submit" class="btn btn-warning btn-block">
-            User verwalten
-          </button>
-        }
-        <button type="button" class="btn btn-success btn-block">
-          Liste exportieren
-        </button>
-      </div>
-      <div class="col-md-9 table-height">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar">
-          <table class="table table-bordered table-striped table-scroll">
-            <thead>
-            <tr>
-              <th>Nr</th>
-              <th>Datum</th>
-              <th>Inhalt</th>
-              <th>Status</th>
-              <th>Kosten</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var order in Model.Orders)
-            {
-              <tr>
-                <td>
-                  @if (order.OrderNumber != -1)
-                  {
-                    @order.OrderNumber
-                  }
-                </td>
-                <td>
-                  @order.Date
-                </td>
-                <td>
-                  @if (order.Description != "")
-                  {
-                    @order.Description
-                  }
-                </td>
-                <td>
-                  @(order.State)
-                </td>
-                <td>
-                  @order.Price.ToString("N2") €
-                </td>
-              </tr>
-            }
-            </tbody>
-          </table>
+    <!-- Header -->
+    <header class="bg-light py-3" style="height: 150px">
+        <div class="container-fluid h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-3 header-image">
+                    <img src="path/to/image.jpg"
+                         class="img-fluid align-middle"
+                         alt="Logo" />
+                </div>
+                <div class="col-6 header-text">
+                    <h1 class="mb-0">Jausen Bestellung</h1>
+                </div>
+                <div class="col-3 text-center bg-warning py-2">
+                    <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
+                </div>
+            </div>
         </div>
-        @using (Html.BeginForm("Admin_All_Orders", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
-        {
-          <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>
-        }
-      </div>
-    </div>
-  </div>
-</main>
+    </header>
+
+    <!-- Main content -->
+    <main class="py-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    @using (Html.BeginForm("Admin_All_Orders", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                    {
+                        <button type="button" class="btn btn-warning btn-block mb-3">
+                            Jausen Liste bearbeiten
+                        </button>
+                    }
+                    <button type="button" class="btn btn-warning btn-block">
+                        User verwalten
+                    </button>
+                    @using (Html.BeginForm("Admin_Export_List", "Admin", FormMethod.Get))
+                    {
+                        <button type="submit" class="btn btn-success btn-block">
+                            Liste exportieren
+                        </button>
+                    }
+                   
+
+                </div>
+                <div class="col-md-9 table-height">
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-bordered table-striped table-scroll">
+                            <thead>
+                                <tr>
+                                    <th>Nr</th>
+                                    <th>Datum</th>
+                                    <th>Inhalt</th>
+                                    <th>Status</th>
+                                    <th>Kosten</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.Orders)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (order.OrderNumber != -1)
+                                            {
+                                                @order.OrderNumber
+                                            }
+                                        </td>
+                                        <td>
+                                            @order.Date
+                                        </td>
+                                        <td>
+                                            @if (order.Description != "")
+                                            {
+                                                @order.Description
+                                            }
+                                        </td>
+                                        <td>
+                                            @(order.State)
+                                        </td>
+                                        <td>
+                                            @order.Price.ToString("N2") €
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    @using (Html.BeginForm("Admin_All_Orders", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                    {
+                        <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
