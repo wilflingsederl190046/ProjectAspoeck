@@ -9,5 +9,4 @@ public class OrderDetailController : Controller
   public OrderDetailController(ILogger<OrderDetailController> logger) => _logger = logger;
 
   public IActionResult Order_Detail(string sessionKey) => View(new Order_DetailModel { SessionString = sessionKey });
-
 }
