@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                        @using (Html.BeginForm("Settings", "Settings",  FormMethod.Post))
                         {
                             <button type="submit" class="btn btn-lg">
                                 <i class="fa fa-house"></i>
@@ -186,7 +186,7 @@
                         daysBef: daysBeforeValue
                     },
                     success: function (response) {
-                        window.location.href = '@Url.Action("Home_Page", "Home", new { sessionKey = Model.SessionString })';
+                        window.location.href = '@Url.Action("Home_Page", "Home" )';
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log(textStatus, errorThrown);
@@ -195,7 +195,7 @@
             });
         </script>
         <div class="">
-          @using (Html.BeginForm("Home_Page", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+          @using (Html.BeginForm("Home_Page", "Home",  FormMethod.Post))
           {
             <button href="#" class="btn btn-warning">Zurück zur Startseite</button>
           }

@@ -88,7 +88,7 @@
           Jausen Liste bearbeiten
         </button>
 
-        @using (Html.BeginForm("Admin_Manage_Users", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
+        @using (Html.BeginForm("Admin_Manage_Users", "Admin", FormMethod.Post))
         {
           <button type="submit" class="btn btn-warning btn-block">
             User verwalten
@@ -140,7 +140,7 @@
             </tbody>
           </table>
         </div>
-        @using (Html.BeginForm("Admin_All_Orders", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
+        @using (Html.BeginForm("Admin_All_Orders", "Admin", FormMethod.Post))
         {
           <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>
         }

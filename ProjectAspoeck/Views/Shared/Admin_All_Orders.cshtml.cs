@@ -7,7 +7,13 @@ namespace JausenbestellungAspoeck.Pages
     {
         public void OnGet()
         {
-            
+            var homeModel = new ProjectAspoeck.Models.Home_PageModel();
+            string sessionKey = "notAuthorized";
+            sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
+            if (sessionKey == "notAuthorized")
+            {
+                return;
+            }
         }
         
     }

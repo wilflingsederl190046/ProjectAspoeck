@@ -10,18 +10,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/DTOLibrary/ImageDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DTOLibrary/ItemDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DTOLibrary/OrderDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DTOLibrary/OrderItemDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DTOLibrary/OrderStateDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BreakfastDBLib/Order.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BreakfastDBLib/Order.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AllOrdersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AllOrdersController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/PlaceOrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/PlaceOrderController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/SettingsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/SettingsController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/ShoppingBasketController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/ShoppingBasketController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Models/OrderViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/OrderViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Models/Shopping_BasketModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/Shopping_BasketModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/EncryptionHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/EncryptionHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_All_Orders.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_All_Orders.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_All_Orders.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_All_Orders.cshtml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/All_Orders.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/All_Orders.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Home_Page.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Settings.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Settings.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Shopping_Basket.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Shopping_Basket.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,10 +37,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1b7d7cb6609f8d85f36dfd4df6123c8060f4fd5e1699c5f959de6e918d7351/RazorPageOfT.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/30b89dbd52686b6dc1c64c4ad81d74fe03c2aa291c0af149f84d3f1a813f63/DiagnosticListener.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/36e740b59df23626d207e72ea77e34298e53dd99db463eee529f8c416b5664/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6a4abc33381932734b5fe8e665891a89f052eeee41e2debe188594bce29675c/ControllerActionInvoker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/81a3bcf4bb6aa5e62a9839f9cfeeba6126496f4fa07d1e57b27a5176e42525/ControllerBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/878910279067a69744823f3ab1230c177a593e37dfe46787dbbce03d3d3799/ResourceInvoker.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cea8f116d46ddf4be845bdf1d46ab3bb5bc4f06bc533db822f2d7999187e56f/Controller.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e74356f198b598e97eaeea83e8b7b1f2bfe27c0a39fedf86bb7dc44827fbda/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
@@ -56,6 +61,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.43962008",
     "git-widget-placeholder": "loginSession",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
@@ -134,7 +140,8 @@
       <workItem from="1683011368378" duration="382000" />
       <workItem from="1683013828165" duration="116000" />
       <workItem from="1683016085666" duration="10904000" />
-      <workItem from="1683269489422" duration="5299000" />
+      <workItem from="1683269489422" duration="6467000" />
+      <workItem from="1683280538424" duration="6928000" />
     </task>
     <task id="LOCAL-00001" summary="Added Button for &quot;Liste exportieren&quot; and began with Admin">
       <created>1683018757232</created>
@@ -150,7 +157,21 @@
       <option name="project" value="LOCAL" />
       <updated>1683038394905</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="image in shopping basket">
+      <created>1683275867888</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683275867888</updated>
+    </task>
+    <task id="LOCAL-00004" summary="image in the right format">
+      <created>1683276074940</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683276074940</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,7 +210,9 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Added Button for &quot;Liste exportieren&quot; and began with Admin" />
     <MESSAGE value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
+    <MESSAGE value="image in shopping basket" />
+    <MESSAGE value="image in the right format" />
+    <option name="LAST_COMMIT_MESSAGE" value="image in the right format" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

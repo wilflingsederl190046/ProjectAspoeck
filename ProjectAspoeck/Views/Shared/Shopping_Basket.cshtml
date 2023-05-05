@@ -81,7 +81,7 @@
       </div>
       <div class="col-3 text-center py-2 ">
         <span class="header-button">
-          @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
+          @using (Html.BeginForm("Settings", "Settings",  FormMethod.Post))
           {
             <button type="submit" class="btn btn-lg">
               <i class="fa fa-gear"></i>
@@ -198,7 +198,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function (result) {
-                    window.location.href = '@Url.Action("Place_Order", "PlaceOrder", new { sessionKey = Model.SessionString })';
+                    window.location.href = '@Url.Action("Place_Order", "PlaceOrder")';
                     console.log('*******************success');
                 }
             })
@@ -222,7 +222,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function (result) {
-                    window.location.href = '@Url.Action("Home_Page", "Home", new { sessionKey = Model.SessionString })';
+                    window.location.href = '@Url.Action("Home_Page", "Home")';
                     console.log('*******************success');
                 }
        

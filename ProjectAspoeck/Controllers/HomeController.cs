@@ -23,86 +23,92 @@ public class HomeController : Controller
         string sessionKey = Guid.NewGuid().ToString();
         if (user.UserName.Equals("Admin"))
         {
-            string encryptedUsernameAdmin = EncryptionHelper.Encrypt(loginModel.LoginId, sessionKey);
-            string encryptedPasswordAdmin = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
-
-            // Store session key and encrypted username and password in session
-            HttpContext.Session.SetString("SessionKey", sessionKey);
-            HttpContext.Session.SetString("EncryptedUsername", encryptedUsernameAdmin);
-            HttpContext.Session.SetString("EncryptedPassword", encryptedPasswordAdmin);
-            return RedirectToAction("Admin_Home_Page", "Admin", new { sessionKey });
+            SaveDataInSession(loginModel, sessionKey);
+            return RedirectToAction("Admin_Home_Page", "Admin");
         }
 
-        // Encrypt username and password using session key
-        string encryptedUsername = EncryptionHelper.Encrypt(loginModel.LoginId, sessionKey);
-        string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
+        SaveDataInSession(loginModel, sessionKey);
+
+        // Redirect to home page with session key in query string
+        return RedirectToAction("Home_Page", "Home" );
+    }
+
+    private void SaveDataInSession(LoginModel loginModel, string sessionKey)
+    {
+        string encryptedUsernameAdmin = EncryptionHelper.Encrypt(loginModel.LoginId, sessionKey);
+        string encryptedPasswordAdmin = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
 
         // Store session key and encrypted username and password in session
         HttpContext.Session.SetString("SessionKey", sessionKey);
-        HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
-        HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
-
-        // Redirect to home page with session key in query string
-        return RedirectToAction("Home_Page", "Home", new { sessionKey });
+        HttpContext.Session.SetString("EncryptedUsername", encryptedUsernameAdmin);
+        HttpContext.Session.SetString("EncryptedPassword", encryptedPasswordAdmin);
     }
 
-    public IActionResult Home_Page(string sessionKey)
+    public IActionResult Home_Page()
     {
-        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-        string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
-
-        string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-        User user = _db.Users
-            .Where(x => x.UserName == username)
-            .FirstOrDefault() ?? new();
-
-        var ordersListForUser = _db.Orders
-            .Include(x => x.User)
-            .Include(x => x.OrderState)
-            .Include(x => x.OrderItems)
-            .Where(x => x.UserId == user.UserId)
-            .Where(x => x.OrderStateId != 3)
-            .Select(x => x)
-            .OrderBy(x => x.OrderDate)
-            .ToList();
-
-        var orders = ordersListForUser
-            .Skip(Math.Max(0, ordersListForUser.Count - 5))
-            .OrderByDescending(x => x.OrderDate)
-            .Select(x => new OrderViewModel
-            {
-                OrderId = x.OrderId,
-                OrderNumber = x.UserOderNr,
-                State = x.OrderState.Name,
-                OrderDate = x.OrderDate.ToString("d"),
-                Price = x.OrderItems.Sum(y => y.Price)
-            })
-            .ToList();
-
-        if (!orders.Any())
+        var homeModel = new Home_PageModel();
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
+        if (sessionKey == "notAuthorized")
         {
-            orders = new List<OrderViewModel>
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+            string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
+
+            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+            User user = _db.Users
+                .Where(x => x.UserName == username)
+                .FirstOrDefault() ?? new();
+
+            var ordersListForUser = _db.Orders
+                .Include(x => x.User)
+                .Include(x => x.OrderState)
+                .Include(x => x.OrderItems)
+                .Where(x => x.UserId == user.UserId)
+                .Where(x => x.OrderStateId != 3)
+                .Select(x => x)
+                .OrderBy(x => x.OrderDate)
+                .ToList();
+
+            var orders = ordersListForUser
+                .Skip(Math.Max(0, ordersListForUser.Count - 5))
+                .OrderByDescending(x => x.OrderDate)
+                .Select(x => new OrderViewModel
+                {
+                    OrderId = x.OrderId,
+                    OrderNumber = x.UserOderNr,
+                    State = x.OrderState.Name,
+                    OrderDate = x.OrderDate.ToString("d"),
+                    Price = x.OrderItems.Sum(y => y.Price)
+                })
+                .ToList();
+            if (!orders.Any())
             {
-                new() { OrderNumber = -1, OrderDate = "", Price = -1, State = "" },
+                orders = new List<OrderViewModel>
+                {
+                    new() { OrderNumber = -1, OrderDate = "", Price = -1, State = "" },
+                };
+            }
+
+            double sumRestPriceToPay = _db.OrderItems
+                .Include(x => x.Order)
+                .ThenInclude(x => x.User)
+                .Where(x => x.Order.User.UserId == user.UserId)
+                .Where(x => x.Order.OrderStateId == 1 || x.Order.OrderStateId == 2)
+                .Sum(x => x.Price);
+            homeModel = new Home_PageModel
+            {
+                UserName = username,
+                Orders = orders,
+                SessionString = sessionKey,
+                MoneyLeftToPay = sumRestPriceToPay
             };
+            homeModel.SessionString = sessionKey;
         }
 
-        double sumRestPriceToPay = _db.OrderItems
-            .Include(x => x.Order)
-            .ThenInclude(x => x.User)
-            .Where(x => x.Order.User.UserId == user.UserId)
-            .Where(x => x.Order.OrderStateId == 1 || x.Order.OrderStateId == 2)
-            .Sum(x => x.Price);
-
-        var homeModel = new Home_PageModel
-        {
-            UserName = username,
-            Orders = orders,
-            SessionString = sessionKey,
-            MoneyLeftToPay = sumRestPriceToPay
-        };
-
-        homeModel.SessionString = sessionKey;
         return View(homeModel);
     }
 
@@ -117,26 +123,16 @@ public class HomeController : Controller
         User? user = _db.Users
             .Where(m => m.ChipNumber == loginModel.Password)
             .FirstOrDefault();
-
         if (user == null)
         {
             ViewBag.LoginStatus = 0;
             return View(loginModel);
         }
-
         // Generate session key
         string sessionKey = Guid.NewGuid().ToString();
 
-        // Encrypt username and password using session key
-        string encryptedUsername = EncryptionHelper.Encrypt(user.UserName, sessionKey);
-        string encryptedPassword = EncryptionHelper.Encrypt(loginModel.Password, sessionKey);
+        SaveDataInSession(loginModel, sessionKey);
 
-        // Store session key and encrypted username and password in session
-        HttpContext.Session.SetString("SessionKey", sessionKey);
-        HttpContext.Session.SetString("EncryptedUsername", encryptedUsername);
-        HttpContext.Session.SetString("EncryptedPassword", encryptedPassword);
-
-        // Redirect to home page with session key in query string
-        return RedirectToAction("Home_Page", "Home", new { sessionKey });
+        return RedirectToAction("Home_Page", "Home");
     }
 }

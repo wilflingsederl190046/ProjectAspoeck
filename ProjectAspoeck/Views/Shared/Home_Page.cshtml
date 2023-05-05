@@ -41,7 +41,7 @@
       </div>
       <div class="col-3 text-center py-2 ">
         <span class="header-button">
-          @using (Html.BeginForm("Settings", "Settings", new { sessionKey = Model.SessionString }, FormMethod.Post))
+          @using (Html.BeginForm("Settings", "Settings",  FormMethod.Post))
           {
             <button type="submit" class="btn btn-lg">
               <i class="fa fa-gear"></i>
@@ -71,14 +71,14 @@
         <span id="orderstate" class="status">Bestellzeitraum abgelaufen</span>
       </p>
 
-      @using (Html.BeginForm("Place_Order", "PlaceOrder", new { sessionKey = Model.SessionString }, FormMethod.Post))
+      @using (Html.BeginForm("Place_Order", "PlaceOrder",  FormMethod.Post))
       {
         <button type="submit" class="btn btn-warning" id="btnPlaceOrder">
           Bestellung aufgeben
         </button>
       }
       
-      @using (Html.BeginForm("Index", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+      @using (Html.BeginForm("Index", "Home",  FormMethod.Post))
       {
         <button type="submit" class="btn btn-warning" style="margin-top: 10px">
           Abmelden
@@ -125,14 +125,14 @@
                   {
                     <button type="button" onclick="placeOrder(@order.OrderId)" name="buyAgain" class="btn btn-primary buyAgain">
                                           <i class="fa fa-retweet"></i>
-                                        </button>
+                      </button>
                   }
                 </span>
               </td>
             </tr>
           }
         </table>
-      @using (Html.BeginForm("All_Orders", "AllOrders", new { sessionKey = Model.SessionString }, FormMethod.Post))
+      @using (Html.BeginForm("All_Orders", "AllOrders",  FormMethod.Post))
       {
         <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>
       }
@@ -154,7 +154,7 @@
                       orderId: orderId
                   },
                   success: function (response) {
-                      window.location.href = '@Url.Action("Shopping_Basket", "ShoppingBasket", new { sessionKey = Model.SessionString })';
+                      window.location.href = '@Url.Action("Shopping_Basket", "ShoppingBasket")';
                   },
                   error: function (jqXHR, textStatus, errorThrown) {
                       //console.log(textStatus, errorThrown);

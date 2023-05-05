@@ -183,16 +183,13 @@
 
     <div class="row mt-3">
       <div class="col-6 text-left">
-        @using (Html.BeginForm("Admin_Home_Page", "Admin", new { sessionKey = Model.SessionString }, FormMethod.Post))
+        @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
         {
           <button href="#" class="btn btn-warning">Zurück</button>
         }
       </div>
       <div class="col-6 text-right">
-        @* @using (Html.BeginForm("Order_Detail", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
-                    {
-                        <button href="#" class="btn btn-warning">Detailansicht aufrufen</button>
-                    }*@
+       
       </div>
     </div>
   </div>

@@ -19,6 +19,7 @@ public static class EncryptionHelper
 
   public static string Encrypt(string plainText, string password)
   {
+    
     byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
     byte[] keyBytes = new Rfc2898DeriveBytes(password, Salt, Iterations).GetBytes(KeySize / 8);
 

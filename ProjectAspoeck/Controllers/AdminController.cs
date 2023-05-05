@@ -4,8 +4,14 @@ public class AdminController : Controller
 {
     private readonly BreakfastDBContext _db = new();
 
-    public IActionResult Admin_Home_Page(string sessionKey)
+    public IActionResult Admin_Home_Page()
     {
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey");
+        if (sessionKey == "notAuthorized")
+        {
+            RedirectToAction("Index", "Home");
+        }
         string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
         string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
 
@@ -45,8 +51,14 @@ public class AdminController : Controller
     }
 
     [HttpPost]
-    public IActionResult Admin_All_Orders(string sessionKey)
+    public IActionResult Admin_All_Orders()
     {
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey");
+        if (sessionKey == "notAuthorized")
+        {
+            return RedirectToAction("Index", "Home");
+        }
         string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
 
         string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
@@ -95,27 +107,35 @@ public class AdminController : Controller
         });
     }
 
-    
-    public IActionResult Admin_Manage_Users(string sessionKey)
+
+    public IActionResult Admin_Manage_Users()
     {
-      var allUsers = _db.Users
-        .Select(x => new AdminUserDto
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
+        if (sessionKey == "notAuthorized")
         {
-          UserId = x.UserId,
-          UserName = x.UserName,
-          FirstName = x.FirstName,
-          ChipNumber = x.ChipNumber,
-          Active = x.Active,
-          CreatedDate = x.CreatedDate,
-          Email = x.Email,
-          LastName = x.LastName,
-          UserPassword = x.UserPassword
-        })
-        .ToList();
-      return View(new AdminManageUsersModel
-      {
-        SessionString = sessionKey,
-        Users = allUsers
-      });
+            return RedirectToAction("Index", "Home");
+        }else
+        {
+            var allUsers = _db.Users
+                .Select(x => new AdminUserDto
+                {
+                    UserId = x.UserId,
+                    UserName = x.UserName,
+                    FirstName = x.FirstName,
+                    ChipNumber = x.ChipNumber,
+                    Active = x.Active,
+                    CreatedDate = x.CreatedDate,
+                    Email = x.Email,
+                    LastName = x.LastName,
+                    UserPassword = x.UserPassword
+                })
+                .ToList();
+            return View(new AdminManageUsersModel
+            {
+                SessionString = sessionKey,
+                Users = allUsers
+            });
+        }
     }
 }
