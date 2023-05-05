@@ -71,6 +71,7 @@ public class HomeController : Controller
             .OrderByDescending(x => x.OrderDate)
             .Select(x => new OrderViewModel
             {
+                OrderId = x.OrderId,
                 OrderNumber = x.UserOderNr,
                 State = x.OrderState.Name,
                 OrderDate = x.OrderDate.ToString("d"),

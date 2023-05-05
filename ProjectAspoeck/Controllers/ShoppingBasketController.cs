@@ -18,7 +18,7 @@ public class ShoppingBasketController : Controller
     var order = new Order();
     shopping_Basket.SessionString = jObject["SessionKey"].ToString();
 
-    var orderItems = new List<OrderItem>();
+    var orderItems = new List<OrderItemDto>();
     var jArray = (JArray)jObject["OrderItems"];
 
     foreach (JToken jToken in jArray)
@@ -27,19 +27,21 @@ public class ShoppingBasketController : Controller
       double price = _db.Items
           .SingleOrDefault(x => x.Name.Equals(name)).Price;
 
-      var item = new Item
-      {
+      var item = new ItemDto
+      { ImageData = _db.Items.Include(x => x.Image).Where(x => x.Name.Equals(name))
+              .Select(x => x.Image.ImageData).FirstOrDefault(),
         Name = name,
         Price = price
       };
 
-      var orderItem = new OrderItem
+      var orderItem = new OrderItemDto
       {
         Price = price,
         Quantity = int.Parse(jToken["Quantity"].ToString()),
         Item = item
       };
-
+      
+      
       if (orderItem.Quantity != 0) orderItems.Add(orderItem);
     }
 
