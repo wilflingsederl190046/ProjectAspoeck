@@ -6,4 +6,5 @@ public class OrderViewModel
   public string OrderDate { get; set; }
   public double Price { get; set; }
   public string State { get; set; }
+  public int OrderId { get; set; }
 }

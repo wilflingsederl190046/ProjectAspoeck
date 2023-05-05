@@ -9,7 +9,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="" />
+    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/DTOLibrary/ImageDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DTOLibrary/ItemDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DTOLibrary/OrderDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DTOLibrary/OrderItemDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DTOLibrary/OrderStateDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BreakfastDBLib/Order.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BreakfastDBLib/Order.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/ShoppingBasketController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/ShoppingBasketController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Models/OrderViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/OrderViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Models/Shopping_BasketModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/Shopping_BasketModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Home_Page.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Shopping_Basket.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Shopping_Basket.cshtml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,38 +33,47 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/lukas/OneDrive/Desktop/POS/#sonstigeProjekte/ProjectAspoeck/ProjectAspoeck/Views/Shared/Settings.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1b7d7cb6609f8d85f36dfd4df6123c8060f4fd5e1699c5f959de6e918d7351/RazorPageOfT.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6a4abc33381932734b5fe8e665891a89f052eeee41e2debe188594bce29675c/ControllerActionInvoker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/878910279067a69744823f3ab1230c177a593e37dfe46787dbbce03d3d3799/ResourceInvoker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cea8f116d46ddf4be845bdf1d46ab3bb5bc4f06bc533db822f2d7999187e56f/Controller.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e74356f198b598e97eaeea83e8b7b1f2bfe27c0a39fedf86bb7dc44827fbda/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/facad4292c1d7da96e4eecf681ad9b0d65de4612afef21d8a14c526a937210/AuthorizationMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectId" id="2P2uEL4kqqoZAqeEHR9qlupyVxp" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;loginSession&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "loginSession",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "HotReloadSettingsPage",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\lukas\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\lukas\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\lukas\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\mattl\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\mattl\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\mattl\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.ProjectAspoeck: IIS Express">
     <configuration name="ProjectAspoeck: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ProjectAspoeck/ProjectAspoeck.csproj" />
@@ -110,12 +133,30 @@
       <workItem from="1682667830992" duration="1341000" />
       <workItem from="1683011368378" duration="382000" />
       <workItem from="1683013828165" duration="116000" />
+      <workItem from="1683016085666" duration="10904000" />
+      <workItem from="1683269489422" duration="5299000" />
     </task>
+    <task id="LOCAL-00001" summary="Added Button for &quot;Liste exportieren&quot; and began with Admin">
+      <created>1683018757232</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1683018757232</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database">
+      <created>1683038394905</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683038394905</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -146,5 +187,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Added Button for &quot;Liste exportieren&quot; and began with Admin" />
+    <MESSAGE value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="LaunchSettings">
+        <watch expression="password" />
+        <watch expression="password" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

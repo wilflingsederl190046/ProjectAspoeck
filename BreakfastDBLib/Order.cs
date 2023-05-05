@@ -14,11 +14,9 @@ public partial class Order
   public int UserId { get; set; }
 
   public int OrderStateId { get; set; }
-
-  public virtual ICollection<OrderItem> OrderItems { get; } = new List<OrderItem>();
-
+  
   public virtual OrderState OrderState { get; set; } = null!;
-
+  public virtual ICollection<OrderItem> OrderItems { get; } = new List<OrderItem>();
   public virtual User User { get; set; } = null!;
 
   public override string? ToString()

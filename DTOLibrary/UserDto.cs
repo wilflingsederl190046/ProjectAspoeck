@@ -1,6 +1,6 @@
-﻿namespace DTOLibary;
+﻿namespace DTOLibrary;
 
-public class UserDTO
+public class UserDto
 {
   public int UserId { get; set; }
   public string FirstName { get; set; } = null!;

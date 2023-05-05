@@ -17,7 +17,7 @@ public class AdminController : Controller
         var ordersList = _db.Orders.Include(x => x.OrderItems)
             .Where(x => x.OrderDate.Date == DateTime.Today.Date)
             .Take(5)
-            .Select(x => new Admin_OrderListDTO
+            .Select(x => new AdminOrderListDto
             {
                 OrderNumber = 1,
                 Date = x.OrderDate,
@@ -104,12 +104,35 @@ public class AdminController : Controller
                 },
             };
         }
-
-        var adminAllOrdersModel = new Admin_All_OrdersModel
+        
+        return View(new Admin_All_OrdersModel
         {
-            Orders = orders,
-            SessionString = sessionKey
-        };
-        return View(adminAllOrdersModel);
+          Orders = orders,
+          SessionString = sessionKey
+        });
+    }
+
+    
+    public IActionResult Admin_Manage_Users(string sessionKey)
+    {
+      var allUsers = _db.Users
+        .Select(x => new AdminUserDto
+        {
+          UserId = x.UserId,
+          UserName = x.UserName,
+          FirstName = x.FirstName,
+          ChipNumber = x.ChipNumber,
+          Active = x.Active,
+          CreatedDate = x.CreatedDate,
+          Email = x.Email,
+          LastName = x.LastName,
+          UserPassword = x.UserPassword
+        })
+        .ToList();
+      return View(new AdminManageUsersModel
+      {
+        SessionString = sessionKey,
+        Users = allUsers
+      });
     }
 }

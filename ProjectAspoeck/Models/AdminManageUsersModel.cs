@@ -1,7 +1,8 @@
 ﻿namespace ProjectAspoeck.Models;
 
-public class Shopping_BasketModel
+public class AdminManageUsersModel
 {
   public string SessionString { get; set; } = null!;
-  public List<OrderItemDto> OrderItems { get; set; }
+
+  public List<AdminUserDto> Users { get; set; } = new();
 }

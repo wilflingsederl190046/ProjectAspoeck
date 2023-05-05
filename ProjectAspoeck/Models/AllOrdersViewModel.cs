@@ -8,4 +8,5 @@ public class AllOrdersViewModel
   public double OrderAmount { get; set; }
   public string OrderState { get; set; }
   public double OrderPrice { get; set; }
+  public int OrderId { get; set; }
 }
