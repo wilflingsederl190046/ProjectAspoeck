@@ -1,4 +1,5 @@
-﻿@model ProjectAspoeck.Models.AdminManageUsersModel
+﻿@using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel
+@model ProjectAspoeck.Models.AdminManageUsersModel
 @{
     ViewData["Title"] = "Admin User verwalten";
 }
@@ -17,8 +18,8 @@
     <link
         rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    
-    
+
+
     <style>
       .header-image {
         padding-left: 50px;
@@ -90,12 +91,18 @@
                 type="date"
                 id="von-datum"
                 name="von-datum"
-                style="margin-left: 1px"/>
+                style="margin-left: 1px"
+                value="2023-01-01"/>
             <input
                 type="text"
                 id="searchInput"
                 placeholder="Suche ..."
                 style="margin-left: 8px"/>
+
+            <button id="newUser" class="btn btn-warning float-right" onclick="showUserModal()">
+                <i class="fa fa-user-plus"></i>
+                Neuer Benutzer
+            </button>
         </div>
         <div>
             <label for="bis-datum">Bis Erstellungsdatum:</label>
@@ -103,10 +110,12 @@
                 type="date"
                 id="bis-datum"
                 name="bis-datum"
-                style="margin-left: 8px"/>
+                style="margin-left: 8px"
+                value="2023-12-31"/>
             <label for="bis-datum" style="margin-left: 8px">Aktiv:</label>
-            <input type="checkbox"/>
+            <input type="checkbox" checked="checked"/>
         </div>
+
     </div>
     <div class="row">
         <div class="col-md-12 table-height">
@@ -114,11 +123,12 @@
                 <table id="userTable" class="table table-bordered table-striped table-scroll">
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Nr</th>
                         <th>Erstellt am</th>
                         <th>Name</th>
                         <th>Chip</th>
                         <th>Status</th>
+                        <th>Bearbeiten</th>
                         <th>Passwort</th>
                         <th>Löschen</th>
                     </tr>
@@ -128,36 +138,35 @@
                     {
                         <tr>
                             <td>
-                                @user.UserId
+                                @(Model.Users.IndexOf(user) + 1)
                             </td>
                             <td>@user.CreatedDate.ToString("d")</td>
                             <td>
-                                Vor- und Nachname: <input type="text" name="firstname" value="@user.FirstName"/>
+                                Vor- und Nachname: <input type="text" name="firstname" value="@user.FirstName" disabled="disabled"/>
                                 <input
                                     type="text"
                                     name="lastname"
-                                    value="@user.LastName"/><br/>
+                                    value="@user.LastName"
+                                    disabled="disabled"/>
+                                Username: <input type="text" name="username" value="@user.UserName" disabled="disabled"/>
                                 <div style="margin-top: 5px">
-                                    E-Mail: <input type="email" name="email" value="@user.Email" style="width: 580px"/>
-                                    Username: <input type="text" name="username" value="@user.UserName"/>
+                                    E-Mail: <input type="email" name="email" value="@user.Email" style="width: 580px" disabled="disabled"/>
+
                                 </div>
                             </td>
                             <td>
-                                <input type="text" name="chip" value="@user.ChipNumber"/>
+                                <input type="text" name="chip" value="@user.ChipNumber" disabled="disabled"/>
                             </td>
                             <td>
-                                @if (user.Active)
-                                {
-                                    <input
-                                        type="checkbox"
-                                        name="status" 
-                                        checked/>
-                                }
-                                else
-                                {
-                                    <input type="checkbox" name="status"/>
-                                }
+                                <input id="cbActive" type="checkbox" name="status" @(user.Active ? "checked" : "") onchange="activeChanged(@user.UserId, checked)"/>
                                 Aktiv
+                            </td>
+                            <td>
+                               <span class="text-center-last-col">
+                                   <button type="button" class="btn btn-primary" onclick="showUserModal(true, @user.UserId)">
+                                       <i class="fa fa-pencil"></i>
+                                   </button>
+                               </span> 
                             </td>
                             <td>
                                 <span class="text-center-last-col">
@@ -168,7 +177,7 @@
                             </td>
                             <td>
                                 <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-danger" onclick="deleteUser('@user.UserId')">
+                                    <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@user.UserId')">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </span>
@@ -182,52 +191,135 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("Admin_Home_Page", "Admin",  FormMethod.Post))
+            @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
             {
                 <button href="#" class="btn btn-warning float-left">Zurück</button>
             }
-            <button id="newUser" class="btn btn-warning float-right">Neuer Benutzer</button>
-            <button id="save" class="btn btn-warning float-right">Speichern</button>
         </div>
     </div>
 </div>
 
-
+@* New password window *@
 <div id="changePasswordModal" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Neues Passwort setzen</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="new-password">Neues Passwort:</label>
-            <input type="password" class="form-control" id="new-password">
-          </div>
-          <div class="form-group">
-            <label for="confirm-password">Neues Passwort wiederholen:</label>
-            <input type="password" class="form-control" id="confirm-password">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abort">Abbrechen</button>
-        <button type="button" class="btn btn-primary" id="save-password">Speichern</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Neues Passwort setzen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="new-password">Neues Passwort:</label>
+                        <input type="password" class="form-control" id="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Neues Passwort wiederholen:</label>
+                        <input type="password" class="form-control" id="confirm-password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abort">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="save-password">Speichern</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
+@* New user window *@
+<div id="newUserModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUserModalTitle">Neuen Benutzer anlegen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeUser">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="firstname">Vorname:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="firstname">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Nachname:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="lastname">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-Mail:</label>
+                        <input type="text" class="form-control" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="chipNr">Chip Nr:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="chipNr">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortUser">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="save-newUser">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Delete user window *@
+<div id="deleteUserModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeDeleteUser">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteUser">Nein</button>
+                <button type="button" class="btn btn-success" id="confirm-deleteUser" onclick="deleteUser()">Ja</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
 
 @section scripts {
     <script>
-    function deleteUser(userId) {
-        if (confirm('Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?')) {
+        // #region Set Active
+        function activeChanged(id, active) {
+            $.ajax({
+                url: '@Url.Action("ChangeActive", "Admin")',
+                type: 'POST',
+                data: { 
+                    userId: id,
+                    isActive: active
+                 },
+                success: function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('Ein Fehler ist aufgetreten: ' + errorThrown);
+                }
+            });
+        }
+        // #endregion
+    
+        let userId;
+        //#region Delete User
+        function deleteUser() {
             $.ajax({
                 url: '@Url.Action("DeleteUser", "Admin")',
                 type: 'POST',
@@ -244,46 +336,187 @@
                 }
             });
         }
-    }
-    
-    let userId;
-    
-    function showChangePasswordModal(id) {
-      userId = id;
-      $('#changePasswordModal').modal('show');
-    }
-    
-    $('#abort').on('click', function() {
-        $('#changePasswordModal').modal('hide');
-    });
-    
-    $('#close').on('click', function() {
-            $('#changePasswordModal').modal('hide');
-        });
-    
-    $('#save-password').on('click', function() {
-      const newPassword = $('#new-password').val();
-      const confirmPassword = $('#confirm-password').val();
-      if (newPassword !== confirmPassword) {
-        alert('Die beiden Passwörter stimmen nicht überein.');
-        return;
-      }
-      
-      $.ajax({
-        url: '@Url.Action("ChangePassword", "Admin")',
-        type: 'POST',
-        data: {
-          userId: userId,
-          newPassword: newPassword
-        },
-        success: function() {
-            alert('Password successfully changed.');
-            $('#changePasswordModal').modal('hide');
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            alert('Ein Fehler ist aufgetreten: ' + errorThrown);
+        
+        function showDeleteUserModal(id) {
+            userId = id;
+            $('#deleteUserModal').modal('show');
         }
+        
+        $('#abortDeleteUser').on('click', function() {
+            $('#deleteUserModal').modal('hide');
         });
-      });
+
+        $('#closeDeleteUser').on('click', function() {
+            $('#deleteUserModal').modal('hide');
+        });
+        //#endregion
+        
+        //#region Change Password
+        function showChangePasswordModal(id) {
+            userId = id;
+            $('#changePasswordModal').modal('show');
+        }
+
+        $('#abort').on('click', function() {
+            $('#changePasswordModal').modal('hide');
+        });
+
+        $('#close').on('click', function() {
+            $('#changePasswordModal').modal('hide');
+        });
+
+        $('#save-password').on('click', function() {
+            const newPassword = $('#new-password').val();
+            const confirmPassword = $('#confirm-password').val();
+            if (newPassword !== confirmPassword) {
+                alert('Die beiden Passwörter stimmen nicht überein.');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("ChangePassword", "Admin")',
+                type: 'POST',
+                data: {
+                  userId: userId,
+                  newPassword: newPassword
+                },
+                success: function(result) {
+                    if (result.success) {
+                        location.reload();
+                        $('#changePasswordModal').modal('hide');
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('Ein Fehler ist aufgetreten: ' + errorThrown);
+                }
+            });
+        });
+        //#endregion
+        
+        //#region New/Update User
+        let userEdit = false;
+        
+        function showUserModal(editMode = false, id = -1) {
+            console.log('************ showUserModal ************f');
+            console.log('id: ' + id);
+            console.log('editMode: ' + editMode);
+            userId = id;
+            userEdit = editMode;
+            
+            const title = editMode ? 'Benutzer bearbeiten' : 'Neuen Benutzer anlegen';
+            const saveButtonLabel = editMode ? 'Speichern' : 'Hinzufügen';
+        
+            $('#newUserModalTitle').html(title);
+            $('#save-newUser').html(saveButtonLabel);
+            
+            $('#firstname').val('');
+            $('#lastname').val('');
+            $('#username').val('');
+            $('#chipNr').val('');
+            $('#email').val('');
+            
+            if (id !== -1) {
+            
+                $.ajax({
+                    url: '@Url.Action("GetUser", "Admin")',
+                    type: 'POST',
+                    data: {
+                        userId: id
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#firstname').val(response.userFirstname || '');
+                            $('#lastname').val(response.userLastname || '');
+                            $('#username').val(response.userUsername || '');
+                            $('#chipNr').val(response.userChipNr || '');
+                            $('#email').val(response.userEmail || '');
+                            console.log('success');
+                        } else {
+                            console.log('error');
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(xhr);
+                        alert('Es ist ein Fehler aufgetreten: ' + errorThrown);
+                    }
+                });
+            }
+            $('#newUserModal').modal('show');
+        }
+
+        $('#abortUser').on('click', function() {
+            $('#newUserModal').modal('hide');
+        });
+
+        $('#closeUser').on('click', function() {
+            $('#newUserModal').modal('hide');
+        });
+        
+        $('#save-newUser').on('click', function() {
+            const firstname = $('#firstname').val();
+            const lastname = $('#lastname').val();
+            const username = $('#username').val();
+            const email = $('#email').val();
+            const chipNr = $('#chipNr').val();
+            if (firstname === '' || lastname === '' || username === '' || chipNr === '' ) {
+                alert('Bitte füllen Sie alle Pflichtfelder aus.');
+                return;
+            }
+            
+            if (userEdit) {
+                $.ajax({
+                    url: '@Url.Action("UpdateUser", "Admin")',
+                    type: 'POST',
+                    data: {
+                        userId: userId,
+                        firstname: firstname,
+                        lastname: lastname,
+                        username: username,
+                        email: email,
+                        chipNr: chipNr,
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            location.reload();
+                            $('#newUserModal').modal('hide');
+                        } else {
+                            alert(result.message);
+                        } 
+                    },
+                    error: function(response) {
+                        alert('Ein Fehler ist aufgetreten: ' + response.message);
+                    }
+                });
+            }
+            else 
+            {
+                $.ajax({
+                    url: '@Url.Action("AddUser", "Admin")',
+                    type: 'POST',
+                    data: {
+                        firstname: firstname,
+                        lastname: lastname,
+                        username: username,
+                        email: email,
+                        chipNr: chipNr,
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            location.reload();
+                            $('#newUserModal').modal('hide');
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function(response) {
+                        alert('Ein Fehler ist aufgetreten: ' + response.message);
+                    }
+                });
+            }
+        });
+        //#endregion
+    
     </script>
 }

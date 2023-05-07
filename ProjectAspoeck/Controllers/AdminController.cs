@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace ProjectAspoeck.Controllers;
 
 public class AdminController : Controller
 {
@@ -190,6 +192,132 @@ public class AdminController : Controller
             user.SetPassword(newPassword);
             _db.SaveChanges();
 
+            return Json(new {
+                success = true
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+    
+    [HttpPost]
+    public IActionResult AddUser(string firstname, string lastname, string username, string chipNr, string email)
+    {
+        try
+        {
+            var user = new User
+            {
+                FirstName = firstname,
+                LastName = lastname,
+                UserName = username,
+                ChipNumber = chipNr
+            };
+            if(!email.IsNullOrEmpty()) user.Email = email;
+            _db.Users.Add(user);
+            _db.SaveChanges();
+
+            return Json(new {
+                success = true
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+    
+    [HttpPost]
+    public IActionResult UpdateUser(int userId, string firstname, string lastname, string username, string chipNr, string email)
+    {
+        try
+        {
+            var user = _db.Users.SingleOrDefault(x=> x.UserId == userId);
+            if (user == null)
+            {
+                return Json(new {
+                    success = false,
+                    message = "User not found"
+                });
+            }
+            user.FirstName = firstname;
+            user.LastName = lastname;
+            user.UserName = username;
+            user.ChipNumber = chipNr;
+            user.Email = email;
+            _db.SaveChanges();
+
+            return Json(new {
+                success = true
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+    
+    [HttpPost]
+    public IActionResult GetUser(int userId)
+    {
+        try
+        {
+            var selectedUser = _db.Users.SingleOrDefault(x => x.UserId == userId);
+                
+            if (selectedUser == null)
+            {
+                return Json(new {
+                    success = false,
+                    message = "User not found"
+                });
+            }
+            
+            return Json(new {
+                success = true,
+                userFirstname = selectedUser.FirstName,
+                userLastname = selectedUser.LastName,
+                userUsername = selectedUser.UserName,
+                userChipNr = selectedUser.ChipNumber,
+                userEmail = selectedUser.Email
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+    
+    [HttpPost]
+    public IActionResult ChangeActive(int userId, bool isActive)
+    {
+        try
+        {
+            var selectedUser = _db.Users.SingleOrDefault(x => x.UserId == userId);
+            
+            if (selectedUser == null)
+            {
+                return Json(new {
+                    success = false,
+                    message = "User not found"
+                });
+            }
+            
+            selectedUser.Active = isActive;
+            _db.SaveChanges();
+            
             return Json(new {
                 success = true
             });
