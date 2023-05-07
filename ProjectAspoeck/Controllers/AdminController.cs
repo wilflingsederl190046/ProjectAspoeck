@@ -123,35 +123,82 @@ public class AdminController : Controller
           SessionString = sessionKey
         });
     }
-
-
+    
     public IActionResult Admin_Manage_Users()
     {
         string sessionKey = "notAuthorized";
-        sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
         if (sessionKey == "notAuthorized")
         {
             return RedirectToAction("Index", "Home");
-        }else
-        {
-            var allUsers = _db.Users
-                .Select(x => new AdminUserDto
-                {
-                    UserId = x.UserId,
-                    UserName = x.UserName,
-                    FirstName = x.FirstName,
-                    ChipNumber = x.ChipNumber,
-                    Active = x.Active,
-                    CreatedDate = x.CreatedDate,
-                    Email = x.Email,
-                    LastName = x.LastName,
-                    UserPassword = x.UserPassword
-                })
-                .ToList();
-            return View(new AdminManageUsersModel
+        }
+
+        var allUsers = _db.Users
+            .Select(x => new AdminUserDto
             {
-                SessionString = sessionKey,
-                Users = allUsers
+                UserId = x.UserId,
+                UserName = x.UserName,
+                FirstName = x.FirstName,
+                ChipNumber = x.ChipNumber,
+                Active = x.Active,
+                CreatedDate = x.CreatedDate,
+                Email = x.Email,
+                LastName = x.LastName,
+                UserPassword = x.UserPassword
+            })
+            .ToList();
+        
+        return View(new AdminManageUsersModel
+        {
+            SessionString = sessionKey,
+            Users = allUsers
+        });
+    }
+    
+    [HttpPost]
+    public IActionResult DeleteUser(int userId)
+    {
+        try
+        {
+            var user = _db.Users.FirstOrDefault(x => x.UserId == userId);
+            if (user == null) return Json(new { success = false, message = "Benutzer nicht gefunden." });
+            _db.Users.Remove(user);
+            _db.SaveChanges();
+            return Json(new { success = true });
+
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = ex.Message });
+        }
+    }
+
+    [HttpPost]
+    public IActionResult ChangePassword(int userId, string newPassword)
+    {
+        try
+        {
+            var user = _db.Users.Find(userId);
+            if (user == null || newPassword == null)
+            {
+                return Json(new {
+                    success = false,
+                    message = "User not found"
+                });
+            }
+            
+            user.SetPassword(newPassword);
+            _db.SaveChanges();
+
+            return Json(new {
+                success = true
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new {
+                success = false,
+                message = ex.Message
             });
         }
     }

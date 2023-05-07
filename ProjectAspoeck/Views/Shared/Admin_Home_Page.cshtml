@@ -1,6 +1,4 @@
-﻿@using ProjectAspoeck.Models
-
-@model ProjectAspoeck.Models.Admin_Home_PageModel
+﻿@model ProjectAspoeck.Models.Admin_Home_PageModel
 @{
   ViewData["Title"] = "Admin-Startseite";
 }
@@ -15,12 +13,22 @@
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
   <style>
-        /* Additional CSS styling */
+        header {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            background-color: #f2f2f2;
+        }
+        
         .header-image {
             padding-left: 50px;
-            padding-right: 50px;
-            padding-top: 30px;
-            padding-bottom: 30px;
+            height: 100%;            
+        }
+        
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
         }
 
         .header-text {
@@ -47,15 +55,6 @@
             flex-direction: column;
             justify-content: center;
         }
-
-        /*.my-custom-scrollbar {
-                position: relative;
-                height: 490px;
-                overflow: auto;
-              }
-              .table-wrapper-scroll-y {
-                display: block;
-              }*/
     </style>
 </head>
 <body>
@@ -64,9 +63,9 @@
   <div class="container-fluid h-100">
     <div class="row align-items-center h-100">
       <div class="col-3 header-image">
-        <img src="path/to/image.jpg"
-             class="img-fluid align-middle"
-             alt="Logo"/>
+        <img src="~/Images/aspoeck-logo-sm.png"
+                       class="img-fluid align-middle"
+                       alt="Logo"/>
       </div>
       <div class="col-6 header-text">
         <h1 class="mb-0">Jausen Bestellung</h1>
