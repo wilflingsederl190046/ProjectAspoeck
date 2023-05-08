@@ -9,10 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="">
+    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="little fixes for security">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Manage_Users.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Manage_Users.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Edit_List.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Edit_List.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +23,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
-        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -31,8 +30,19 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1b7d7cb6609f8d85f36dfd4df6123c8060f4fd5e1699c5f959de6e918d7351/RazorPageOfT.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/30b89dbd52686b6dc1c64c4ad81d74fe03c2aa291c0af149f84d3f1a813f63/DiagnosticListener.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/36e740b59df23626d207e72ea77e34298e53dd99db463eee529f8c416b5664/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6a4abc33381932734b5fe8e665891a89f052eeee41e2debe188594bce29675c/ControllerActionInvoker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/81a3bcf4bb6aa5e62a9839f9cfeeba6126496f4fa07d1e57b27a5176e42525/ControllerBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/878910279067a69744823f3ab1230c177a593e37dfe46787dbbce03d3d3799/ResourceInvoker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cea8f116d46ddf4be845bdf1d46ab3bb5bc4f06bc533db822f2d7999187e56f/Controller.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e74356f198b598e97eaeea83e8b7b1f2bfe27c0a39fedf86bb7dc44827fbda/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/facad4292c1d7da96e4eecf681ad9b0d65de4612afef21d8a14c526a937210/AuthorizationMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/mattl/source/repos/ProjectAspoeck/ProjectAspoeck/Controllers/AdminController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/mattl/source/repos/ProjectAspoeck/ProjectAspoeck/Views/Shared/Admin_Edit_List.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -46,32 +56,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.43962008",
-    "git-widget-placeholder": "loginSession",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "HotReloadSettingsPage",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.43962008&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;loginSession&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;HotReloadSettingsPage&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Admin\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Admin\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\Admin\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\mattl\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\mattl\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\mattl\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.ProjectAspoeck: IIS Express">
     <configuration name="ProjectAspoeck: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ProjectAspoeck/ProjectAspoeck.csproj" />
@@ -134,7 +142,7 @@
       <workItem from="1683016085666" duration="10904000" />
       <workItem from="1683269489422" duration="6467000" />
       <workItem from="1683280538424" duration="6928000" />
-      <workItem from="1683463198188" duration="17234000" />
+      <workItem from="1683526251514" duration="4286000" />
     </task>
     <task id="LOCAL-00001" summary="Added Button for &quot;Liste exportieren&quot; and began with Admin">
       <created>1683018757232</created>
@@ -164,12 +172,12 @@
       <option name="project" value="LOCAL" />
       <updated>1683276074940</updated>
     </task>
-    <task id="LOCAL-00005" summary="Layout changes on Admin page, in ManageUsers you can now delete a user and change the password.">
-      <created>1683458297025</created>
+    <task id="LOCAL-00005" summary="little fixes for security">
+      <created>1683528361906</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1683458297025</updated>
+      <updated>1683528361906</updated>
     </task>
     <option name="localTasksCounter" value="6" />
     <servers />
@@ -213,8 +221,8 @@
     <MESSAGE value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
     <MESSAGE value="image in shopping basket" />
     <MESSAGE value="image in the right format" />
-    <MESSAGE value="Layout changes on Admin page, in ManageUsers you can now delete a user and change the password." />
-    <option name="LAST_COMMIT_MESSAGE" value="Layout changes on Admin page, in ManageUsers you can now delete a user and change the password." />
+    <MESSAGE value="little fixes for security" />
+    <option name="LAST_COMMIT_MESSAGE" value="little fixes for security" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
