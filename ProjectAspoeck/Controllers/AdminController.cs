@@ -9,47 +9,50 @@ public class AdminController : Controller
     public IActionResult Admin_Home_Page()
     {
         string sessionKey = "notAuthorized";
-        sessionKey = HttpContext.Session.GetString("SessionKey");
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
         if (sessionKey == "notAuthorized")
         {
-            RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
-        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-        string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
-
-        string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-        User user = _db.Users
-            .Where(x => x.UserName == username)
-            .FirstOrDefault() ?? new();
-
-        var ordersList = _db.Orders.Include(x => x.OrderItems)
-            .Where(x => x.OrderDate.Date == DateTime.Today.Date)
-            .Take(5)
-            .Select(x => new AdminOrderListDto
-            {
-                OrderNumber = 1,
-                Date = x.OrderDate,
-                Description = x.OrderItems.Select(x => $"{x.Quantity}x {x.Item.Name} ").First().ToString(),
-                State = x.OrderState.Name,
-                Price = Math.Round(x.OrderItems.Sum(x => x.Price), 2)
-            }).ToList();
-
-        /* if (ordersList.Count == 0 || ordersList == null)
-         {
-             ordersList = new List<Admin_OrderListDTO>
-           {
-             new Admin_OrderListDTO { OrderNumber= -1, Date = "", OrderItems = -1, State = "" },
-           };
-         }*/
-        var adminhomeModel = new Admin_Home_PageModel
+        else
         {
-            UserName = username,
-            Orders = ordersList,
-            SessionString = sessionKey,
-        };
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+            string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
 
-        adminhomeModel.SessionString = sessionKey;
-        return View(adminhomeModel);
+            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+            User user = _db.Users
+                .Where(x => x.UserName == username)
+                .FirstOrDefault() ?? new();
+
+            var ordersList = _db.Orders.Include(x => x.OrderItems)
+                .Where(x => x.OrderDate.Date == DateTime.Today.Date)
+                .Take(5)
+                .Select(x => new AdminOrderListDto
+                {
+                    OrderNumber = 1,
+                    Date = x.OrderDate,
+                    Description = x.OrderItems.Select(x => $"{x.Quantity}x {x.Item.Name} ").First().ToString(),
+                    State = x.OrderState.Name,
+                    Price = Math.Round(x.OrderItems.Sum(x => x.Price), 2)
+                }).ToList();
+
+            /* if (ordersList.Count == 0 || ordersList == null)
+             {
+                 ordersList = new List<Admin_OrderListDTO>
+               {
+                 new Admin_OrderListDTO { OrderNumber= -1, Date = "", OrderItems = -1, State = "" },
+               };
+             }*/
+            var adminhomeModel = new Admin_Home_PageModel
+            {
+                UserName = username,
+                Orders = ordersList,
+                SessionString = sessionKey,
+            };
+
+            adminhomeModel.SessionString = sessionKey;
+            return View(adminhomeModel);
+        }
     }
 
     [HttpGet]
@@ -78,54 +81,57 @@ public class AdminController : Controller
         {
             return RedirectToAction("Index", "Home");
         }
-        string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-
-        string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-        var user = _db.Users
-            .Where(x => x.UserName == username)
-            .FirstOrDefault() ?? new();
-
-        var ordersListForUser = _db.Orders
-            .Include(x => x.User)
-            .Include(x => x.OrderState)
-            .Include(x => x.OrderItems)
-            .ThenInclude(x => x.Item)
-            .Select(x => x)
-            .OrderBy(x => x.OrderId)
-            .ToList();
-
-        var orders = ordersListForUser
-            .OrderByDescending(x => x.OrderDate)
-            .Select(x => new AllOrdersViewModel
-            {
-                OrderNumber = ordersListForUser.IndexOf(x) + 1,
-                OrderDate = x.OrderDate.ToString("d"),
-                OrderContent = x.ToString(),
-                OrderAmount = x.OrderItems.Sum(y => y.Price),
-                OrderState = x.OrderState.Name,
-                OrderPrice = x.OrderItems.Sum(x => x.Price)
-            }).OrderBy(x => x.OrderNumber)
-            .ToList();
-
-        if (orders.Count == 0)
+        else
         {
-            orders = new List<AllOrdersViewModel>
-            {
-                new AllOrdersViewModel
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+
+            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
+            var user = _db.Users
+                .Where(x => x.UserName == username)
+                .FirstOrDefault() ?? new();
+
+            var ordersListForUser = _db.Orders
+                .Include(x => x.User)
+                .Include(x => x.OrderState)
+                .Include(x => x.OrderItems)
+                .ThenInclude(x => x.Item)
+                .Select(x => x)
+                .OrderBy(x => x.OrderId)
+                .ToList();
+
+            var orders = ordersListForUser
+                .OrderByDescending(x => x.OrderDate)
+                .Select(x => new AllOrdersViewModel
                 {
-                    OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "",
-                    OrderPrice = -1
-                },
-            };
+                    OrderNumber = ordersListForUser.IndexOf(x) + 1,
+                    OrderDate = x.OrderDate.ToString("d"),
+                    OrderContent = x.ToString(),
+                    OrderAmount = x.OrderItems.Sum(y => y.Price),
+                    OrderState = x.OrderState.Name,
+                    OrderPrice = x.OrderItems.Sum(x => x.Price)
+                }).OrderBy(x => x.OrderNumber)
+                .ToList();
+
+            if (orders.Count == 0)
+            {
+                orders = new List<AllOrdersViewModel>
+                {
+                    new AllOrdersViewModel
+                    {
+                        OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "",
+                        OrderPrice = -1
+                    },
+                };
+            }
+
+            return View(new Admin_All_OrdersModel
+            {
+                Orders = orders,
+                SessionString = sessionKey
+            });
         }
-        
-        return View(new Admin_All_OrdersModel
-        {
-          Orders = orders,
-          SessionString = sessionKey
-        });
     }
-    
+
     public IActionResult Admin_Manage_Users()
     {
         string sessionKey = "notAuthorized";
@@ -134,29 +140,32 @@ public class AdminController : Controller
         {
             return RedirectToAction("Index", "Home");
         }
-
-        var allUsers = _db.Users
-            .Select(x => new AdminUserDto
-            {
-                UserId = x.UserId,
-                UserName = x.UserName,
-                FirstName = x.FirstName,
-                ChipNumber = x.ChipNumber,
-                Active = x.Active,
-                CreatedDate = x.CreatedDate,
-                Email = x.Email,
-                LastName = x.LastName,
-                UserPassword = x.UserPassword
-            })
-            .ToList();
-        
-        return View(new AdminManageUsersModel
+        else
         {
-            SessionString = sessionKey,
-            Users = allUsers
-        });
+
+            var allUsers = _db.Users
+                .Select(x => new AdminUserDto
+                {
+                    UserId = x.UserId,
+                    UserName = x.UserName,
+                    FirstName = x.FirstName,
+                    ChipNumber = x.ChipNumber,
+                    Active = x.Active,
+                    CreatedDate = x.CreatedDate,
+                    Email = x.Email,
+                    LastName = x.LastName,
+                    UserPassword = x.UserPassword
+                })
+                .ToList();
+
+            return View(new AdminManageUsersModel
+            {
+                SessionString = sessionKey,
+                Users = allUsers
+            });
+        }
     }
-    
+
     [HttpPost]
     public IActionResult DeleteUser(int userId)
     {
@@ -330,4 +339,27 @@ public class AdminController : Controller
             });
         }
     }
+
+    [HttpPost]
+    public IActionResult Admin_Edit_List()
+    {
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
+        if (sessionKey == "notAuthorized")
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            return View(new Admin_Edit_ListModel
+            {
+                SessionKey = sessionKey,
+                
+            });
+        }
+        
+        return View();
+    }
 }
+
+

@@ -82,11 +82,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3">
-
-        <button type="button" class="btn btn-warning btn-block mb-3">
+      @using (Html.BeginForm("Admin_Edit_List", "Admin", FormMethod.Post))
+      {
+        <button type="submit" class="btn btn-warning btn-block mb-3">
           Jausen Liste bearbeiten
         </button>
-
+      }
         @using (Html.BeginForm("Admin_Manage_Users", "Admin", FormMethod.Post))
         {
           <button type="submit" class="btn btn-warning btn-block">

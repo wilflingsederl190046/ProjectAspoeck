@@ -1,6 +1,6 @@
 ﻿@using ProjectAspoeck.Models
 
-@model ProjectAspoeck.Models.Home_PageModel
+@model Admin_Edit_ListModel
 @{
     ViewData["Title"] = "Startseite";
 }
@@ -127,7 +127,7 @@
         <div class="row">
             <div class="col-lg-5 left-row">
                 <p>
-                    <span class="headingDateStatus">Willkommen @Model.UserName!</span>
+                    <span class="headingDateStatus">Willkommen</span>
                 </p>
                 <p>
                     <span class="headingDateStatus">Datum:</span>
@@ -167,7 +167,7 @@
             </div>
             <div class="col-md-7 right-row">
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                    <table class="table table-bordered table-striped table-scroll">
+                    @*<table class="table table-bordered table-striped table-scroll">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -217,17 +217,17 @@
                         </span>
                         </td>
                         </tr>
-                        </tbody>*@
-                        @foreach (var order in Model.Orders)
+                        </tbody>
+                       @foreach (var order in Model.Items)
                         {
                             <tr>
-                                <td>@order.OrderNumber</td>
-                                <td>@order.OrderDate</td>
+                                <td>@order.Name</td>
+                                <td>@order.Active</td>
                                 <td>@order.Price.ToString("C")</td>
-                                <td>@(order.State)</td>
+                                <td>@(order.ItemId)</td>
                                 <td>
                                     <span class="text-center-last-col">
-                                        @if (order.State.Equals(""))
+                                        @*if (order.State.Equals(""))
                                         {
 
                                         }
@@ -242,7 +242,7 @@
                                 </td>
                             </tr>
                         }
-                    </table>
+                    </table>*@
                 </div>
                 <button class="btn btn-warning btn-block">Letzte Bestellungen ansehen</button>
             </div>
