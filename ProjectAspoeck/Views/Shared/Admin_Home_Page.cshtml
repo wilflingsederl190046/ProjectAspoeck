@@ -102,7 +102,7 @@
           }
         </div>
         <div class="d-flex justify-content-center mb-3">
-          @using (Html.BeginForm("Admin_Export_List", "Admin", FormMethod.Post))
+          @using (Html.BeginForm("Admin_Export_List_OrdersFromDay", "Admin", FormMethod.Post))
           {
             <button type="submit" class="btn btn-success btn-block">
               Liste exportieren
@@ -117,6 +117,7 @@
             <tr>
               <th>Nr</th>
               <th>Datum</th>
+              <th>Benutzer</th>
               <th>Inhalt</th>
               <th>Status</th>
               <th>Kosten</th>
@@ -127,6 +128,7 @@
             {
               <tr>
                 <td style="font-style: italic">Heute wurde noch nichts bestellt. </td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -144,6 +146,9 @@
                 </td>
                 <td>
                   @order.Date
+                </td>
+                <td>
+                    @(order.UserName)
                 </td>
                 <td>
                   @if (order.Description != "")

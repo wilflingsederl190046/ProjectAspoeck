@@ -31,6 +31,7 @@ public class AdminController : Controller
                 {
                     OrderNumber = 1,
                     Date = x.OrderDate,
+                    UserName = x.User.UserName,
                     Description = x.OrderItems.Select(x => $"{x.Quantity}x {x.Item.Name} ").First().ToString(),
                     State = x.OrderState.Name,
                     Price = Math.Round(x.OrderItems.Sum(x => x.Price), 2)
@@ -56,18 +57,45 @@ public class AdminController : Controller
     }
 
     [HttpGet]
-    public void Admin_Export_List()
+    public void Admin_Export_List_OrdersFromDay()
     {
-       // string file = "Downloads/liste.xlsx";
-        string file = "C:\\Users\\Test\\Downloads\\liste.xls";
-        
+        // string file = "Downloads/liste.xlsx";
+        string downloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
+        string file = $"{downloadFolder}\\Tagesbestellungen_{DateTime.Now:dd_MM_yyyy}_Liste.csv";
+        string euro = "\u20AC";
+        string header = "\"Name\";\"Tagesbestellung\";\"Preis\"";
         using (StreamWriter writer = new StreamWriter(file))
         {
-            writer.WriteLine($"{DateTime.Now.Date}");
+            writer.WriteLine($"{DateTime.Now.ToString("dd.MM.yyyy")}");
             writer.WriteLine();
-            foreach(Order orderFromTheDay in _db.Orders.Include(x => x.OrderItems).Include(x => x.User).ToList())
+            writer.WriteLine(header);
+            foreach (Order orderFromTheDay in _db.Orders.Include(x => x.OrderItems).ThenInclude(x => x.Item).Include(x => x.User).Where(x => x.OrderDate.Date == DateTime.Now.Date).ToList())
             {
-                writer.WriteLine($"{orderFromTheDay.User.LastName};{orderFromTheDay.ToString()};{orderFromTheDay.OrderItems.Sum(x => x.Price)}");
+                writer.WriteLine($"{orderFromTheDay.User.FirstName} {orderFromTheDay.User.LastName};{orderFromTheDay.ToString()};{orderFromTheDay.OrderItems.Sum(x => x.Price):F2}");
+            }
+        }
+    }
+
+    [HttpGet]
+    public void Admin_Export_List_PayDay()
+    {
+        // string file = "Downloads/liste.xlsx";
+        string downloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
+        string file = $"{downloadFolder}\\Zahltag_{DateTime.Now:dd_MM_yyyy}_Liste.csv";
+        string euro = "\u20AC";
+        string header = "\"Name\";\"Anzahl offener Bestellungen\";\"Preis (Summe)\"";
+        using (StreamWriter writer = new StreamWriter(file))
+        {
+            writer.WriteLine($"{DateTime.Now.ToString("dd.MM.yyyy")}");
+            writer.WriteLine();
+            writer.WriteLine(header);
+            foreach (var group in _db.Orders.Include(x => x.OrderItems).ThenInclude(x => x.Item).Include(x => x.User).Where(x => x.OrderStateId == 2).GroupBy(x => x.User))
+            {
+                var user = group.Key;
+                var unpaidOrders = group.ToList();
+                var totalPrice = unpaidOrders.Sum(x => x.OrderItems.Sum(item => item.Price));
+
+                writer.WriteLine($"{user.FirstName} {user.LastName};{unpaidOrders.Count};{totalPrice:F2}");
             }
         }
     }
