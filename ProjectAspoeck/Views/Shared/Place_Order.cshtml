@@ -3,7 +3,6 @@
     ViewData["Title"] = "Bestellung aufgeben";
 }
 
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -127,27 +126,7 @@
         </div>
     </div>
 
-    <script>
-        const dateElement = document.getElementById('dateOnly');
-        const options = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        };
-        const formatter = new Intl.DateTimeFormat('de-DE', options);
-        
-        function updateDate() {
-            dateElement.textContent = formatter.format(new Date());
-        }
-        
-        let timer = setInterval(updateDate, 1000);
-        window.onunload = function() {
-            clearInterval(timer);
-        };
-    </script>
-
-    <div class="row mt-3">
+  <div class="row mt-3">
         <div class="col">
             <div class="form-group d-flex align-items-center">
                 <select class="form-control" id="filter" style="width: 150px">
@@ -191,10 +170,6 @@
                             </td>
                             <td class="stueck">@item.Units</td>
                           <td class="d-flex justify-content-center" style="height: 80px">
-                            @* <div class="button-container d-flex flex-column justify-content-center align-items-center"> *@
-                            @*   <button class="btn btn-sm btn-outline-secondary plus-button">+</button> *@
-                            @*   <button class="btn btn-sm btn-outline-secondary minus-button mt-2">-</button> *@
-                            @* </div> *@
                             <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">+</button>
                           </td>
                             <td class="d-flex justify-content-center" style="height: 80px">
@@ -202,63 +177,6 @@
                             </td>
                         </tr>
                     }
-
-                    <script>
-                // select all the plus buttons on the page
-                const plusButtons = document.querySelectorAll('.plus-button');
-                const minusButtons = document.querySelectorAll('.minus-button');
-
-                // loop through each button and add an event listener
-                plusButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        // get the corresponding Stück cell
-                        const stueckCell = button.parentElement.previousElementSibling
-
-                        // get the current Stück value and increment it by one
-                        let currentStueck = parseInt(stueckCell.textContent);
-                        currentStueck += 1;
-
-                        // update the Stück cell with the new value
-                        stueckCell.textContent = currentStueck;
-                    });
-                });
-
-                minusButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        // get the corresponding Stück cell
-                        const stueckCell = button.parentElement.previousElementSibling.previousElementSibling
-
-                        // get the current Stück value and decrement it by one
-                        let currentStueck = parseInt(stueckCell.textContent);
-                        currentStueck -= 1;
-
-                        // make sure the Stück value is at least 0
-                        currentStueck = Math.max(currentStueck, 0);
-
-                        // update the Stück cell with the new value
-                        stueckCell.textContent = currentStueck;
-                    });
-                });
-                function getData() {
-                    // Get the item unit and name
-                    const itemUnit = document.querySelector(".stueck").innerText;
-                    const itemName = document.querySelector(".itemName").innerText;
-                    alert("You have added " + itemUnit);
-
-                    const productTable = document.getElementById('productTable');
-                    const rows = productTable.rows;
-                    const orderItems = [];
-                    for (let i = 1; i < rows.length; i++) {
-                        const cells = rows[i].cells;
-                        const orderItem = {
-                            name: cells[0].textContent,
-                            price: cells[1].textContent,
-                            quantity: cells[2].textContent
-                        };
-                        orderItems.push(orderItem);
-                    }
-                }
-              </script>
                     </tbody>
                 </table>
             </div>
@@ -279,7 +197,30 @@
 </body>
 </html>
 
-<script>
+@section scripts
+{
+  <script>
+    //#region Timer
+    const dateElement = document.getElementById('dateOnly');
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    };
+    const formatter = new Intl.DateTimeFormat('de-DE', options);
+    
+    function updateDate() {
+        dateElement.textContent = formatter.format(new Date());
+    }
+    
+    let timer = setInterval(updateDate, 1000);
+    window.onunload = function() {
+        clearInterval(timer);
+    };
+    //#endregion
+    
+    //#region Prepare OrderItems (grüneis)
     // This function is called when the form is submitted
     function prepareOrderItems() {
         console.log('prepareOrderItems');
@@ -322,4 +263,63 @@
         })
             .then(x => console.log('--------------------------------- Shopping_Basket done'));
     }
+    //#endregion
+    
+    //#region Plus Minus Buttons
+    // select all the plus buttons on the page
+    const plusButtons = document.querySelectorAll('.plus-button');
+    const minusButtons = document.querySelectorAll('.minus-button');
+
+    // loop through each button and add an event listener
+    plusButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // get the corresponding Stück cell
+            const stueckCell = button.parentElement.previousElementSibling
+
+            // get the current Stück value and increment it by one
+            let currentStueck = parseInt(stueckCell.textContent);
+            currentStueck += 1;
+
+            // update the Stück cell with the new value
+            stueckCell.textContent = currentStueck;
+        });
+    });
+
+    minusButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // get the corresponding Stück cell
+            const stueckCell = button.parentElement.previousElementSibling.previousElementSibling
+
+            // get the current Stück value and decrement it by one
+            let currentStueck = parseInt(stueckCell.textContent);
+            currentStueck -= 1;
+
+            // make sure the Stück value is at least 0
+            currentStueck = Math.max(currentStueck, 0);
+
+            // update the Stück cell with the new value
+            stueckCell.textContent = currentStueck;
+        });
+    });
+    function getData() {
+        // Get the item unit and name
+        const itemUnit = document.querySelector(".stueck").innerText;
+        const itemName = document.querySelector(".itemName").innerText;
+        alert("You have added " + itemUnit);
+
+        const productTable = document.getElementById('productTable');
+        const rows = productTable.rows;
+        const orderItems = [];
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].cells;
+            const orderItem = {
+                name: cells[0].textContent,
+                price: cells[1].textContent,
+                quantity: cells[2].textContent
+            };
+            orderItems.push(orderItem);
+        }
+    }
+    //#endregion
   </script>
+}
