@@ -74,6 +74,7 @@ public class AdminController : Controller
                 writer.WriteLine($"{orderFromTheDay.User.FirstName} {orderFromTheDay.User.LastName};{orderFromTheDay.ToString()};{orderFromTheDay.OrderItems.Sum(x => x.Price):F2}");
             }
         }
+       // RedirectToAction("Admin_Home_Page", "Admin");
     }
 
     [HttpGet]
@@ -98,6 +99,8 @@ public class AdminController : Controller
                 writer.WriteLine($"{user.FirstName} {user.LastName};{unpaidOrders.Count};{totalPrice:F2}");
             }
         }
+
+        //Admin_Home_Page();
     }
 
     [HttpPost]

@@ -9,16 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="little fixes for security">
+    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="when login with chip -&gt; orderDetail">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/config/applicationhost.config" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/config/applicationhost.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BreakfastDBLib/BreakfastDBContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BreakfastDBLib/BreakfastDBContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/HomeController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/OrderDetailController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/OrderDetailController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Models/Order_DetailModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/Order_DetailModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/All_Orders.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/All_Orders.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +35,12 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1b7d7cb6609f8d85f36dfd4df6123c8060f4fd5e1699c5f959de6e918d7351/RazorPageOfT.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6441be2d897c4b23f370c135bc5cbd07eceb3cdd1f83fa5e3ebb7f4536f9/QueryableMethodTranslatingExpressionVisitor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6a4abc33381932734b5fe8e665891a89f052eeee41e2debe188594bce29675c/ControllerActionInvoker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/81a3bcf4bb6aa5e62a9839f9cfeeba6126496f4fa07d1e57b27a5176e42525/ControllerBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cea8f116d46ddf4be845bdf1d46ab3bb5bc4f06bc533db822f2d7999187e56f/Controller.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e74356f198b598e97eaeea83e8b7b1f2bfe27c0a39fedf86bb7dc44827fbda/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ee456ec7f2e479b4eaa66183eaa0d1365ef16c4615282c4e7dccacdcc14dda/ArgumentNullException.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/mattl/source/repos/ProjectAspoeck/ProjectAspoeck/Views/Shared/All_Orders.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -175,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683528361906</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="when login with chip -&gt; orderDetail">
+      <created>1683569942049</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1683569942049</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,7 +223,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Added Button for &quot;Liste exportieren&quot; and began with Admin" />
     <MESSAGE value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
+    <MESSAGE value="when login with chip -&gt; orderDetail" />
+    <option name="LAST_COMMIT_MESSAGE" value="when login with chip -&gt; orderDetail" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -231,6 +241,32 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ProjectAspoeck/Controllers/OrderDetailController.cs</url>
+          <line>27</line>
+          <properties documentPath="C:\Users\mattl\source\repos\ProjectAspoeck\ProjectAspoeck\Controllers\OrderDetailController.cs" initialLine="22" containingFunctionPresentation="Method 'Order_Detail'">
+            <startOffsets>
+              <option value="883" />
+            </startOffsets>
+            <endOffsets>
+              <option value="907" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ProjectAspoeck/Controllers/HomeController.cs</url>
+          <line>133</line>
+          <properties documentPath="C:\Users\mattl\source\repos\ProjectAspoeck\ProjectAspoeck\Controllers\HomeController.cs" initialLine="133" containingFunctionPresentation="Method 'LoginWithChip'">
+            <startOffsets>
+              <option value="4867" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4867" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
