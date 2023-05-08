@@ -1,4 +1,5 @@
-﻿@model ProjectAspoeck.Models.Admin_Home_PageModel
+﻿@using Microsoft.IdentityModel.Tokens
+@model ProjectAspoeck.Models.Admin_Home_PageModel
 @{
   ViewData["Title"] = "Admin-Startseite";
 }
@@ -85,7 +86,7 @@
     <div class="row">
       <div class="col-md-3">
         <div class="d-flex justify-content-center mb-3">
-          @using (Html.BeginForm("Admin_Edit_List", "Admin", FormMethod.Post))
+          @using (Html.BeginForm("Admin_Edit_List", "EditList", FormMethod.Post))
           {
             <button type="submit" class="btn btn-warning btn-block">
               Jausen Liste bearbeiten
@@ -93,7 +94,7 @@
           }
         </div>
         <div class="d-flex justify-content-center mb-3">
-          @using (Html.BeginForm("Admin_Manage_Users", "Admin", FormMethod.Post))
+          @using (Html.BeginForm("Admin_Manage_Users", "ManageUsers", FormMethod.Post))
           {
             <button type="submit" class="btn btn-warning btn-block">
               User verwalten
@@ -122,6 +123,16 @@
             </tr>
             </thead>
             <tbody>
+            @if (Model.Orders.IsNullOrEmpty())
+            {
+              <tr>
+                <td style="font-style: italic">Heute wurde noch nichts bestellt. </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            }
             @foreach (var order in Model.Orders)
             {
               <tr>

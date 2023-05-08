@@ -1,23 +1,23 @@
 ﻿@model ProjectAspoeck.Models.AdminManageUsersModel
 @{
-  ViewData["Title"] = "Admin User verwalten";
+    ViewData["Title"] = "Admin User verwalten";
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Jausen Bestellung</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link
-    rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <meta charset="UTF-8"/>
+    <title>Jausen Bestellung</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 
-  <style>
+    <style>
       .header-image {
         padding-left: 50px;
             height: 100%;
@@ -68,7 +68,7 @@
       .table-wrapper-scroll-y {
         display: block;
         overflow: auto;
-        max-height: calc(100vh - 325px);
+        max-height: 65vh; /*calc(100vh - 330px);*/
       }
       
       table {
@@ -79,242 +79,245 @@
 </head>
 <body>
 <header class="bg-light py-3" style="height: 150px">
-  <div class="container-fluid h-100">
-    <div class="row align-items-center h-100">
-      <div class="col-3 header-image">
-        <img src="~/Images/aspoeck-logo-sm.png"
-             class="img-fluid align-middle"
-             alt="Logo"/>
-      </div>
-      <div class="col-6 header-text">
-        <h1 class="mb-0">Jausen Bestellung</h1>
-      </div>
-      <div class="col-3 text-center bg-warning py-2">
-        <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
-      </div>
+    <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-3 header-image">
+                <img src="~/Images/aspoeck-logo-sm.png"
+                     class="img-fluid align-middle"
+                     alt="Logo"/>
+            </div>
+            <div class="col-6 header-text">
+                <h1 class="mb-0">Jausen Bestellung</h1>
+            </div>
+            <div class="col-3 text-center bg-warning py-2">
+                <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
 
 <div class="container-fluid">
-  <div class="filter">
-    <div>
-      <label for="von-datum">Von Erstellungsdatum:</label>
-      <input
-        type="date"
-        id="von-datum"
-        name="von-datum"
-        style="margin-left: 1px"
-        value="2023-01-01"/>
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Suche ..."
-        style="margin-left: 8px"/>
+    <div class="filter">
+        <div>
+            <label for="von-datum">Von Erstellungsdatum:</label>
+            <input
+                type="date"
+                id="von-datum"
+                name="von-datum"
+                style="margin-left: 1px"
+                value="2023-01-01"/>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Suche ..."
+                style="margin-left: 8px"/>
 
-      <button id="newUser" class="btn btn-warning float-right" onclick="showUserModal()">
-        <i class="fa fa-user-plus"></i>
-        Neuer Benutzer
-      </button>
-    </div>
-    <div>
-      <label for="bis-datum">Bis Erstellungsdatum:</label>
-      <input
-        type="date"
-        id="bis-datum"
-        name="bis-datum"
-        style="margin-left: 8px"
-        value="2023-12-31"/>
-      <label for="bis-datum" style="margin-left: 8px">Aktiv:</label>
-      <input type="checkbox" checked="checked"/>
-    </div>
+            <button id="newUser" class="btn btn-warning float-right" onclick="showUserModal()">
+                <i class="fa fa-user-plus"></i>
+                Neuer Benutzer
+            </button>
+        </div>
+        <div>
+            <label for="bis-datum">Bis Erstellungsdatum:</label>
+            <input
+                type="date"
+                id="bis-datum"
+                name="bis-datum"
+                style="margin-left: 8px"
+                value="2023-12-31"/>
+            <label for="bis-datum" style="margin-left: 8px">Aktiv:</label>
+            <input type="checkbox" checked="checked"/>
+        </div>
 
-  </div>
-  <div class="row">
-    <div class="col-md-12 table-height">
-      <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
-        <table id="userTable" class="table table-bordered table-striped table-scroll">
-          <thead>
-          <tr>
-            <th>Nr</th>
-            <th>Erstellt am</th>
-            <th>Name</th>
-            <th>Chip</th>
-            <th>Status</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            @* <th>Bearbeiten</th> *@
-            @* <th>Passwort</th> *@
-            @* <th>Löschen</th> *@
-          </tr>
-          </thead>
-          <tbody id="bodyTable">
-          @foreach (var user in Model.Users)
-          {
-            <tr>
-              <td>
-                @(Model.Users.IndexOf(user) + 1)
-              </td>
-              <td>@user.CreatedDate.ToString("d")</td>
-              <td>
-                Vor- und Nachname: <input type="text" name="firstname" value="@user.FirstName" disabled="disabled"/>
-                <input
-                  type="text"
-                  name="lastname"
-                  value="@user.LastName"
-                  disabled="disabled"/>
-                <div style="margin-top: 5px">
-                  Username: <input type="text" name="username" value="@user.UserName" disabled="disabled"/>
-                </div>
-                <div style="margin-top: 5px">
-                  E-Mail: <input type="email" name="email" value="@user.Email" style="width: 580px" disabled="disabled"/>
-
-                </div>
-              </td>
-              <td>
-                <input type="text" name="chip" value="@user.ChipNumber" disabled="disabled"/>
-              </td>
-              <td>
-                <input id="cbActive" type="checkbox" name="status" @(user.Active ? "checked" : "") onchange="activeChanged(@user.UserId, checked)"/> Aktiv
-              </td>
-              <td>
-                <span class="text-center-last-col">
-                  <button type="button" class="btn btn-primary" onclick="showUserModal(true, @user.UserId)">
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                </span>
-              </td>
-              <td>
-                <span class="text-center-last-col">
-                  <button type="button" class="btn btn-secondary" onclick="showChangePasswordModal(@user.UserId)">
-                    <i class="fa fa-lock"></i>
-                  </button>
-                </span>
-              </td>
-              <td>
-                <span class="text-center-last-col">
-                  <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@user.UserId')">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </span>
-              </td>
-            </tr>
-          }
-          </tbody>
-        </table>
-      </div>
     </div>
-  </div>
-  <div class="row">
+    <div class="row">
+        <div class="col-md-12 table-height">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+            <table id="userTable" class="table table-bordered table-striped table-scroll">
+                <thead>
+                <tr>
+                    <th>Nr</th>
+                    <th>Erstellt am</th>
+                    <th>Name</th>
+                    <th>Chip</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    @* <th>Bearbeiten</th> *@
+                    @* <th>Passwort</th> *@
+                    @* <th>Löschen</th> *@
+                </tr>
+                </thead>
+                <tbody id="bodyTable">
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>
+                            @(Model.Users.IndexOf(user) + 1)
+                        </td>
+                        <td>@user.CreatedDate.ToString("d")</td>
+                        <td>
+                            Username: <input type="text" name="username" value="@user.UserName" disabled="disabled" style="width: 315px"/>
+                            <div style="margin-top: 5px">
+                                Vor- und Nachname: <input type="text" name="firstname" value="@user.FirstName" disabled="disabled"/>
+                                <input
+                                    type="text"
+                                    name="lastname"
+                                    value="@user.LastName"
+                                    disabled="disabled"/>
+                            </div>
+                            <div style="margin-top: 5px">
+                                E-Mail: <input type="email" name="email" value="@user.Email" style="width: 580px" disabled="disabled"/>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text" name="chip" value="@user.ChipNumber" disabled="disabled"/>
+                        </td>
+                        <td>
+                            <input id="cbActive" type="checkbox" name="status" @(user.Active ? "checked" : "") onchange="activeChanged(@user.UserId, checked)"/> Aktiv
+                        </td>
+                        <td>
+                            <span class="text-center-last-col">
+                                <button type="button" class="btn btn-primary" onclick="showUserModal(true, @user.UserId)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-center-last-col">
+                                <button type="button" class="btn btn-secondary" onclick="showChangePasswordModal(@user.UserId)">
+                                    <i class="fa fa-lock"></i>
+                                </button>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-center-last-col">
+                                <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@user.UserId')">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12">
-      @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
-      {
-        <button href="#" class="btn btn-warning float-left">Zurück</button>
-      }
+        @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
+        {
+            <button href="#" class="btn btn-warning float-left">Zurück</button>
+        }
     </div>
-  </div>
+</div>
 </div>
 
 @* New password window *@
 <div id="changePasswordModal" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Neues Passwort setzen</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="new-password">Neues Passwort:</label>
-            <input type="password" class="form-control" id="new-password">
-          </div>
-          <div class="form-group">
-            <label for="confirm-password">Neues Passwort wiederholen:</label>
-            <input type="password" class="form-control" id="confirm-password">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abort">Abbrechen</button>
-        <button type="button" class="btn btn-success" id="save-password">Speichern</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Neues Passwort setzen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="new-password">Neues Passwort:</label>
+                        <input type="password" class="form-control" id="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Neues Passwort wiederholen:</label>
+                        <input type="password" class="form-control" id="confirm-password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abort">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="save-password">Speichern</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 @* New user window *@
 <div id="newUserModal" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newUserModalTitle">Neuen Benutzer anlegen</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeUser">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="firstname">Vorname:<span style="color: red">*</span></label>
-            <input type="text" class="form-control" id="firstname">
-          </div>
-          <div class="form-group">
-            <label for="lastname">Nachname:<span style="color: red">*</span></label>
-            <input type="text" class="form-control" id="lastname">
-          </div>
-          <div class="form-group">
-            <label for="username">Username:<span style="color: red">*</span></label>
-            <input type="text" class="form-control" id="username">
-          </div>
-          <div class="form-group">
-            <label for="email">E-Mail:</label>
-            <input type="text" class="form-control" id="email">
-          </div>
-          <div class="form-group">
-            <label for="chipNr">Chip Nr:<span style="color: red">*</span></label>
-            <input type="text" class="form-control" id="chipNr">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortUser">Abbrechen</button>
-        <button type="button" class="btn btn-success" id="save-newUser">Speichern</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUserModalTitle">Neuen Benutzer anlegen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeUser">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="firstname">Vorname:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="firstname">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Nachname:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="lastname">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-Mail:</label>
+                        <input type="text" class="form-control" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="chipNr">Chip Nr:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="chipNr">
+                    </div>
+                    <div id="passwordDiv" class="form-group">
+                        <label for="password">Passwort:<span style="color: red">*</span></label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortUser">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="save-newUser">Speichern</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 @* Delete user window *@
 <div id="deleteUserModal" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeDeleteUser">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteUser">Nein</button>
-        <button type="button" class="btn btn-success" id="confirm-deleteUser" onclick="deleteUser()">Ja</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeDeleteUser">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteUser">Nein</button>
+                <button type="button" class="btn btn-success" id="confirm-deleteUser" onclick="deleteUser()">Ja</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 </body>
 </html>
 
 @section scripts {
-  <script>
+    <script>        
         //#region Set Active
         function activeChanged(id, active) {
             $.ajax({
-                url: '@Url.Action("ChangeActive", "Admin")',
+                url: '@Url.Action("ChangeActive", "ManageUsers")',
                 type: 'POST',
                 data: { 
                     userId: id,
@@ -338,7 +341,7 @@
         //#region Delete User
         function deleteUser() {
             $.ajax({
-                url: '@Url.Action("DeleteUser", "Admin")',
+                url: '@Url.Action("DeleteUser", "ManageUsers")',
                 type: 'POST',
                 data: { userId: userId },
                 success: function(result) {
@@ -391,7 +394,7 @@
             }
 
             $.ajax({
-                url: '@Url.Action("ChangePassword", "Admin")',
+                url: '@Url.Action("ChangePassword", "ManageUsers")',
                 type: 'POST',
                 data: {
                   userId: userId,
@@ -428,6 +431,12 @@
             $('#newUserModalTitle').html(title);
             $('#save-newUser').html(saveButtonLabel);
             
+            if (editMode) {
+                $('#passwordDiv').attr('hidden', 'hidden');
+            } else {
+                $('#passwordDiv').removeAttr('hidden');
+            }
+            
             $('#firstname').val('');
             $('#lastname').val('');
             $('#username').val('');
@@ -437,7 +446,7 @@
             if (id !== -1) {
             
                 $.ajax({
-                    url: '@Url.Action("GetUser", "Admin")',
+                    url: '@Url.Action("GetUser", "ManageUsers")',
                     type: 'POST',
                     data: {
                         userId: id
@@ -477,6 +486,7 @@
             const username = $('#username').val();
             const email = $('#email').val();
             const chipNr = $('#chipNr').val();
+
             if (firstname === '' || lastname === '' || username === '' || chipNr === '' ) {
                 alert('Bitte füllen Sie alle Pflichtfelder aus.');
                 return;
@@ -484,7 +494,7 @@
             
             if (userEdit) {
                 $.ajax({
-                    url: '@Url.Action("UpdateUser", "Admin")',
+                    url: '@Url.Action("UpdateUser", "ManageUsers")',
                     type: 'POST',
                     data: {
                         userId: userId,
@@ -509,8 +519,14 @@
             }
             else 
             {
+                const password = $('#password').val();
+                if (password === '' ) {
+                    alert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    return;
+                }
+                
                 $.ajax({
-                    url: '@Url.Action("AddUser", "Admin")',
+                    url: '@Url.Action("AddUser", "ManageUsers")',
                     type: 'POST',
                     data: {
                         firstname: firstname,
@@ -518,6 +534,7 @@
                         username: username,
                         email: email,
                         chipNr: chipNr,
+                        password: password
                     },
                     success: function(result) {
                         if (result.success) {
@@ -534,6 +551,7 @@
             }
         });
         //#endregion
+    
     
     </script>
 }
