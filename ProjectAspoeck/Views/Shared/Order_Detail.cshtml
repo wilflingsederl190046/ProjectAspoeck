@@ -87,7 +87,11 @@
             max-height: 100%;
             display: block;
         }
-      
+       .img-container {
+            width: 200px;
+            height: 130px;
+            overflow: hidden;
+          }
       </style>
 </head>
 <body>
@@ -119,8 +123,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-6">
-                <p>Bestellung von <strong>Max Mustermann</strong></p>
-                <p>am <strong>07.03.2023</strong></p>
+                <p>Bestellung von <strong>@Model.UserName</strong></p>
+                <p><strong>@Model.OrderDate.Date.ToString("D") </strong></p>
             </div>
             <div class="col-6">
                 <div class="table-responsive">
@@ -130,33 +134,34 @@
                                 <th>Bild</th>
                                 <th>Bezeichnung</th>
                                 <th>Preis</th>
+                                <th>Stück</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <img src="https://via.placeholder.com/50x50.png?text=Bild+1"
-                                         alt="Bild 1" />
-                                </td>
-                                <td>Semmel</td>
-                                <td>1,20 €</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="https://via.placeholder.com/50x50.png?text=Bild+2"
-                                         alt="Bild 2" />
-                                </td>
-                                <td>Brezel</td>
-                                <td>2,40 €</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="https://via.placeholder.com/50x50.png?text=Bild+3"
-                                         alt="Bild 3" />
-                                </td>
-                                <td>Semmel mit Butter</td>
-                                <td>1,80 €</td>
-                            </tr>
+                            @foreach (var item in Model.Order)
+                             {
+                           <tr>
+                               <td>
+                                   <div class="img-container">
+                                       @if (item.ImageUrl != null && item.ImageUrl.Length > 0)
+                                       {
+                                           <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageUrl)}")" alt="@item.Name"/>
+                                       }
+                                       else
+                                       {
+                                           <span>Kein Bild verfügbar</span>
+                                       }
+                                   </div>
+                               </td>
+                               <td class="itemName">@item.Name</td>
+                               <td class="price">
+                                   @item.Price.ToString("N2")
+                                   @Html.Raw(" €")
+                               </td>
+                               <td class="stueck">@item.Units</td>
+                             
+                           </tr>
+                           }
                         </tbody>
                     </table>
                 </div>
@@ -164,8 +169,8 @@
         </div>
         <div class="row mt-3">
             <div class="col">
-                <p>Anzahl Artikel: <strong>3</strong></p>
-                <p>Preis insgesamt: <strong>5,40 €</strong></p>
+                <p>Anzahl Artikel: <strong>@Model.TotalItemCount</strong></p>
+                <p>Preis insgesamt: <strong>@Model.TotalPrice.ToString("0.00") €</strong></p>
                 <p>Status: <strong>nicht bezahlt</strong></p>
             </div>
         </div>

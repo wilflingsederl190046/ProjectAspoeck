@@ -39,8 +39,11 @@ public class OrderDetailController : Controller
           })).ToList();
   
         Console.WriteLine(userTodaysOrder);
-        
-
+        detailModel.Order = userTodaysOrder;
+        detailModel.UserName = $"{user.FirstName} {user.LastName}";
+        detailModel.OrderDate = DateTime.Today;
+        detailModel.TotalPrice = userTodaysOrder.Sum(x => x.Price);
+        detailModel.TotalItemCount = (int)userTodaysOrder.Sum(x => x.Units);
       }
       return View(detailModel);
     }

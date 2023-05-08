@@ -9,8 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="nearly finished detail view">
+    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="weird changes admin HomePage">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/config/applicationhost.config" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/config/applicationhost.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BreakfastDBLib/BreakfastDBContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BreakfastDBLib/BreakfastDBContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/OrderDetailController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/OrderDetailController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Models/Order_DetailModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/Order_DetailModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +41,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cea8f116d46ddf4be845bdf1d46ab3bb5bc4f06bc533db822f2d7999187e56f/Controller.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e74356f198b598e97eaeea83e8b7b1f2bfe27c0a39fedf86bb7dc44827fbda/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ee456ec7f2e479b4eaa66183eaa0d1365ef16c4615282c4e7dccacdcc14dda/ArgumentNullException.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f9749fe3576a687c3c42f3794cefe8f8d91e62f939c66c0a32dbb3f74255/ManualResetEventSlim.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/mattl/source/repos/ProjectAspoeck/ProjectAspoeck/Views/Shared/Admin_Edit_List.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/mattl/source/repos/ProjectAspoeck/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/mattl/source/repos/ProjectAspoeck/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/mattl/source/repos/ProjectAspoeck/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
@@ -189,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683577118639</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="weird changes admin HomePage">
+      <created>1683577451956</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1683577451956</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,7 +245,8 @@
     <MESSAGE value="Fixed name violations in dtos and made the manage users page callable and loaded the data from the database" />
     <MESSAGE value="when login with chip -&gt; orderDetail" />
     <MESSAGE value="nearly finished detail view" />
-    <option name="LAST_COMMIT_MESSAGE" value="nearly finished detail view" />
+    <MESSAGE value="weird changes admin HomePage" />
+    <option name="LAST_COMMIT_MESSAGE" value="weird changes admin HomePage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -247,19 +263,6 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ProjectAspoeck/Controllers/HomeController.cs</url>
-          <line>133</line>
-          <properties documentPath="C:\Users\mattl\source\repos\ProjectAspoeck\ProjectAspoeck\Controllers\HomeController.cs" initialLine="133" containingFunctionPresentation="Method 'LoginWithChip'">
-            <startOffsets>
-              <option value="4867" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4867" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
