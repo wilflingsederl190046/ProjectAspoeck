@@ -2,5 +2,9 @@
 
 public class Order_DetailModel
 {
-  public string SessionString { get; set; } = null!;
+    public byte[]? ImageUrl { get; set; }
+    public string ItemName { get; set; } = null!;
+    public double ItemPrice { get; set; }
+    public string UserName { get; set; }
+  
 }

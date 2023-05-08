@@ -111,9 +111,7 @@ public class HomeController : Controller
 
         return View(homeModel);
     }
-
-    public IActionResult Order_Detail(string sessionKey) => View(new Order_DetailModel { SessionString = sessionKey });
-
+    
     [HttpGet]
     public IActionResult LoginWithChip() => View(new LoginModel());
 
@@ -130,9 +128,19 @@ public class HomeController : Controller
         }
         // Generate session key
         string sessionKey = Guid.NewGuid().ToString();
-
+        loginModel.LoginId = user.UserName;
+        //HttpContext.Session.SetString("SessionKey", sessionKey);
         SaveDataInSession(loginModel, sessionKey);
+        if (_db.Orders.Include(x=>x.User).Where(x => x.UserId == user.UserId && x.OrderDate.Date == DateTime.Today).Any())
+        {
+            return RedirectToAction("Order_Detail", "OrderDetail");
+        }
+        else
+        {
+            return RedirectToAction("Home_Page", "Home");
+        }
 
-        return RedirectToAction("Home_Page", "Home");
+        
     }
+    
 }

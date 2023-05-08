@@ -19,38 +19,76 @@
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
-        .header {
-          height: 150px;
-          display: flex;
-          align-items: center;
-          background-color: #f2f2f2;
-      }
-
-      .header-image {
-          padding-left: 50px;
-          height: 100%;
-      }
-
-      .text-center-last-col{
-          display: flex;
-          justify-content: center;
-      }
-
-      img {
-          max-width: 100%;
-          max-height: 100%;
-          display: block;
-      }
-
-      .header-text {
-          text-align: center;
-      }
-
-      .btn {
-          font-weight: bold;
-          font-size: 1.5rem;
-      }
-    </style>
+        header {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            background-color: #f2f2f2;
+        }
+        
+        .header-image {
+            padding-left: 50px;
+            height: 100%;
+        }
+        
+        .text-center-last-col {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .header-text {
+            text-align: center;
+        }
+        
+        .main {
+            margin-top: 30px;
+        }
+        
+        .main .date {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .main .headingDateStatus {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .main .status {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .btn {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .table th,
+        .table td {
+            font-size: 1.2rem;
+        }
+        
+        .left-row {
+            padding-left: 50px;
+        }
+        
+        .right-row {
+            padding-right: 50px;
+        }
+        
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+      
+      </style>
 </head>
 <body>
     <header class="bg-light py-3" style="height: 150px">
@@ -78,7 +116,7 @@
         </div>
       </header>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-6">
                 <p>Bestellung von <strong>Max Mustermann</strong></p>
