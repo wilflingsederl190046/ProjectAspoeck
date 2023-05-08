@@ -84,26 +84,10 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3">
-      @using (Html.BeginForm("Admin_Edit_List", "Admin", FormMethod.Post))
-      {
-        <button type="submit" class="btn btn-warning btn-block mb-3">
-          Jausen Liste bearbeiten
-        </button>
-      }
-        @using (Html.BeginForm("Admin_Manage_Users", "Admin", FormMethod.Post))
-        {
-          <button type="submit" class="btn btn-warning btn-block">
-            User verwalten
-          </button>
-        }
-      @*Test für git*@
-        <button type="button" class="btn btn-success btn-block">
-          Liste exportieren
-        </button>
         <div class="d-flex justify-content-center mb-3">
-          @using (Html.BeginForm("Admin_All_Orders", "Admin", FormMethod.Post))
+          @using (Html.BeginForm("Admin_Edit_List", "Admin", FormMethod.Post))
           {
-            <button type="submit" class="btn btn-warning w-100">
+            <button type="submit" class="btn btn-warning btn-block">
               Jausen Liste bearbeiten
             </button>
           }
@@ -111,7 +95,7 @@
         <div class="d-flex justify-content-center mb-3">
           @using (Html.BeginForm("Admin_Manage_Users", "Admin", FormMethod.Post))
           {
-            <button type="submit" class="btn btn-warning w-100">
+            <button type="submit" class="btn btn-warning btn-block">
               User verwalten
             </button>
           }
