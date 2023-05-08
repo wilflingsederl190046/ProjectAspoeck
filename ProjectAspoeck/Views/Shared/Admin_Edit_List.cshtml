@@ -1,126 +1,469 @@
-﻿@using ProjectAspoeck.Models
-
-@model Admin_Edit_ListModel
+﻿@model ProjectAspoeck.Models.AdminEditListModel
 @{
-    ViewData["Title"] = "Startseite";
+    ViewData["Title"] = "Jausen Liste bearbeiten";
 }
 
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
     <title>Jausen Bestellung</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous" />
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <!-- Custom CSS -->
- <style>
-         header {
-             height: 150px;
-             display: flex;
-             align-items: center;
-             background-color: #f2f2f2;
-         }
-         
-         .header-image {
-             padding-left: 50px;
-             height: 100%;            
-         }
-         
-         img {
-             max-width: 100%;
-             max-height: 100%;
-             display: block;
-         }
- 
-         .header-text {
-             text-align: center;
-         }
- 
-         .header-right-text,
-         .btn {
-             font-weight: bold;
-             font-size: 1.5rem;
-         }
- 
-         .table td {
-             font-size: 1.2rem;
-         }
- 
-         .table th {
-             font-weight: bold;
-             font-size: 1.2rem;
-         }
- 
-         .col-md-3 {
-             display: flex;
-             flex-direction: column;
-             justify-content: center;
-         }
-     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+
+    <style>
+      .header-image {
+        padding-left: 50px;
+            height: 100%;
+      }
+      
+      img {
+          max-width: 100%;
+          max-height: 100%;
+          display: block;
+      }
+      
+      .header-text {
+        padding-right: 50px;
+        text-align: center;
+      }
+      
+      .header-right-text,
+      .btn {
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+
+      .table td {
+        font-size: 1.2rem;
+      }
+      .table th {
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .text-center-last-col {
+        display: flex;
+        justify-content: center;
+      }
+      
+      .filter {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          border: 1px solid black;
+          padding: 10px;
+      }
+      
+      .my-custom-scrollbar {
+          position: relative;
+          height: 100%;
+          overflow: auto;
+      }
+      .table-wrapper-scroll-y {
+        display: block;
+        overflow: auto;
+        max-height: 65vh; /*calc(100vh - 330px);*/
+      }
+      
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      
+      .img-container {
+        width: 200px;
+        height: 130px;
+        overflow: hidden;
+      }
+      
+      .img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .img-container img:hover {
+        transform: scale(1.1);
+      }
+    </style>
 </head>
-
 <body>
-   <header class="bg-light py-3" style="height: 150px">
-     <div class="container-fluid h-100">
-       <div class="row align-items-center h-100">
-         <div class="col-3 header-image">
-           <img src="~/Images/aspoeck-logo-sm.png"
-                          class="img-fluid align-middle"
-                          alt="Logo"/>
-         </div>
-         <div class="col-6 header-text">
-           <h1 class="mb-0">Jausen Bestellung</h1>
-         </div>
-         <div class="col-3 text-center bg-warning py-2">
-           <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
-         </div>
-       </div>
-     </div>
-   </header>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Change Item</h2>
+<header class="bg-light py-3" style="height: 150px">
+    <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-3 header-image">
+                <img src="~/Images/aspoeck-logo-sm.png"
+                     class="img-fluid align-middle"
+                     alt="Logo"/>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 table-height">
-                <div class="table-scroll">
-                    <table id="itemTable" class="table table-bordered table-striped table-scroll">
-                        <thead>
-                            <tr>
-                                <th>Beschreibung</th>
-                                <th>Preis</th>
-                                <th>Aktionen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @*<tr>
-                                <td>@Model.Items.</td>
-                                <td>@Model.Item.Name</td>
-                                <td>@Model.Item.Description</td>
-                                <td>@Model.Item.Price</td>
-                                <td>
-                                   @* <a href="@Url.Action("Edit", "Item", new { id = Model.Item.Id })" class="btn btn-primary">Edit</a>
-                                    <a href="@Url.Action("Delete", "Item", new { id = Model.Item.Id })" class="btn btn-danger">Delete</a>
-                                </td>
-                            </tr>*@
-                        
-                        </tbody>
-                    </table>
-                    <div class="text-center">
-                        @*<a href="@Url.Action("Create", "Item")" class="btn btn-success">Add New Item</a>*@
-                    </div>
-                </div>
+            <div class="col-6 header-text">
+                <h1 class="mb-0">Jausen Bestellung</h1>
+            </div>
+            <div class="col-3 text-center bg-warning py-2">
+                <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
             </div>
         </div>
     </div>
+</header>
+
+<div class="container-fluid">
+    <div class="filter">
+        <div>
+            <label for="von-datum">Von Erstellungsdatum:</label>
+            <input
+                type="date"
+                id="von-datum"
+                name="von-datum"
+                style="margin-left: 1px"
+                value="2023-01-01"/>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Suche ..."
+                style="margin-left: 8px"/>
+            
+            <button id="newUser" class="btn btn-warning float-right" onclick="showItemModal()">
+                <i class="fa fa-user-plus"></i>
+                Neues Produkt
+            </button>
+            <button id="newImage" class="btn btn-warning float-right" onclick="showImageModal()" style="margin-right: 10px">
+                <i class="fa fa-image"></i>
+                Neues Bild
+            </button>
+        </div>
+        <div>
+            <label for="bis-datum">Bis Erstellungsdatum:</label>
+            <input
+                type="date"
+                id="bis-datum"
+                name="bis-datum"
+                style="margin-left: 8px"
+                value="2023-12-31"/>
+            <label for="bis-datum" style="margin-left: 8px">Aktiv:</label>
+            <input type="checkbox" checked="checked"/>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12 table-height">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+            <table id="userTable" class="table table-bordered table-striped table-scroll">
+                <thead>
+                <tr>
+                    <th>Nr</th>
+                    <th>Bild</th>
+                    <th>Bezeichnung</th>
+                    <th>Preis</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="bodyTable">
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @(Model.Items.IndexOf(item) + 1)
+                        </td>
+                        <td>
+                            <div class="img-container">
+                            @if (item.ImageData != null && item.ImageData.Length > 0)
+                            {
+                                <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageData)}")" alt="@item.Name"/>
+                            }
+                            else
+                            {
+                                <span>Kein Bild verfügbar</span>
+                            }
+                        </div>
+                        </td>
+                        <td>
+                            <input type="text" name="name" value="@item.Name" disabled="disabled" style="width: 500px"/>
+                        </td>
+                        <td>
+                            <input type="text" name="price" value="@item.Price.ToString("N2") €" disabled="disabled" style="width: 75px"/>
+                        </td>
+                        <td>
+                            <input id="cbActive" type="checkbox" name="status" @(item.Active ? "checked" : "") onchange="activeChanged(@item.ItemId, checked)"/> Aktiv
+                        </td>
+                        <td>
+                            <span class="text-center-last-col">
+                                <button type="button" class="btn btn-primary" onclick="showItemModal(true, @item.ItemId)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-center-last-col">
+                                <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@item.ItemId')">
+                                    <i class="fa fa-trash"></i> 
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
+        {
+            <button href="#" class="btn btn-warning float-left">Zurück</button>
+        }
+    </div>
+</div>
+</div>
+
+@* New item window *@
+<div id="newItemModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUserModalTitle">Neues Produkt anlegen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeItem">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="image">Bild:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="hiddenImage">
+                        <input type="text" class="form-control" id="hiddenImageData">
+                        <img src="" alt="Bild" class="form-control" id="image">
+                        <button class="form-control" onclick="changeImage()">Bild ändern</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Bezeichnung:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Preis (in €):<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="price">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortItem">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="save-newItem">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Delete item window *@
+<div id="deleteItemModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sind Sie sicher, dass Sie dieses Produkt löschen möchten?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeDeleteItem">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteItem">Nein</button>
+                <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteUser()">Ja</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
+
+@section scripts {
+    <script>        
+        //#region Set Active
+        function activeChanged(id, active) {
+            $.ajax({
+                url: '@Url.Action("ChangeActive", "EditList")',
+                type: 'POST',
+                data: { 
+                    itemId: id,
+                    isActive: active
+                 },
+                success: function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('Ein Fehler ist aufgetreten: ' + errorThrown);
+                }
+            });
+        }
+        //#endregion
+     
+        let itemId;
+        //#region Delete User
+        function deleteUser() {
+            $.ajax({
+                url: '@Url.Action("DeleteItem", "EditList")',
+                type: 'POST',
+                data: { itemId: itemId },
+                success: function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('Ein Fehler ist aufgetreten: ' + errorThrown);
+                }
+            });
+        }
+        
+        function showDeleteUserModal(id) {
+            itemId = id;
+            $('#deleteItemModal').modal('show');
+        }
+        
+        $('#abortDeleteItem').on('click', function() {
+            $('#deleteItemModal').modal('hide');
+        });
+
+        $('#abortDeleteItem').on('click', function() {
+            $('#deleteItemModal').modal('hide');
+        });
+        //#endregion
+        
+        //#region Image
+            
+        //#endregion
+        
+        //#region New/Update Item
+        let userEdit = false;
+        
+        function showItemModal(editMode = false, id = -1) {
+            console.log('************ showItemModal ************f');
+            console.log('id: ' + id);
+            console.log('editMode: ' + editMode);
+            itemId = id;
+            userEdit = editMode;
+            
+            const title = editMode ? 'Produkt bearbeiten' : 'Neues Produkt anlegen';
+            const saveButtonLabel = editMode ? 'Speichern' : 'Hinzufügen';
+        
+            $('#newUserModalTitle').html(title);
+            $('#save-newUser').html(saveButtonLabel);
+            
+            $('#hiddenImage').val('');
+            $('#image').val('');
+            $('#name').val('');
+            $('#price').val('');
+            
+            if (id !== -1) {
+            
+                $.ajax({
+                    url: '@Url.Action("GetItem", "EditList")',
+                    type: 'POST',
+                    data: {
+                        itemId: id
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#hiddenImage').val(response.itemImageId || '');
+                            $('#hiddenImageData').val(response.itemImageData || '');
+                            const imageData = 'data:image;base64,' + btoa(String.fromCharCode.apply(null, response.itemImageData));
+                            console.log(imageData);
+                            $('#image').attr('src', imageData);
+                            $('#name').val(response.itemName || '');
+                            $('#price').val(response.itemPrice || '');
+                            console.log('success');
+                        } else {
+                            console.log('error');
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(xhr);
+                        alert('Es ist ein Fehler aufgetreten: ' + errorThrown);
+                    }
+                });
+            }
+            $('#newItemModal').modal('show');
+        }
+
+        $('#abortItem').on('click', function() {
+            $('#newItemModal').modal('hide');
+        });
+
+        $('#closeItem').on('click', function() {
+            $('#newItemModal').modal('hide');
+        });
+        
+        $('#save-newItem').on('click', function() {
+            const picture = $('#hiddenImage').val();
+            const name = $('#name').val();
+            const price = $('#price').val();
+
+            if (picture === '' || name === '' || price === '' ) {
+                alert('Bitte füllen Sie alle Pflichtfelder aus.');
+                return;
+            }
+            
+            if (userEdit) {
+                $.ajax({
+                    url: '@Url.Action("UpdateItem", "EditList")',
+                    type: 'POST',
+                    data: {
+                        itemId: itemId,
+                        imageId: picture,
+                        name: name,
+                        price: price
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            location.reload();
+                            $('#newItemModal').modal('hide');
+                        } else {
+                            alert(result.message);
+                        } 
+                    },
+                    error: function(response) {
+                        alert('Ein Fehler ist aufgetreten: ' + response.message);
+                    }
+                });
+            }
+            else 
+            { 
+                $.ajax({
+                    url: '@Url.Action("AddItem", "EditList")',
+                    type: 'POST',
+                    data: {
+                        imageId: picture,
+                        name: name,
+                        price: price,
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            location.reload();
+                            $('#newItemModal').modal('hide');
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function(response) {
+                        alert('Ein Fehler ist aufgetreten: ' + response.message);
+                    }
+                });
+            }
+        });
+        //#endregion
+    
+    
+    </script>
+}
