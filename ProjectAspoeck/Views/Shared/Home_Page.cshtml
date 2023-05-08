@@ -3,8 +3,6 @@
   ViewData["Title"] = "Startseite";
 }
 
-<script src="js/HomePage.js" type="module"></script>
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -19,11 +17,75 @@
         href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
   
   <style>
+    header {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        background-color: #f2f2f2;
+    }
+    
+    .header-image {
+        padding-left: 50px;
+        height: 100%;
+    }
+    
+    .text-center-last-col {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .header-text {
+        text-align: center;
+    }
+    
+    .main {
+        margin-top: 30px;
+    }
+    
+    .main .date {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .main .headingDateStatus {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .main .status {
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        display: inline-block;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    
+    .table th,
+    .table td {
+        font-size: 1.2rem;
+    }
+    
+    .left-row {
+        padding-left: 50px;
+    }
+    
+    .right-row {
+        padding-right: 50px;
+    }
+    
     img {
         max-width: 100%;
         max-height: 100%;
         display: block;
     }
+  
   </style>
 </head>
 
@@ -88,50 +150,50 @@
     </div>
     <div class="col-md-7 right-row">
       <table class="table table-bordered table-striped">
-          <thead>
+        <thead>
+        <tr>
+          <th>Nr</th>
+          <th>Datum</th>
+          <th>Kosten</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+        </thead>
+        @foreach (var order in Model.Orders)
+        {
           <tr>
-            <th>Nr</th>
-            <th>Datum</th>
-            <th>Kosten</th>
-            <th>Status</th>
-            <th></th>
+            <td>
+              @if (order.OrderNumber != -1)
+              {
+                @order.OrderNumber
+              }
+            </td>
+            <td>
+              @order.OrderDate
+            </td>
+            <td>
+              @if (order.Price != -1)
+              {
+                @order.Price.ToString("N2")
+                @Html.Raw(" €")
+              }
+            </td>
+            <td>
+              @order.State
+            </td>
+            <td>
+              <span class="text-center-last-col">
+                @if (!order.State.Equals(""))
+                {
+                  <button type="button" onclick="placeOrder(@order.OrderId)" name="buyAgain" class="btn btn-primary buyAgain">
+                    <i class="fa fa-retweet"></i>
+                  </button>
+                }
+              </span>
+            </td>
           </tr>
-          </thead>
-          @foreach (var order in Model.Orders)
-          {
-            <tr>
-              <td>
-                @if (order.OrderNumber != -1)
-                {
-                  @order.OrderNumber
-                }
-              </td>
-              <td>
-                @order.OrderDate
-              </td>
-              <td>
-                @if (order.Price != -1)
-                {
-                  @order.Price.ToString("N2")
-                  @Html.Raw(" €")
-                }
-              </td>
-              <td>
-                @order.State
-              </td>
-              <td>
-                <span class="text-center-last-col">
-                  @if (!order.State.Equals(""))
-                  {
-                    <button type="button" onclick="placeOrder(@order.OrderId)" name="buyAgain" class="btn btn-primary buyAgain">
-                                          <i class="fa fa-retweet"></i>
-                      </button>
-                  }
-                </span>
-              </td>
-            </tr>
-          }
-        </table>
+        }
+      </table>
       @using (Html.BeginForm("All_Orders", "AllOrders",  FormMethod.Post))
       {
         <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>
@@ -141,25 +203,67 @@
 </div>
 </body>
 </html>
+
 @section scripts{
   <script> 
-        function placeOrder(orderId) {
-          console.log(`---------------------------Place order ev.target ${orderId}`);          
-          //const item = this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
-              //console.log(orderid);     
-              $.ajax({
-                  url: "@Url.Action("ReBuyOrder", "ShoppingBasket")",
-                  method: "POST",
-                  data: {
-                      orderId: orderId
-                  },
-                  success: function (response) {
-                      window.location.href = '@Url.Action("Shopping_Basket", "ShoppingBasket")';
-                  },
-                  error: function (jqXHR, textStatus, errorThrown) {
-                      //console.log(textStatus, errorThrown);
-                  }
-              });
+    //#region Timer
+    const dateElement = document.getElementById('date');
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        timeZone: 'Europe/Berlin',
+    };
+    const formatter = new Intl.DateTimeFormat('de-DE', options);
+    
+    const statusElement = document.getElementById('orderstate');
+    const btnPlaceOrder = document.getElementById('btnPlaceOrder');
+    
+    function updateDate() {
+        dateElement.textContent = formatter.format(new Date());
+        if (new Date().getHours() >= 0 && new Date().getHours() <= 18) {
+            dateElement.style.backgroundColor = '#50C878';
+    
+            statusElement.textContent = "Bestellung möglich";
+            statusElement.style.backgroundColor = '#50C878';
+            btnPlaceOrder.disabled = false;
+        } else {
+            dateElement.style.backgroundColor = 'red';
+            statusElement.textContent = "Bestellzeitraum abgelaufen";
+            statusElement.style.backgroundColor = 'red';
+            btnPlaceOrder.disabled = true;
         }
-        </script>
+    }
+    
+    let timer = setInterval(updateDate, 1000);
+    window.onunload = function() {
+        clearInterval(timer);
+    };
+    //#endregion
+    
+    //#region Place Order
+    function placeOrder(orderId) {
+      console.log(`---------------------------Place order ev.target ${orderId}`);          
+      //const item = this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+          //console.log(orderid);     
+          $.ajax({
+              url: "@Url.Action("ReBuyOrder", "ShoppingBasket")",
+              method: "POST",
+              data: {
+                  orderId: orderId
+              },
+              success: function (response) {
+                  window.location.href = '@Url.Action("Shopping_Basket", "ShoppingBasket")';
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                  //console.log(textStatus, errorThrown);
+              }
+          });
+    }
+    //#endregion
+  </script>
 }

@@ -10,9 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/ProjectAspoeck/wwwroot/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/config/applicationhost.config" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/config/applicationhost.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BreakfastDBLib/BreakfastDBContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BreakfastDBLib/BreakfastDBContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Manage_Users.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Manage_Users.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Home_Page.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/_Layout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/wwwroot/js/Admin/ManageUsers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/wwwroot/js/HomePage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/wwwroot/js/PlaceOrder.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,9 +75,9 @@
   },
   "keyToStringList": {
     "rider.external.source.directories": [
-      "C:\\Users\\Admin\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Admin\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\Admin\\AppData\\Local\\Symbols\\src"
+      "C:\\Users\\lukas\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\lukas\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\lukas\\AppData\\Local\\Symbols\\src"
     ]
   }
 }]]></component>
