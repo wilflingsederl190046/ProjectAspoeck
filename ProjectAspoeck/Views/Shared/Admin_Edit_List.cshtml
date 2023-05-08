@@ -19,232 +19,106 @@
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- Custom CSS -->
-    <style>
-        .header {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            background-color: #f2f2f2;
-        }
-
-        .header-image {
-            padding-left: 50px;
-            height: 100%;
-        }
-
-        .text-center-last-col{
-            display: flex;
-            justify-content: center;
-        }
-
-        img {
-            max-width: 100%;
-            max-height: 100%;
-            display: block;
-        }
-
-        .header-text {
-            text-align: center;
-        }
-
-        .main {
-            margin-top: 30px;
-        }
-
-            .main .date {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
-
-            .main .headingDateStatus {
-                font-size: 1.5rem;
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
-
-            .main .status {
-                background-color: red;
-                color: white;
-                padding: 5px 10px;
-                display: inline-block;
-                font-weight: bold;
-                font-size: 1.5rem;
-            }
-
-        .btn {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-
-        .table th,
-        .table td {
-            font-size: 1.2rem;
-        }
-
-        .left-row {
-            padding-left: 50px;
-        }
-
-        .right-row {
-            padding-right: 50px;
-        }
-
-        /*.my-custom-scrollbar {
-                        position: relative;
-                        height: 490px;
-                        overflow: auto;
-                      }
-                      .table-wrapper-scroll-y {
-                        display: block;
-                      }*/
-    </style>
+ <style>
+         header {
+             height: 150px;
+             display: flex;
+             align-items: center;
+             background-color: #f2f2f2;
+         }
+         
+         .header-image {
+             padding-left: 50px;
+             height: 100%;            
+         }
+         
+         img {
+             max-width: 100%;
+             max-height: 100%;
+             display: block;
+         }
+ 
+         .header-text {
+             text-align: center;
+         }
+ 
+         .header-right-text,
+         .btn {
+             font-weight: bold;
+             font-size: 1.5rem;
+         }
+ 
+         .table td {
+             font-size: 1.2rem;
+         }
+ 
+         .table th {
+             font-weight: bold;
+             font-size: 1.2rem;
+         }
+ 
+         .col-md-3 {
+             display: flex;
+             flex-direction: column;
+             justify-content: center;
+         }
+     </style>
 </head>
 
 <body>
-    <header class="bg-light py-3" style="height: 150px">
-        <div class="container-fluid h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-3 header-image">
-                    <img src="~/Images/aspoeck-logo-sm.png"
-                         class="img-fluid align-middle"
-                         alt="Logo" />
-                </div>
-                <div class="col-6 header-text">
-                    <h1 class="mb-0">Jausen Bestellung</h1>
-                </div>
-                <div class="col-3 text-center py-2 ">
-                    <span class="header-button">
-                        <button type="button" class="btn btn-lg">
-                            <i class="fa fa-gear"></i>
-                        </button>
-                    </span>
-                </div>
+   <header class="bg-light py-3" style="height: 150px">
+     <div class="container-fluid h-100">
+       <div class="row align-items-center h-100">
+         <div class="col-3 header-image">
+           <img src="~/Images/aspoeck-logo-sm.png"
+                          class="img-fluid align-middle"
+                          alt="Logo"/>
+         </div>
+         <div class="col-6 header-text">
+           <h1 class="mb-0">Jausen Bestellung</h1>
+         </div>
+         <div class="col-3 text-center bg-warning py-2">
+           <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
+         </div>
+       </div>
+     </div>
+   </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Change Item</h2>
             </div>
         </div>
-    </header>
-
-    <div class="main">
         <div class="row">
-            <div class="col-lg-5 left-row">
-                <p>
-                    <span class="headingDateStatus">Willkommen</span>
-                </p>
-                <p>
-                    <span class="headingDateStatus">Datum:</span>
-                    <span class="date status" id="date">Montag, 01. Jänner 2023 um 00:00:00</span>
-                </p>
-                <!-- Script -->
-                <script>
-                    const dateElement = document.getElementById('date');
-                    const options = {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        second: 'numeric',
-                        timeZone: 'Europe/Berlin',
-                    };
-                    const formatter = new Intl.DateTimeFormat('de-DE', options);
-
-                    function updateDate() {
-                        dateElement.textContent = formatter.format(new Date());
-                        if (new Date().getHours() >= 0 && new Date().getHours() <= 16) {
-                            dateElement.background = '#50C878';
-                        }
-                    }
-
-                    let timer = setInterval(updateDate, 1000);
-                </script>
-                <p>
-                    <span class="headingDateStatus">Bestellstatus:</span>
-                    <span class="status">Bestellzeitraum abgelaufen</span>
-                </p>
-                <button class="btn btn-warning" disabled>
-                    Bestellung aufgeben
-                </button>
-            </div>
-            <div class="col-md-7 right-row">
-                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                    @*<table class="table table-bordered table-striped table-scroll">
+            <div class="col-md-12 table-height">
+                <div class="table-scroll">
+                    <table id="itemTable" class="table table-bordered table-striped table-scroll">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Datum</th>
-                                <th>Kosten</th>
-                                <th>Status</th>
-                                <th></th>
+                                <th>Beschreibung</th>
+                                <th>Preis</th>
+                                <th>Aktionen</th>
                             </tr>
                         </thead>
-                        @*<tbody>
-                        <tr>
-                        <td>1</td>
-                        <td>01.01.2023</td>
-                        <td>130,00 €</td>
-                        <td>Abgeschlossen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>2</td>
-                        <td>15.02.2023</td>
-                        <td>72,50 €</td>
-                        <td>Offen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>3</td>
-                        <td>28.02.2023</td>
-                        <td>42,00 €</td>
-                        <td>Offen</td>
-                        <td>
-                        <span class="text-center-last-col">
-                        <button type="button" class="btn btn-primary">
-                        <i class="fa fa-retweet"></i>
-                        </button>
-                        </span>
-                        </td>
-                        </tr>
-                        </tbody>
-                       @foreach (var order in Model.Items)
-                        {
-                            <tr>
-                                <td>@order.Name</td>
-                                <td>@order.Active</td>
-                                <td>@order.Price.ToString("C")</td>
-                                <td>@(order.ItemId)</td>
+                        <tbody>
+                        @*<tr>
+                                <td>@Model.Items.</td>
+                                <td>@Model.Item.Name</td>
+                                <td>@Model.Item.Description</td>
+                                <td>@Model.Item.Price</td>
                                 <td>
-                                    <span class="text-center-last-col">
-                                        @*if (order.State.Equals(""))
-                                        {
-
-                                        }
-                                        else
-                                        {
-                                           <button type="button" class="btn btn-primary">
-                                            <i class="fa fa-retweet"></i>
-                                        </button> 
-                                        }
-                                        
-                                    </span>
+                                   @* <a href="@Url.Action("Edit", "Item", new { id = Model.Item.Id })" class="btn btn-primary">Edit</a>
+                                    <a href="@Url.Action("Delete", "Item", new { id = Model.Item.Id })" class="btn btn-danger">Delete</a>
                                 </td>
-                            </tr>
-                        }
-                    </table>*@
+                            </tr>*@
+                        
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        @*<a href="@Url.Action("Create", "Item")" class="btn btn-success">Add New Item</a>*@
+                    </div>
                 </div>
-                <button class="btn btn-warning btn-block">Letzte Bestellungen ansehen</button>
             </div>
         </div>
     </div>
