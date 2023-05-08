@@ -31,6 +31,7 @@ public class AdminController : Controller
                 {
                     OrderNumber = 1,
                     Date = x.OrderDate,
+                    UserName = x.User.UserName,
                     Description = x.OrderItems.Select(x => $"{x.Quantity}x {x.Item.Name} ").First().ToString(),
                     State = x.OrderState.Name,
                     Price = Math.Round(x.OrderItems.Sum(x => x.Price), 2)
