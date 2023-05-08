@@ -57,18 +57,45 @@ public class AdminController : Controller
     }
 
     [HttpGet]
-    public void Admin_Export_List()
+    public void Admin_Export_List_OrdersFromDay()
     {
-       // string file = "Downloads/liste.xlsx";
-        string file = "C:\\Users\\Test\\Downloads\\liste.xls";
-        
+        // string file = "Downloads/liste.xlsx";
+        string downloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
+        string file = $"{downloadFolder}\\Tagesbestellungen_{DateTime.Now:dd_MM_yyyy}_Liste.csv";
+        string euro = "\u20AC";
+        string header = "\"Name\";\"Tagesbestellung\";\"Preis\"";
         using (StreamWriter writer = new StreamWriter(file))
         {
-            writer.WriteLine($"{DateTime.Now.Date}");
+            writer.WriteLine($"{DateTime.Now.ToString("dd.MM.yyyy")}");
             writer.WriteLine();
-            foreach(Order orderFromTheDay in _db.Orders.Include(x => x.OrderItems).Include(x => x.User).ToList())
+            writer.WriteLine(header);
+            foreach (Order orderFromTheDay in _db.Orders.Include(x => x.OrderItems).ThenInclude(x => x.Item).Include(x => x.User).Where(x => x.OrderDate.Date == DateTime.Now.Date).ToList())
             {
-                writer.WriteLine($"{orderFromTheDay.User.LastName};{orderFromTheDay.ToString()};{orderFromTheDay.OrderItems.Sum(x => x.Price)}");
+                writer.WriteLine($"{orderFromTheDay.User.FirstName} {orderFromTheDay.User.LastName};{orderFromTheDay.ToString()};{orderFromTheDay.OrderItems.Sum(x => x.Price):F2}");
+            }
+        }
+    }
+
+    [HttpGet]
+    public void Admin_Export_List_PayDay()
+    {
+        // string file = "Downloads/liste.xlsx";
+        string downloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
+        string file = $"{downloadFolder}\\Zahltag_{DateTime.Now:dd_MM_yyyy}_Liste.csv";
+        string euro = "\u20AC";
+        string header = "\"Name\";\"Anzahl offener Bestellungen\";\"Preis (Summe)\"";
+        using (StreamWriter writer = new StreamWriter(file))
+        {
+            writer.WriteLine($"{DateTime.Now.ToString("dd.MM.yyyy")}");
+            writer.WriteLine();
+            writer.WriteLine(header);
+            foreach (var group in _db.Orders.Include(x => x.OrderItems).ThenInclude(x => x.Item).Include(x => x.User).Where(x => x.OrderStateId == 2).GroupBy(x => x.User))
+            {
+                var user = group.Key;
+                var unpaidOrders = group.ToList();
+                var totalPrice = unpaidOrders.Sum(x => x.OrderItems.Sum(item => item.Price));
+
+                writer.WriteLine($"{user.FirstName} {user.LastName};{unpaidOrders.Count};{totalPrice:F2}");
             }
         }
     }
@@ -193,28 +220,31 @@ public class AdminController : Controller
             var user = _db.Users.Find(userId);
             if (user == null || newPassword == null)
             {
-                return Json(new {
+                return Json(new
+                {
                     success = false,
                     message = "User not found"
                 });
             }
-            
+
             user.SetPassword(newPassword);
             _db.SaveChanges();
 
-            return Json(new {
+            return Json(new
+            {
                 success = true
             });
         }
         catch (Exception ex)
         {
-            return Json(new {
+            return Json(new
+            {
                 success = false,
                 message = ex.Message
             });
         }
     }
-    
+
     [HttpPost]
     public IActionResult AddUser(string firstname, string lastname, string username, string chipNr, string email)
     {
@@ -227,32 +257,35 @@ public class AdminController : Controller
                 UserName = username,
                 ChipNumber = chipNr
             };
-            if(!email.IsNullOrEmpty()) user.Email = email;
+            if (!email.IsNullOrEmpty()) user.Email = email;
             _db.Users.Add(user);
             _db.SaveChanges();
 
-            return Json(new {
+            return Json(new
+            {
                 success = true
             });
         }
         catch (Exception ex)
         {
-            return Json(new {
+            return Json(new
+            {
                 success = false,
                 message = ex.Message
             });
         }
     }
-    
+
     [HttpPost]
     public IActionResult UpdateUser(int userId, string firstname, string lastname, string username, string chipNr, string email)
     {
         try
         {
-            var user = _db.Users.SingleOrDefault(x=> x.UserId == userId);
+            var user = _db.Users.SingleOrDefault(x => x.UserId == userId);
             if (user == null)
             {
-                return Json(new {
+                return Json(new
+                {
                     success = false,
                     message = "User not found"
                 });
@@ -264,35 +297,39 @@ public class AdminController : Controller
             user.Email = email;
             _db.SaveChanges();
 
-            return Json(new {
+            return Json(new
+            {
                 success = true
             });
         }
         catch (Exception ex)
         {
-            return Json(new {
+            return Json(new
+            {
                 success = false,
                 message = ex.Message
             });
         }
     }
-    
+
     [HttpPost]
     public IActionResult GetUser(int userId)
     {
         try
         {
             var selectedUser = _db.Users.SingleOrDefault(x => x.UserId == userId);
-                
+
             if (selectedUser == null)
             {
-                return Json(new {
+                return Json(new
+                {
                     success = false,
                     message = "User not found"
                 });
             }
-            
-            return Json(new {
+
+            return Json(new
+            {
                 success = true,
                 userFirstname = selectedUser.FirstName,
                 userLastname = selectedUser.LastName,
@@ -303,38 +340,42 @@ public class AdminController : Controller
         }
         catch (Exception ex)
         {
-            return Json(new {
+            return Json(new
+            {
                 success = false,
                 message = ex.Message
             });
         }
     }
-    
+
     [HttpPost]
     public IActionResult ChangeActive(int userId, bool isActive)
     {
         try
         {
             var selectedUser = _db.Users.SingleOrDefault(x => x.UserId == userId);
-            
+
             if (selectedUser == null)
             {
-                return Json(new {
+                return Json(new
+                {
                     success = false,
                     message = "User not found"
                 });
             }
-            
+
             selectedUser.Active = isActive;
             _db.SaveChanges();
-            
-            return Json(new {
+
+            return Json(new
+            {
                 success = true
             });
         }
         catch (Exception ex)
         {
-            return Json(new {
+            return Json(new
+            {
                 success = false,
                 message = ex.Message
             });
@@ -355,10 +396,10 @@ public class AdminController : Controller
             return View(new Admin_Edit_ListModel
             {
                 SessionKey = sessionKey,
-                
+
             });
         }
-        
+
         return View();
     }
 }

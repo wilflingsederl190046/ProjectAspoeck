@@ -101,10 +101,17 @@
                         }
                     </div>
                     <div class="d-flex justify-content-center mb-3">
-                        @using (Html.BeginForm("Admin_Export_List", "Admin", FormMethod.Post))
+                        @using (Html.BeginForm("Admin_Export_List_OrdersFromDay", "Admin", FormMethod.Get))
                         {
                             <button type="submit" class="btn btn-success btn-block">
-                                Liste exportieren
+                                Export für Tagesbestellung
+                            </button>
+                        }
+                        
+                        @using (Html.BeginForm("Admin_Export_List_PayDay", "Admin", FormMethod.Get))
+                        {
+                            <button type="submit" class="btn btn-success btn-block">
+                                Export für Zahltag
                             </button>
                         }
                     </div>
