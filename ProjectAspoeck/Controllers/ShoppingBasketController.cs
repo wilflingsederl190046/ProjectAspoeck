@@ -14,7 +14,7 @@ public class ShoppingBasketController : Controller
   {
       DateTime now = DateTime.Now;
       DateTime startTime = DateTime.Today.AddHours(4); // Startzeit 05:00 Uhr
-      DateTime endTime = DateTime.Today.AddHours(9);
+      DateTime endTime = DateTime.Today.AddHours(22);
       string sessionKey = "notAuthorized";
       sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
       if (sessionKey == "notAuthorized")

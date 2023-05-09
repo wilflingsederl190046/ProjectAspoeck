@@ -9,13 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="weird changes admin HomePage">
-      <change afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/ConfirmOrderController.cs" afterDir="false" />
+    <list default="true" id="7a065193-4b39-4cd2-bc45-c114d568e034" name="Changes" comment="kein zugriff auf place order View nach 9">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/PlaceOrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/PlaceOrderController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/ConfirmOrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/ConfirmOrderController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Place_Order.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683577451956</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="kein zugriff auf place order View nach 9">
+      <created>1683616710820</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1683616710820</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -245,39 +249,10 @@
     <MESSAGE value="when login with chip -&gt; orderDetail" />
     <MESSAGE value="nearly finished detail view" />
     <MESSAGE value="weird changes admin HomePage" />
-    <option name="LAST_COMMIT_MESSAGE" value="weird changes admin HomePage" />
+    <MESSAGE value="kein zugriff auf place order View nach 9" />
+    <option name="LAST_COMMIT_MESSAGE" value="kein zugriff auf place order View nach 9" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ProjectAspoeck/Controllers/ShoppingBasketController.cs</url>
-          <line>188</line>
-          <properties documentPath="C:\Users\mattl\source\repos\ProjectAspoeck\ProjectAspoeck\Controllers\ShoppingBasketController.cs" initialLine="183" containingFunctionPresentation="Method 'ReBuyOrder'">
-            <startOffsets>
-              <option value="6508" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6573" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ProjectAspoeck/Controllers/PlaceOrderController.cs</url>
-          <line>15</line>
-          <properties documentPath="C:\Users\mattl\source\repos\ProjectAspoeck\ProjectAspoeck\Controllers\PlaceOrderController.cs" initialLine="15" containingFunctionPresentation="Method 'Place_Order'">
-            <startOffsets>
-              <option value="608" />
-            </startOffsets>
-            <endOffsets>
-              <option value="678" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="LaunchSettings">
         <watch expression="password" />
