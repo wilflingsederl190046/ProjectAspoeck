@@ -36,7 +36,7 @@ public class AdminController : Controller
                     Description = x.OrderItems.Select(x => $"{x.Quantity}x {x.Item.Name} ").First().ToString(),
                     State = x.OrderState.Name,
                     Price = Math.Round(x.OrderItems.Sum(x => x.Price), 2)
-                }).ToList();
+                }).OrderByDescending(x => x.OrderNumber).ToList();
 
             /* if (ordersList.Count == 0 || ordersList == null)
              {
@@ -142,8 +142,9 @@ public class AdminController : Controller
                     OrderContent = x.ToString(),
                     OrderAmount = x.OrderItems.Sum(y => y.Price),
                     OrderState = x.OrderState.Name,
-                    OrderPrice = x.OrderItems.Sum(x => x.Price)
-                }).OrderBy(x => x.OrderNumber)
+                    OrderPrice = x.OrderItems.Sum(x => x.Price),
+                    UserName = x.User.UserName,
+                }).OrderByDescending(x => x.OrderNumber)
                 .ToList();
 
             if (orders.Count == 0)
