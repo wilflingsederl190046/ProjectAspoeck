@@ -17,6 +17,8 @@ public class AllOrdersController : Controller
       }
       else
       {
+          FromPageToPageController fromPage = new FromPageToPageController();
+          fromPage.SetFromPageToPage("AllOrders","AllOrders", HttpContext);
           string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
 
           string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);

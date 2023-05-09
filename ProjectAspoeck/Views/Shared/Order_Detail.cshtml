@@ -197,16 +197,20 @@
                 {
                   <button href="#" class="btn btn-warning">Zurück</button>
                 }*@
-                
-                @using (Html.BeginForm("All_Orders", "AllOrders", FormMethod.Post))
-                                 {
-                                   <button href="#" class="btn btn-danger right-align">Bestellung ist nicht korrekt</button>
-                                 }
-                
                 @using (Html.BeginForm("ConfirmOrder", "ConfirmOrder", FormMethod.Post))
                  {
                    <button href="#" class="btn btn-success right-align">Bestellung Bestätigen</button>
                  }
+                
+                @using (Html.BeginForm("CancelOrder", "ConfirmOrder", FormMethod.Post))
+                  {
+                    <button href="#" class="btn btn-danger right-align">Bestellung ist nicht korrekt</button>
+                  }
+                
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                                  {
+                                    <button href="#" class="btn btn-secondary right-align">Abbrechen</button>
+                                  }
             </div >
             
         </div>
