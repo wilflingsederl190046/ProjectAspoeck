@@ -226,7 +226,7 @@
         
         function updateDate() {
             dateElement.textContent = formatter.format(new Date());
-            if (new Date().getHours() >= 0 && new Date().getHours() < 9) {
+            if (new Date().getHours() >= 0 && new Date().getHours() < 20) {
                 dateElement.style.backgroundColor = '#50C878';
         
                 statusElement.textContent = "Bestellung möglich";
