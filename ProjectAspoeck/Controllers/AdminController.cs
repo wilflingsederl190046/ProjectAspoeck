@@ -16,6 +16,7 @@ public class AdminController : Controller
         }
         else
         {
+            FromPageToPageController fromPage = new FromPageToPageController();
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
             string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
 
@@ -52,6 +53,8 @@ public class AdminController : Controller
             };
 
             adminhomeModel.SessionString = sessionKey;
+            fromPage.SetFromPageToPage("Admin","Admin",HttpContext);
+            
             return View(adminhomeModel);
         }
     }
