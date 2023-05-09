@@ -51,7 +51,7 @@ public class EditListController : Controller
     }
     
     [HttpPost]
-    public IActionResult AddItem(string imageData, string name, double price)
+    public IActionResult AddItem(string name, double price)
     {
         try
         {
@@ -59,7 +59,6 @@ public class EditListController : Controller
             {
                 Name = name,
                 Price = price,
-                ImageId = 1
             };
             _db.Items.Add(item);
             _db.SaveChanges();
@@ -80,7 +79,7 @@ public class EditListController : Controller
     }
 
     [HttpPost]
-    public IActionResult UpdateItem(int itemId, int imageId, string name, double price)
+    public IActionResult UpdateItem(int itemId, string name, double price)
     {
         try
         {
@@ -93,8 +92,7 @@ public class EditListController : Controller
                     message = "Item not found"
                 });
             }
-
-            item.ImageId = imageId;
+            
             item.Name = name;
             item.Price = price;
             _db.SaveChanges();
@@ -150,7 +148,35 @@ public class EditListController : Controller
             });
         }
     }
-    
+
+    [HttpPost]
+    public IActionResult UpdateImage(int itemId, int imageId)
+    {
+        try
+        {
+            var item = _db.Items
+                .Include(x => x.Image)
+                .FirstOrDefault(x => x.ItemId == itemId);
+            
+            if (item == null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Item not found"
+                });
+            }
+
+            item.ImageId = imageId;
+            _db.SaveChanges();
+            return Json(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = ex.Message });
+        }
+    }
+
     [HttpPost]
     public IActionResult DeleteItem(int itemId)
     {

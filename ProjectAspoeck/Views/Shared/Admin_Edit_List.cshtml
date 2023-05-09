@@ -93,6 +93,24 @@
       .img-container img:hover {
         transform: scale(1.1);
       }
+      
+      #changeImageModal .modal-dialog {
+        max-width: 50%;
+        height: 90%;
+        margin: 1.75rem auto;
+      }
+      
+      #changeImageModal .modal-content {
+        height: 100%;
+      }
+      
+      #changeImageModal .modal-body {
+        height: calc(100% - 75px);
+      }
+      
+      #changeImageModal .table-wrapper-scroll-y {
+          max-height: calc(100vh - 250px);
+      }
     </style>
 </head>
 <body>
@@ -165,6 +183,7 @@
                         <th>Status</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody id="bodyTable">
@@ -204,6 +223,12 @@
                             </td>
                             <td>
                                 <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-secondary" onclick="showChangeImageModal(true, @item.ItemId)">
+                                        <i class="fa fa-image"></i>
+                                    </button>
+                                </span>
+                            <td>
+                                <span class="text-center-last-col">
                                     <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@item.ItemId')">
                                         <i class="fa fa-trash"></i>
                                     </button>
@@ -238,12 +263,6 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
-                        <label for="imageName">Bild:<span style="color: red">*</span></label>
-                        <input type="text" class="form-control" id="hiddenImageId" hidden="hidden">
-                        <input type="text" class="form-control" id="imageName">
-                        <button onclick="changeImage()">Bild ändern</button>
-                    </div>
                     <div class="form-group">
                         <label for="name">Bezeichnung:<span style="color: red">*</span></label>
                         <input type="text" class="form-control" id="name">
@@ -307,7 +326,7 @@
                                 </td>
                                 <td>
                                     <span class="text-center-last-col">
-                                        <button type="button" class="btn btn-primary" onclick="">
+                                        <button type="button" class="btn btn-primary" onclick="saveChangedImageFunction(@image.ImageId, 1)">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </span>
@@ -320,7 +339,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortChangeImage">Abbrechen</button>
-                <button type="button" class="btn btn-success" id="save-changedImage">Speichern</button>
             </div>
         </div>
     </div>
@@ -350,7 +368,7 @@
 @section scripts {
     <script>        
         //#region Change Image
-        function changeImage() {
+        function showChangeImageModal() {
           $('#changeImageModal').modal('show');
         }
           
@@ -361,6 +379,28 @@
         $('#closeChangeImage').on('click', function() {
             $('#changeImageModal').modal('hide');
         });
+        
+        function saveChangedImageFunction(changeImageId, changeItemId) {
+            $.ajax({
+                url: '@Url.Action("UpdateImage", "EditList")',
+                type: 'POST',
+                data: {
+                    itemId: changeItemId,
+                    imageId: changeImageId,
+                },
+                success: function(result) {
+                    if (result.success) {
+                        location.reload();
+                        $('#newItemModal').modal('hide');
+                    } else {
+                        alert(result.message);
+                    } 
+                },
+                error: function(response) {
+                    alert('Ein Fehler ist aufgetreten: ' + response.message);
+                }
+            });
+        }
         //#endregion
     
         //#region Set Active
@@ -436,13 +476,10 @@
             $('#newUserModalTitle').html(title);
             $('#save-newUser').html(saveButtonLabel);
             
-            $('#hiddenImage').val('');
-            $('#image').val('');
             $('#name').val('');
             $('#price').val('');
             
             if (id !== -1) {
-            
                 $.ajax({
                     url: '@Url.Action("GetItem", "EditList")',
                     type: 'POST',
@@ -451,10 +488,8 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            $('#hiddenImageId').val(response.itemImageId || '');
-                            $('#imageName').val(response.itemImageName || '');
                             $('#name').val(response.itemName || '');
-                            $('#price').val(response.itemPrice || '');
+                            $('#price').val(response.itemPrice);//.toString().replace(/\./g, ",") || '');
                             console.log('success');
                         } else {
                             console.log('error');
@@ -478,11 +513,10 @@
         });
         
         $('#save-newItem').on('click', function() {
-            const picture = $('#hiddenImage').val();
             const name = $('#name').val();
             const price = $('#price').val();
 
-            if (picture === '' || name === '' || price === '' ) {
+            if (name === '' || price === '' ) {
                 alert('Bitte füllen Sie alle Pflichtfelder aus.');
                 return;
             }
@@ -493,9 +527,8 @@
                     type: 'POST',
                     data: {
                         itemId: itemId,
-                        imageId: picture,
                         name: name,
-                        price: price
+                        price: price //parseFloat(price.replace(/,/g, "."))
                     },
                     success: function(result) {
                         if (result.success) {
@@ -516,7 +549,6 @@
                     url: '@Url.Action("AddItem", "EditList")',
                     type: 'POST',
                     data: {
-                        imageId: picture,
                         name: name,
                         price: price,
                     },
@@ -535,7 +567,5 @@
             }
         });
         //#endregion
-    
-    
     </script>
 }
