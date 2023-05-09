@@ -162,10 +162,6 @@ public class AdminController : Controller
             });
         }
     }
-
-    
-
-    
 }
 
 
