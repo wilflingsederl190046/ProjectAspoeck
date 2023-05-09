@@ -13,10 +13,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectAspoeck/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/config/applicationhost.config" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/config/applicationhost.config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BreakfastDBLib/BreakfastDBContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BreakfastDBLib/BreakfastDBContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/OrderDetailController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/OrderDetailController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Models/Order_DetailModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Models/Order_DetailModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Controllers/AdminController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Edit_List.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Edit_List.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Admin_Home_Page.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectAspoeck/Views/Shared/Order_Detail.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,30 +59,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.43962008&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;loginSession&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;HotReloadSettingsPage&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.43962008",
+    "git-widget-placeholder": "loginSession",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "HotReloadSettingsPage",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\mattl\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\mattl\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\mattl\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\lukas\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\lukas\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\lukas\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.ProjectAspoeck: IIS Express">
     <configuration name="ProjectAspoeck: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ProjectAspoeck/ProjectAspoeck.csproj" />
@@ -254,14 +253,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ProjectAspoeck/Controllers/ShoppingBasketController.cs</url>
           <line>188</line>
-          <properties documentPath="C:\Users\mattl\source\repos\ProjectAspoeck\ProjectAspoeck\Controllers\ShoppingBasketController.cs" initialLine="183" containingFunctionPresentation="Method 'ReBuyOrder'">
-            <startOffsets>
-              <option value="6508" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6573" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\mattl\source\repos\ProjectAspoeck\ProjectAspoeck\Controllers\ShoppingBasketController.cs" initialLine="183" containingFunctionPresentation="Method 'ReBuyOrder'" />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
