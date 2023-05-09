@@ -139,7 +139,8 @@ public class AdminController : Controller
                     OrderContent = x.ToString(),
                     OrderAmount = x.OrderItems.Sum(y => y.Price),
                     OrderState = x.OrderState.Name,
-                    OrderPrice = x.OrderItems.Sum(x => x.Price)
+                    OrderPrice = x.OrderItems.Sum(x => x.Price),
+                    UserName = x.User.UserName,
                 }).OrderBy(x => x.OrderNumber)
                 .ToList();
 
