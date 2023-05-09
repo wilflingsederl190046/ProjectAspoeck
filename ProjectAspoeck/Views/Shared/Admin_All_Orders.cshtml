@@ -2,20 +2,20 @@
 
 @model ProjectAspoeck.Models.Admin_All_OrdersModel
 @{
-  ViewData["Title"] = "All Orders";
+    ViewData["Title"] = "All Orders";
 }
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alle letzten Bestellungen</title>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-  <style>
-        
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alle letzten Bestellungen</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+
         .header-image {
             padding-left: 50px;
             height: 100%;
@@ -66,7 +66,7 @@
         body {
             overflow: hidden;
         }
-        
+
         .col-md-3 {
             display: flex;
             flex-direction: column;
@@ -75,101 +75,119 @@
     </style>
 </head>
 <body>
-<div class="container-fluid cover-container d-flex flex-column">
-  <header class="bg-light py-3" style="height: 150px">
-    <div class="container-fluid h-100">
-      <div class="row align-items-center h-100">
-        <div class="col-3 header-image">
-          <img src="~/Images/aspoeck-logo-sm.png"
-               class="img-fluid align-middle"
-               alt="Logo"/>
-        </div>
-        <div class="col-6 header-text">
-          <h1 class="mb-0">Jausen Bestellung</h1>
-        </div>
-        @*<div class="col-3 text-center py-2 ">
-                        <span class="header-button">
-                           @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
-                            {
-                                <button type="submit" class="btn btn-lg">
-                                    <i class="fa fa-gear"></i>
-                                </button>
-                            }
-                        </span>
+    <div class="container-fluid cover-container d-flex flex-column">
+        <header class="bg-light py-3" style="height: 150px">
+            <div class="container-fluid h-100">
+                <div class="row align-items-center h-100">
+                    <div class="col-3 header-image">
+                        <img src="~/Images/aspoeck-logo-sm.png"
+                             class="img-fluid align-middle"
+                             alt="Logo" />
+                    </div>
+                    <div class="col-6 header-text">
+                        <h1 class="mb-0">Jausen Bestellung</h1>
+                    </div>
+                    @*<div class="col-3 text-center py-2 ">
+                    <span class="header-button">
+                    @using (Html.BeginForm("Settings", "Home", new { sessionKey = Model.SessionString }, FormMethod.Post))
+                    {
+                    <button type="submit" class="btn btn-lg">
+                    <i class="fa fa-gear"></i>
+                    </button>
+                    }
+                    </span>
                     </div>*@
-        <div class="col-3 text-center bg-warning py-2">
-          <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
-        </div>
-      </div>
-    </div>
-  </header>
+                    <div class="col-3 text-center bg-warning py-2">
+                        <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col headline">
-        <h4>Alle letzten Bestellungen</h4>
-      </div>
-    </div>
-    <div class="row mt-3 flex-fill">
-      <div class="col">
-        <div class="form-group d-flex align-items-center">
-          <label for="filter" class="mr-3">Filter:</label>
-          <select class="form-control" id="filter" style="width: 150px;">
-            <option value="all">Alle</option>
-            <option value="not_collected">nicht abgeholt</option>
-            <option value="not_payed">nicht bezahlt</option>
-            <option value="payed">bezahlt</option>
-            <option value="incomplete">unvollständig</option>
-          </select>
-        </div>
-        <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
-          <table class="table table-bordered table-striped" id="table">
-            <thead>
-            <tr>
-              <th>Nr</th>
-              <th>Datum</th>
-              <th>Inhalt</th>
-              <th>Status</th>
-              <th>Kosten</th>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col headline">
+                    <h4>Alle letzten Bestellungen</h4>
+                </div>
+            </div>
+            <div class="row mt-3 flex-fill">
+                <div class="col">
+                    <div class="form-group d-flex align-items-center">
+                        <label for="filter" class="mr-3">Filter:</label>
+                        <select class="form-control" id="filter" style="width: 150px;">
+                            <option value="all">Alle</option>
+                            <option value="not_collected">nicht abgeholt</option>
+                            <option value="not_payed">nicht bezahlt</option>
+                            <option value="payed">bezahlt</option>
+                            <option value="incomplete">unvollständig</option>
+                        </select>
+                    </div>
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+                        <table class="table table-bordered table-striped" id="table">
+                            <thead>
+                                <tr>
+                                    <th>Nr</th>
+                                    <th>Datum</th>
+                                    <th>Inhalt</th>
+                                    <th>Status</th>
+                                    <th>Kosten</th>
 
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var order in Model.Orders)
-            {
-              <tr>
-                <td>
-                  @if (order.OrderNumber != -1)
-                  {
-                    @order.OrderNumber
-                  }
-                </td>
-                <td>
-                  @order.OrderDate
-                </td>
-                <td>
-                  @order.OrderContent
-                </td>
-                <td>
-                  @(order.OrderState)
-                </td>
-                <td>
-                  @if (order.OrderPrice != -1)
-                  {
-                    @order.OrderPrice.ToString("N2")
-                    Html.Raw("€");
-                  }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.Orders)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (order.OrderNumber != -1)
+                                            {
+                                                @order.OrderNumber
+                                            }
+                                        </td>
+                                        <td>
+                                            @order.OrderDate
+                                        </td>
+                                        <td>
+                                            @order.OrderContent
+                                        </td>
+                                        <td>
+                                            @(order.OrderState)
+                                        </td>
+                                        <td>
+                                            @if (order.OrderPrice != -1)
+                                            {
+                                                @order.OrderPrice.ToString("N2")
+                                                Html.Raw("€");
+                                            }
 
-                </td>
-              </tr>
-            }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-    <script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $("#filter").change(function () {
+                        var selectedValue = $(this).val();
+                        var selectedText = $(this).find("option:selected").text();
+                        if (selectedValue == "all") {
+                            $("#table tbody tr").show();
+                        } else {
+                            $("#table tbody tr").hide();
+                            $('#table').removeClass('table-striped');
+                            $("#table tbody tr td:nth-child(4)").filter(function () {
+                                return $(this).text().trim() === selectedText.trim();
+                            }).parent().show();
+                            $('#table').addClass('table-striped');
+                        }
+                    });
+                });
+
                 $("#table tr").click(function () {
                     $(this).addClass('selected').siblings().removeClass('selected');
                     var value = $(this).find('td:first').html();
@@ -181,18 +199,17 @@
                 });
             </script>
 
-    <div class="row mt-3">
-      <div class="col-6 text-left">
-        @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
-        {
-          <button href="#" class="btn btn-warning">Zurück</button>
-        }
-      </div>
-      <div class="col-6 text-right">
-       
-      </div>
+            <div class="row mt-3">
+                <div class="col-6 text-left">
+                    @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
+                    {
+                        <button href="#" class="btn btn-warning">Zurück</button>
+                    }
+                </div>
+                <div class="col-6 text-right">
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 </body>
 </html>
