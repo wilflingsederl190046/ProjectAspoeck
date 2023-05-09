@@ -56,7 +56,7 @@ public class HomeController : Controller
         else
         {
             var fromPage = new FromPageToPageController();
-            fromPage.SetFromPageToPage("Home","Home", HttpContext);
+            fromPage.SetFromPageToPage("Home_Page","Home", HttpContext);
 
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
             string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";

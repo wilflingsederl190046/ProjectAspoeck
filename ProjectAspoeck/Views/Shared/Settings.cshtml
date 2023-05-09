@@ -195,9 +195,9 @@
             });
         </script>
         <div class="">
-          @using (Html.BeginForm("Home_Page", "Home",  FormMethod.Post))
+          @using (Html.BeginForm("BackToLastPage", "FromPageToPage",  FormMethod.Post))
           {
-            <button href="#" class="btn btn-warning">Zurück zur Startseite</button>
+            <button type="submit" class="btn btn-warning">Zurück</button>
           }
         </div>
     </div>

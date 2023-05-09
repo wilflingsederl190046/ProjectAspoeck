@@ -65,7 +65,6 @@ public class SettingsController : Controller
           settings.MinutesBefore = minBef;
           _db.SaveChanges();
           return Ok(email);
-          
     }
     
   }

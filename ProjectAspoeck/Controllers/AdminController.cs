@@ -53,7 +53,7 @@ public class AdminController : Controller
             };
 
             adminhomeModel.SessionString = sessionKey;
-            fromPage.SetFromPageToPage("Admin","Admin",HttpContext);
+            fromPage.SetFromPageToPage("Admin_Home_Page","Admin",HttpContext);
             
             return View(adminhomeModel);
         }
