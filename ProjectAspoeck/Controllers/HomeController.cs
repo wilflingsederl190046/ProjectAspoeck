@@ -55,6 +55,9 @@ public class HomeController : Controller
         }
         else
         {
+            var fromPage = new FromPageToPageController();
+            fromPage.SetFromPageToPage("Home_Page","Home", HttpContext);
+
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
             string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
 
@@ -107,8 +110,9 @@ public class HomeController : Controller
                 MoneyLeftToPay = sumRestPriceToPay
             };
             homeModel.SessionString = sessionKey;
+            
         }
-
+        
         return View(homeModel);
     }
     
@@ -132,7 +136,7 @@ public class HomeController : Controller
         
         SaveDataInSession(loginModel, sessionKey);
         
-        if (_db.Orders.Include(x=>x.User).Where(x => x.UserId == user.UserId && x.OrderDate.Date == DateTime.Today).Any())
+        if (_db.Orders.Include(x=>x.User).Where(x => x.UserId == user.UserId && x.OrderDate.Date == DateTime.Today && x.OrderStateId == 1 ).Any())
         {
             return RedirectToAction("Order_Detail", "OrderDetail");
         }

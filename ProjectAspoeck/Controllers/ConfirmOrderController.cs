@@ -23,7 +23,7 @@ public class ConfirmOrderController: Controller
                 .Where(x => x.UserId == user.UserId && x.OrderDate.Date == DateTime.Today).FirstOrDefault();
             userTodaysOrder.OrderStateId= 2;
             _db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LoginWithChip", "Home");
         }
 
         
@@ -48,7 +48,7 @@ public class ConfirmOrderController: Controller
                 .Where(x => x.UserId == user.UserId && x.OrderDate.Date == DateTime.Today).FirstOrDefault();
             userTodaysOrder.OrderStateId = 4;
             _db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LoginWithChip", "Home");
         }
     }
 }

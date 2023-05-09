@@ -37,11 +37,11 @@ public partial class BreakfastDBContext : DbContext
   //Ben
       => optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Temp\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
 
-  //Simon
-  //=> optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Temp\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
+    //Simon
+    //=> optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Users\Test\source\repos\wilflingsederl190046\ProjectAspoeck\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
 
 
-  protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     modelBuilder.Entity<Item>(entity =>
     {

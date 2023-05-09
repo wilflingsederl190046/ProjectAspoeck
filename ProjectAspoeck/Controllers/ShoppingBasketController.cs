@@ -26,6 +26,8 @@ public class ShoppingBasketController : Controller
       }
       else
       {
+          FromPageToPageController fromPage = new FromPageToPageController();
+          fromPage.SetFromPageToPage("Shopping_Basket","ShoppingBasket",HttpContext);
           string s = HttpContext.Session.GetString("BasketItems");
           var shopping_Basket = new Shopping_BasketModel();
           var jObject = JObject.Parse(s);
