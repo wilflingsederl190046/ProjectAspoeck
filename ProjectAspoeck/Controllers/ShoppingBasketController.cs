@@ -12,11 +12,17 @@ public class ShoppingBasketController : Controller
 
   public IActionResult Shopping_Basket()
   {
+      DateTime now = DateTime.Now;
+      DateTime startTime = DateTime.Today.AddHours(4); // Startzeit 05:00 Uhr
+      DateTime endTime = DateTime.Today.AddHours(9);
       string sessionKey = "notAuthorized";
       sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
       if (sessionKey == "notAuthorized")
       {
           return RedirectToAction("Index", "Home");
+      }else if (now < startTime || now > endTime)
+      {
+          return RedirectToAction("Home_Page", "Home");
       }
       else
       {

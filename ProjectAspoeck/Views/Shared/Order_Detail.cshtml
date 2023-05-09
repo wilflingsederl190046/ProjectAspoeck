@@ -55,6 +55,19 @@
             margin-bottom: 10px;
         }
         
+        .table th,
+            .table td {
+                font-size: 1.2rem;
+            }
+        
+        .right-align {
+          float: right;
+          margin-right: 5px;
+        }
+        .fontText {
+            font-size: 1.6rem;
+        
+        }
         .main .status {
             background-color: red;
             color: white;
@@ -71,7 +84,7 @@
         
         .table th,
         .table td {
-            font-size: 1.2rem;
+            font-size: 1.6rem;
         }
         
         .left-row {
@@ -92,6 +105,10 @@
             height: 130px;
             overflow: hidden;
           }
+          
+         body{
+         font-size: 1.6rem;
+         }
       </style>
 </head>
 <body>
@@ -108,12 +125,12 @@
                 </div>
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
-                                    {
-                            <button type="submit" class="btn btn-lg">
-                            <i class="fa fa-gear"></i>
-                        </button>
-                        }
+                       @*@using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
+                                                             {
+                                                     <button type="submit" class="btn btn-lg">
+                                                     <i class="fa fa-gear"></i>
+                                                 </button>
+                                                 }*@ 
                     </span>
                 </div>
             </div>
@@ -123,8 +140,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-6">
-                <p>Bestellung von <strong>@Model.UserName</strong></p>
-                <p><strong>@Model.OrderDate.Date.ToString("D") </strong></p>
+                <p class="fontText">Bestellung von <strong>@Model.UserName</strong></p>
+                <p class="fontText"><strong>@Model.OrderDate.Date.ToString("D") </strong></p>
             </div>
             <div class="col-6">
                 <div class="table-responsive">
@@ -153,7 +170,7 @@
                                        }
                                    </div>
                                </td>
-                               <td class="itemName">@item.Name</td>
+                               <td class="fontText itemName">@item.Name</td>
                                <td class="price">
                                    @item.Price.ToString("N2")
                                    @Html.Raw(" €")
@@ -169,19 +186,31 @@
         </div>
         <div class="row mt-3">
             <div class="col">
-                <p>Anzahl Artikel: <strong>@Model.TotalItemCount</strong></p>
-                <p>Preis insgesamt: <strong>@Model.TotalPrice.ToString("0.00") €</strong></p>
-                <p>Status: <strong>nicht bezahlt</strong></p>
+                <p class="fontText">Anzahl Artikel: <strong>@Model.TotalItemCount</strong></p>
+                <p class="fontText">Preis insgesamt: <strong>@Model.TotalPrice.ToString("0.00") €</strong></p>
+                <p class="fontText">Status: <strong>nicht bezahlt</strong></p>
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col">
-                @using (Html.BeginForm("All_Orders", "AllOrders", FormMethod.Post))
+            <div class="right-align">
+                @*@using (Html.BeginForm("All_Orders", "AllOrders", FormMethod.Post))
                 {
                   <button href="#" class="btn btn-warning">Zurück</button>
-                }
-            </div>
+                }*@
+                
+                @using (Html.BeginForm("All_Orders", "AllOrders", FormMethod.Post))
+                                 {
+                                   <button href="#" class="btn btn-danger right-align">Bestellung ist nicht korrekt</button>
+                                 }
+                
+                @using (Html.BeginForm("All_Orders", "AllOrders", FormMethod.Post))
+                 {
+                   <button href="#" class="btn btn-success right-align">Bestellung Bestätigen</button>
+                 }
+            </div >
+            
         </div>
+        
     </div>
 </body>
 </html>
