@@ -1,4 +1,5 @@
 ﻿@using ProjectAspoeck.Models
+@using Microsoft.EntityFrameworkCore.Infrastructure
 @model ProjectAspoeck.Models.AdminEditListModel
 @{
     ViewData["Title"] = "Jausen Liste bearbeiten";
@@ -128,7 +129,7 @@
                 id="searchInput"
                 placeholder="Suche ..."
                 style="margin-left: 8px"/>
-            
+
             <button id="newUser" class="btn btn-warning float-right" onclick="showItemModal()">
                 <i class="fa fa-user-plus"></i>
                 Neues Produkt
@@ -154,75 +155,75 @@
     <div class="row">
         <div class="col-md-12 table-height">
             <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
-            <table id="userTable" class="table table-bordered table-striped table-scroll">
-                <thead>
-                <tr>
-                    <th>Nr</th>
-                    <th>Bild</th>
-                    <th>Bezeichnung</th>
-                    <th>Preis</th>
-                    <th>Status</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody id="bodyTable">
-                @foreach (var item in Model.Items)
-                {
+                <table id="userTable" class="table table-bordered table-striped table-scroll">
+                    <thead>
                     <tr>
-                        <td>
-                            @(Model.Items.IndexOf(item) + 1)
-                        </td>
-                        <td>
-                            <div class="img-container">
-                            @if (item.ImageData != null && item.ImageData.Length > 0)
-                            {
-                                <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageData)}")" alt="@item.Name"/>
-                            }
-                            else
-                            {
-                                <span>Kein Bild verfügbar</span>
-                            }
-                        </div>
-                        </td>
-                        <td>
-                            <input type="text" name="name" value="@item.Name" disabled="disabled" style="width: 500px"/>
-                        </td>
-                        <td>
-                            <input type="text" name="price" value="@item.Price.ToString("N2") €" disabled="disabled" style="width: 75px"/>
-                        </td>
-                        <td>
-                            <input id="cbActive" type="checkbox" name="status" @(item.Active ? "checked" : "") onchange="activeChanged(@item.ItemId, checked)"/> Aktiv
-                        </td>
-                        <td>
-                            <span class="text-center-last-col">
-                                <button type="button" class="btn btn-primary" onclick="showItemModal(true, @item.ItemId)">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="text-center-last-col">
-                                <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@item.ItemId')">
-                                    <i class="fa fa-trash"></i> 
-                                </button>
-                            </span>
-                        </td>
+                        <th>Nr</th>
+                        <th>Bild</th>
+                        <th>Bezeichnung</th>
+                        <th>Preis</th>
+                        <th>Status</th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="bodyTable">
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>
+                                @(Model.Items.IndexOf(item) + 1)
+                            </td>
+                            <td>
+                                <div class="img-container">
+                                    @if (item.ImageData != null && item.ImageData.Length > 0)
+                                    {
+                                        <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageData)}")" alt="@item.Name" loading="lazy"/>
+                                    }
+                                    else
+                                    {
+                                        <span>Kein Bild verfügbar</span>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" name="name" value="@item.Name" disabled="disabled" style="width: 500px"/>
+                            </td>
+                            <td>
+                                <input type="text" name="price" value="@item.Price.ToString("N2") €" disabled="disabled" style="width: 75px"/>
+                            </td>
+                            <td>
+                                <input id="cbActive" type="checkbox" name="status" @(item.Active ? "checked" : "") onchange="activeChanged(@item.ItemId, checked)"/> Aktiv
+                            </td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-primary" onclick="showItemModal(true, @item.ItemId)">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@item.ItemId')">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
-        {
-            <button href="#" class="btn btn-warning float-left">Zurück</button>
-        }
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
+            {
+                <button href="#" class="btn btn-warning float-left">Zurück</button>
+            }
+        </div>
     </div>
-</div>
 </div>
 
 @* New item window *@
@@ -238,11 +239,10 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="image">Bild:<span style="color: red">*</span></label>
-                        <input type="text" class="form-control" id="hiddenImage">
-                        <input type="text" class="form-control" id="hiddenImageData">
-                        <img src="" alt="Bild" class="form-control" id="image">
-                        <button class="form-control" onclick="changeImage()">Bild ändern</button>
+                        <label for="imageName">Bild:<span style="color: red">*</span></label>
+                        <input type="text" class="form-control" id="hiddenImageId" hidden="hidden">
+                        <input type="text" class="form-control" id="imageName">
+                        <button onclick="changeImage()">Bild ändern</button>
                     </div>
                     <div class="form-group">
                         <label for="name">Bezeichnung:<span style="color: red">*</span></label>
@@ -262,6 +262,70 @@
     </div>
 </div>
 
+@* Change image window *@
+<div id="changeImageModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeImageModalTitle">Bild ändern</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeChangeImage">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+                    <table id="imageTable" class="table table-bordered table-striped table-scroll">
+                        <thead>
+                        <tr>
+                            <th>Nr</th>
+                            <th>Bild</th>
+                            <th>Bezeichnung</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var image in Model.Images)
+                        {
+                            <tr>
+                                <td>
+                                    @(Model.Images.IndexOf(image) + 1)
+                                </td>
+                                <td>
+                                    <div class="img-container">
+                                        @if (image.ImageData != null && image.ImageData.Length > 0)
+                                        {
+                                            <img src="@($"data:image;base64,{Convert.ToBase64String(image.ImageData)}")" alt="@image.Name" loading="lazy"/>
+                                        }
+                                        else
+                                        {
+                                            <span>Kein Bild verfügbar</span>
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    @image.Name
+                                </td>
+                                <td>
+                                    <span class="text-center-last-col">
+                                        <button type="button" class="btn btn-primary" onclick="">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortChangeImage">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="save-changedImage">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @* Delete item window *@
 <div id="deleteItemModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -274,7 +338,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteItem">Nein</button>
-                <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteUser()">Ja</button>
+                <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteItem()">Ja</button>
             </div>
         </div>
     </div>
@@ -285,6 +349,20 @@
 
 @section scripts {
     <script>        
+        //#region Change Image
+        function changeImage() {
+          $('#changeImageModal').modal('show');
+        }
+          
+        $('#abortChangeImage').on('click', function() {
+            $('#changeImageModal').modal('hide');
+        });
+
+        $('#closeChangeImage').on('click', function() {
+            $('#changeImageModal').modal('hide');
+        });
+        //#endregion
+    
         //#region Set Active
         function activeChanged(id, active) {
             $.ajax({
@@ -309,8 +387,8 @@
         //#endregion
      
         let itemId;
-        //#region Delete User
-        function deleteUser() {
+        //#region Delete Item
+        function deleteItem() {
             $.ajax({
                 url: '@Url.Action("DeleteItem", "EditList")',
                 type: 'POST',
@@ -337,13 +415,9 @@
             $('#deleteItemModal').modal('hide');
         });
 
-        $('#abortDeleteItem').on('click', function() {
+        $('#closeDeleteItem').on('click', function() {
             $('#deleteItemModal').modal('hide');
         });
-        //#endregion
-        
-        //#region Image
-            
         //#endregion
         
         //#region New/Update Item
@@ -377,11 +451,8 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            $('#hiddenImage').val(response.itemImageId || '');
-                            $('#hiddenImageData').val(response.itemImageData || '');
-                            const imageData = 'data:image;base64,' + btoa(String.fromCharCode.apply(null, response.itemImageData));
-                            console.log(imageData);
-                            $('#image').attr('src', imageData);
+                            $('#hiddenImageId').val(response.itemImageId || '');
+                            $('#imageName').val(response.itemImageName || '');
                             $('#name').val(response.itemName || '');
                             $('#price').val(response.itemPrice || '');
                             console.log('success');

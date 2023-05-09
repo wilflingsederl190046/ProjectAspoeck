@@ -29,10 +29,21 @@ public class EditListController : Controller
                 .OrderBy(x => x.ItemId)
                 .ToList();
 
+            var allImages = _db.Images
+                .Select(x => new ImageDto()
+                {
+                    ImageId = x.ImageId,
+                    Name = x.Name,
+                    ImageData = x.ImageData
+                })
+                .OrderBy(x => x.ImageId)
+                .ToList();
+            
             return View(new AdminEditListModel
             {
                 SessionKey = sessionKey,
-                Items = allItems
+                Items = allItems,
+                Images = allImages
             });
         }
 
@@ -125,7 +136,7 @@ public class EditListController : Controller
             {
                 success = true,
                 itemImageId = selectedItem.ImageId,
-                itemImageData = selectedItem.Image.ImageData,
+                itemImageName = selectedItem.Image.Name,
                 itemName = selectedItem.Name,
                 itemPrice = selectedItem.Price,
             });

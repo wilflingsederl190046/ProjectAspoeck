@@ -202,24 +202,25 @@
     <script>
     //#region Timer
     const dateElement = document.getElementById('dateOnly');
-    const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    };
-    const formatter = new Intl.DateTimeFormat('de-DE', options);
-    
-    function updateDate() {
-        dateElement.textContent = formatter.format(new Date());
-    }
-    
-    updateDate();
-    
-    let timer = setInterval(updateDate, 1000);
-    window.onunload = function() {
-        clearInterval(timer);
-    };
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        const formatter = new Intl.DateTimeFormat('de-DE', options);
+        
+        function updateDate() {
+            dateElement.textContent = formatter.format(new Date());
+        }
+        
+        updateDate();
+        
+        let timer = setInterval(updateDate, 1000);
+        window.onunload = function() {
+            clearInterval(timer);
+        };
+
     //#endregion
     
     //#region Prepare OrderItems (grüneis)
