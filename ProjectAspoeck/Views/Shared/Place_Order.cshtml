@@ -199,7 +199,7 @@
 
 @section scripts
 {
-  <script>
+    <script>
     //#region Timer
     const dateElement = document.getElementById('dateOnly');
     const options = {
@@ -213,6 +213,8 @@
     function updateDate() {
         dateElement.textContent = formatter.format(new Date());
     }
+    
+    updateDate();
     
     let timer = setInterval(updateDate, 1000);
     window.onunload = function() {
