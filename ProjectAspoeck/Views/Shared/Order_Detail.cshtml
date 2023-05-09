@@ -25,25 +25,24 @@
             align-items: center;
             background-color: #f2f2f2;
         }
-        
+        .container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+        }
         .header-image {
             padding-left: 50px;
             height: 100%;
         }
         
-        .text-center-last-col {
-            display: flex;
-            justify-content: center;
-        }
+        
         
         .header-text {
             text-align: center;
         }
         
-        .main {
-            margin-top: 30px;
-        }
-        
+       
         .main .date {
             font-size: 1.5rem;
             margin-bottom: 10px;
@@ -65,7 +64,7 @@
           margin-right: 5px;
         }
         .fontText {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
         
         }
         .main .status {
@@ -79,21 +78,18 @@
         
         .btn {
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
+        .table-container {
+            height: auto; /* or height: 100%; */
+            overflow-y: auto;
+          }
         
         .table th,
         .table td {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
         }
         
-        .left-row {
-            padding-left: 50px;
-        }
-        
-        .right-row {
-            padding-right: 50px;
-        }
         
         img {
             max-width: 100%;
@@ -109,33 +105,30 @@
          body{
          font-size: 1.6rem;
          }
+          .table-wrapper-scroll-y {
+                 display: block;
+             }
       </style>
 </head>
 <body>
     <header class="bg-light py-3" style="height: 150px">
-        <div class="container-fluid h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-3 header-image">
-                    <img src="~/Images/aspoeck-logo-sm.png"
-                         class="img-fluid align-middle"
-                         alt="Logo" />
-                </div>
-                <div class="col-6 header-text">
-                    <h1 class="mb-0">Jausen Bestellung</h1>
-                </div>
-                <div class="col-3 text-center py-2 ">
-                    <span class="header-button">
-                       @*@using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
-                                                             {
-                                                     <button type="submit" class="btn btn-lg">
-                                                     <i class="fa fa-gear"></i>
-                                                 </button>
-                                                 }*@ 
-                    </span>
-                </div>
-            </div>
+      <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+          <div class="col-3 header-image">
+            <img src="~/Images/aspoeck-logo-sm.png"
+                 class="img-fluid align-middle"
+                 alt="Logo"/>
+          </div>
+          <div class="col-6 header-text">
+            <h1 class="mb-0">Jausen Bestellung</h1>
+          </div>
+          <div class="col-3 text-center py-2 ">
+            <span class="header-button">
+            </span>
+          </div>
         </div>
-      </header>
+      </div>
+    </header>
 
     <div class="container-fluid">
         <div class="row">
@@ -144,9 +137,9 @@
                 <p class="fontText"><strong>@Model.OrderDate.Date.ToString("D") </strong></p>
             </div>
             <div class="col-6">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
+                <div class="table-container" style="height: calc(100vh - 400px);; overflow-y: auto;">
+                    <table class="table table-bordered">
+                         <thead class="thead-light sticky-top">
                             <tr>
                                 <th>Bild</th>
                                 <th>Bezeichnung</th>
@@ -192,29 +185,29 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="right-align">
-                @*@using (Html.BeginForm("All_Orders", "AllOrders", FormMethod.Post))
-                {
-                  <button href="#" class="btn btn-warning">Zurück</button>
-                }*@
-                @using (Html.BeginForm("ConfirmOrder", "ConfirmOrder", FormMethod.Post))
-                 {
-                   <button href="#" class="btn btn-success right-align">Bestellung Bestätigen</button>
-                 }
-                
-                @using (Html.BeginForm("CancelOrder", "ConfirmOrder", FormMethod.Post))
-                  {
-                    <button href="#" class="btn btn-danger right-align">Bestellung ist nicht korrekt</button>
-                  }
-                
-                @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-                                  {
-                                    <button href="#" class="btn btn-secondary right-align">Abbrechen</button>
-                                  }
-            </div >
+            
             
         </div>
-        
+        <div class="align-bottom">
+                        @*@using (Html.BeginForm("All_Orders", "AllOrders", FormMethod.Post))
+                        {
+                          <button href="#" class="btn btn-warning">Zurück</button>
+                        }*@
+                        @using (Html.BeginForm("ConfirmOrder", "ConfirmOrder", FormMethod.Post))
+                         {
+                           <button href="#" class="btn btn-success right-align">Bestellung Bestätigen</button>
+                         }
+                        
+                        @using (Html.BeginForm("CancelOrder", "ConfirmOrder", FormMethod.Post))
+                          {
+                            <button href="#" class="btn btn-danger right-align">Bestellung ist nicht korrekt</button>
+                          }
+                        
+                        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                           {
+                             <button href="#" class=" btn btn-secondary left-align">Abbrechen</button>
+                           }
+                    </div >
     </div>
 </body>
 </html>
