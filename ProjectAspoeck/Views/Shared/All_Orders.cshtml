@@ -197,7 +197,24 @@
 </html>
 
 @section scripts{
-  <script> 
+  <script>
+        $(document).ready(function () {
+            $("#filter").change(function () {
+                var selectedValue = $(this).val();
+                var selectedText = $(this).find("option:selected").text();
+                if (selectedValue == "all") {
+                    $("#table tbody tr").show();
+                } else {
+                    $("#table tbody tr").hide();
+                    $('#table').removeClass('table-striped');
+                    $("#table tbody tr td:nth-child(5)").filter(function () {
+                        return $(this).text().trim() === selectedText.trim();
+                    }).parent().show();
+                    $('#table').addClass('table-striped');
+                }
+            });
+        });
+
         function placeOrder(orderId) {
           console.log(`---------------------------Place order ev.target ${orderId}`);          
           //const item = this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
