@@ -6,202 +6,221 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bestellung aufgeben</title>
     <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
-    header {
-        height: 150px;
-        display: flex;
-        align-items: center;
-        background-color: #f2f2f2;
-    }
-    
-    .header-image {
-        padding-left: 50px;
-        height: 100%;
-    }
-    
-    img {
-        max-width: 100%;
-        max-height: 100%;
-        display: block;
-    }
-    
-    .header-button {
-        height: 100px
-    }
-    
-    .header-text {
-        text-align: center;
-    }
-    
-    .btn {
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
-    
-    .table th,
-    .table td {
-        font-size: 1.2rem;
-    }
-    
-    .my-custom-scrollbar {
-        position: relative;
-        height: 370px;
-        overflow: auto;
-    }
-    
-    .table-wrapper-scroll-y {
-        display: block;
-    }
-    
-    .headline {
-        padding-top: 10px;
-    }
-    
-    .img-container {
-      width: 200px;
-      height: 130px;
-      overflow: hidden;
-    }
-    
-    .img-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .img-container img:hover {
-      transform: scale(1.1);
-    }
-    
-    .plus-button,
-    .minus-button {
-      width: 50px;
-    }
-    
-    .button-container {
-      width: 100%;
-      padding: 0 10px;
-      box-sizing: border-box;
-      height: 100%;
-    }
-  </style>
+        header {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            background-color: #f2f2f2;
+        }
+
+        .header-image {
+            padding-left: 50px;
+            height: 100%;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+
+        .header-button {
+            height: 100px
+        }
+
+        .header-text {
+            text-align: center;
+        }
+
+        .btn {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .table th,
+        .table td {
+            font-size: 1.2rem;
+        }
+
+        .my-custom-scrollbar {
+            position: relative;
+            height: 370px;
+            overflow: auto;
+        }
+
+        .table-wrapper-scroll-y {
+            display: block;
+        }
+
+        .headline {
+            padding-top: 10px;
+        }
+
+        .img-container {
+            width: 200px;
+            height: 130px;
+            overflow: hidden;
+        }
+
+            .img-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+                .img-container img:hover {
+                    transform: scale(1.1);
+                }
+
+        .plus-button,
+        .minus-button {
+            width: 50px;
+        }
+
+        .button-container {
+            width: 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
-<header class="bg-light py-3" style="height: 150px">
-    <div class="container-fluid h-100">
-        <div class="row align-items-center h-100">
-            <div class="col-3 header-image">
-                <img src="~/Images/aspoeck-logo-sm.png"
-                     class="img-fluid align-middle"
-                     alt="Logo"/>
-            </div>
-            <div class="col-6 header-text">
-                <h1 class="mb-0">Jausen Bestellung</h1>
-            </div>
-            <div class="col-3 text-center py-2 ">
-                <span class="header-button">
-                    @using (Html.BeginForm("Settings", "Settings",  FormMethod.Post))
-                    {
-                        <button type="submit" class="btn btn-lg">
-                            <i class="fa fa-gear"></i>
-                        </button>
-                    }
-                </span>
+    <header class="bg-light py-3" style="height: 150px">
+        <div class="container-fluid h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-3 header-image">
+                    <img src="~/Images/aspoeck-logo-sm.png"
+                         class="img-fluid align-middle"
+                         alt="Logo" />
+                </div>
+                <div class="col-6 header-text">
+                    <h1 class="mb-0">Jausen Bestellung</h1>
+                </div>
+                <div class="col-3 text-center py-2 ">
+                    <span class="header-button">
+                        @using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-lg">
+                                <i class="fa fa-gear"></i>
+                            </button>
+                        }
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col headline">
-            <h4>Angebot vom <span id="dateOnly">Montag, 1. Jänner 2023</span>:</h4>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col headline">
+                <h4>Angebot vom <span id="dateOnly">Montag, 1. Jänner 2023</span>:</h4>
+            </div>
         </div>
-    </div>
 
-  <div class="row mt-3">
-        <div class="col">
-            <div class="form-group d-flex align-items-center">
-                <select class="form-control" id="filter" style="width: 150px">
-                    <option value="">Alle</option>
-                    <option value="Semmerl">Semmerl</option>
-                    <option value="Flesserl">Flesserl</option>
-                </select>
-                <input type="text" class="form-control mr-2" placeholder="Suche..." id="search" style="     margin-left: 20px;">
+        <div class="row mt-3">
+            <div class="col">
+                <div class="form-group d-flex align-items-center">
+                    <select class="form-control" id="filter" style="width: 150px">
+                        <option value="">Alle</option>
+                        <option value="Semmerl">Semmerl</option>
+                        <option value="Flesserl">Flesserl</option>
+                    </select>
+                    <input type="text" class="form-control mr-2" placeholder="Suche..." id="search" style="margin-left: 20px;">
+                </div>
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-bordered" id="productTable">
+                        <thead class="thead-light sticky-top">
+                            <tr>
+                                <th scope="col" class="col-1">Bild</th>
+                                <th scope="col">Bezeichnung</th>
+                                <th scope="col">Kosten</th>
+                                <th scope="col">Stück</th>
+                                <th scope="col" class="col-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="img-container">
+                                            @if (item.ImageUrl != null && item.ImageUrl.Length > 0)
+                                            {
+                                                <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageUrl)}")" alt="@item.Name" />
+                                            }
+                                            else
+                                            {
+                                                <span>Kein Bild verfügbar</span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="itemName">@item.Name</td>
+                                    <td class="price">
+                                        @item.Price.ToString("N2")
+                                        @Html.Raw(" €")
+                                    </td>
+                                    <td class="stueck">@item.Units</td>
+                                    <td class="d-flex justify-content-center" style="height: 80px">
+                                        <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">+</button>
+                                    </td>
+                                    <td class="d-flex justify-content-center" style="height: 80px">
+                                        <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">-</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                <table class="table table-bordered" id="productTable">
-                    <thead class="thead-light sticky-top">
-                    <tr>
-                        <th scope="col" class="col-1">Bild</th>
-                        <th scope="col">Bezeichnung</th>
-                        <th scope="col">Kosten</th>
-                        <th scope="col">Stück</th>
-                        <th scope="col" class="col-1"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var item in Model.OrderItems)
-                    {
-                        <tr>
-                            <td>
-                                <div class="img-container">
-                                    @if (item.ImageUrl != null && item.ImageUrl.Length > 0)
-                                    {
-                                        <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageUrl)}")" alt="@item.Name"/>
-                                    }
-                                    else
-                                    {
-                                        <span>Kein Bild verfügbar</span>
-                                    }
-                                </div>
-                            </td>
-                            <td class="itemName">@item.Name</td>
-                            <td class="price">
-                                @item.Price.ToString("N2")
-                                @Html.Raw(" €")
-                            </td>
-                            <td class="stueck">@item.Units</td>
-                          <td class="d-flex justify-content-center" style="height: 80px">
-                            <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">+</button>
-                          </td>
-                            <td class="d-flex justify-content-center" style="height: 80px">
-                                <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">-</button>
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6 text-left">
+                @using (Html.BeginForm("Home_Page", "Home", FormMethod.Post))
+                {
+                    <button href="#" class="btn btn-warning">Zurück</button>
+                }
+            </div>
+            <div class="col-6 text-right">
+                <button type="submit" class="btn btn-success" id="warenkorbButton" onclick="openNew()">Warenkorb</button>
             </div>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col-6 text-left">
-            @using (Html.BeginForm("Home_Page", "Home", FormMethod.Post))
-            {
-                <button href="#" class="btn btn-warning">Zurück</button>
-            }
-        </div>
-        <div class="col-6 text-right">
-            <button type="submit" class="btn btn-success" id="warenkorbButton" onclick="openNew()">Warenkorb</button>
-        </div>
-    </div>
-</div>
 </body>
 </html>
 
 @section scripts
-{
+    {
     <script>
-    //#region Timer
-    const dateElement = document.getElementById('dateOnly');
+        //filter
+        var searchInput = document.getElementById("search");
+        searchInput.addEventListener("keyup", filterTable);
+
+        function filterTable() {
+            var searchValue = document.getElementById("search").value.toLowerCase();
+            var tableRows = document.getElementById("productTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            for (var i = 0; i < tableRows.length; i++) {
+                var rowData = tableRows[i].getElementsByTagName("td")[1].innerHTML.toLowerCase().trim();
+                if (rowData.indexOf(searchValue) > -1) {
+                    tableRows[i].style.display = "";
+                } else {
+                    tableRows[i].style.display = "none";
+                }
+            }
+        }
+
+
+
+        //#region Timer
+        const dateElement = document.getElementById('dateOnly');
         const options = {
             weekday: 'long',
             year: 'numeric',
@@ -209,120 +228,120 @@
             day: 'numeric'
         };
         const formatter = new Intl.DateTimeFormat('de-DE', options);
-        
+
         function updateDate() {
             dateElement.textContent = formatter.format(new Date());
         }
-        
+
         updateDate();
-        
+
         let timer = setInterval(updateDate, 1000);
-        window.onunload = function() {
+        window.onunload = function () {
             clearInterval(timer);
         };
 
-    //#endregion
-    
-    //#region Prepare OrderItems (grüneis)
-    // This function is called when the form is submitted
-    function prepareOrderItems() {
-        console.log('prepareOrderItems');
-        const orderItems = [];
-        $('#productTable tbody tr').each(function () {
-            const item = {
-                name: $(this).find('.itemName').text(),
-                price: 66,
-                quantity: +$(this).find('.stueck').text()
-            };
-            orderItems.push(item);
-        });
+        //#endregion
 
-        // Add hidden fields for each element of the orderItems list
-        for (let i = 0; i < orderItems.length; i++) {
-            $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Name" value="' + orderItems[i].Name + '" />');
-            $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Price" value="' + orderItems[i].Price + '" />');
-            $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Quantity" value="' + orderItems[i].Quantity + '" />');
+        //#region Prepare OrderItems (grüneis)
+        // This function is called when the form is submitted
+        function prepareOrderItems() {
+            console.log('prepareOrderItems');
+            const orderItems = [];
+            $('#productTable tbody tr').each(function () {
+                const item = {
+                    name: $(this).find('.itemName').text(),
+                    price: 66,
+                    quantity: +$(this).find('.stueck').text()
+                };
+                orderItems.push(item);
+            });
+
+            // Add hidden fields for each element of the orderItems list
+            for (let i = 0; i < orderItems.length; i++) {
+                $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Name" value="' + orderItems[i].Name + '" />');
+                $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Price" value="' + orderItems[i].Price + '" />');
+                $('#shoppingBasketForm').append('<input type="hidden" name="orderItems[' + i + '].Quantity" value="' + orderItems[i].Quantity + '" />');
+            }
+            return orderItems;
         }
-        return orderItems;
-    }
-    function openNew() {
-        console.log('---------------------------openNew');
-        const orderItems = prepareOrderItems();
-        console.log('orderItems', JSON.stringify(orderItems));
-        const postData = {
-            sessionKey: '@Model.SessionString',
-            orderItems: orderItems
-        };
-        console.log('postData:', JSON.stringify(postData, null, 2));
-        $.ajax({
+        function openNew() {
+            console.log('---------------------------openNew');
+            const orderItems = prepareOrderItems();
+            console.log('orderItems', JSON.stringify(orderItems));
+            const postData = {
+                sessionKey: '@Model.SessionString',
+                orderItems: orderItems
+            };
+            console.log('postData:', JSON.stringify(postData, null, 2));
+            $.ajax({
                 url: '@Url.Action("Shopping_BasketPlace", "ShoppingBasket")',
-            method:'POST',
-            contentType:'application/json',
-            data: JSON.stringify(postData),
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
                 success: function (result) {
                     window.location.href = '@Url.Action("Shopping_Basket", "ShoppingBasket")';
                     console.log('*******************success');
                 }
-        })
-            .then(x => console.log('--------------------------------- Shopping_Basket done'));
-    }
-    //#endregion
-    
-    //#region Plus Minus Buttons
-    // select all the plus buttons on the page
-    const plusButtons = document.querySelectorAll('.plus-button');
-    const minusButtons = document.querySelectorAll('.minus-button');
-
-    // loop through each button and add an event listener
-    plusButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // get the corresponding Stück cell
-            const stueckCell = button.parentElement.previousElementSibling
-
-            // get the current Stück value and increment it by one
-            let currentStueck = parseInt(stueckCell.textContent);
-            currentStueck += 1;
-
-            // update the Stück cell with the new value
-            stueckCell.textContent = currentStueck;
-        });
-    });
-
-    minusButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // get the corresponding Stück cell
-            const stueckCell = button.parentElement.previousElementSibling.previousElementSibling
-
-            // get the current Stück value and decrement it by one
-            let currentStueck = parseInt(stueckCell.textContent);
-            currentStueck -= 1;
-
-            // make sure the Stück value is at least 0
-            currentStueck = Math.max(currentStueck, 0);
-
-            // update the Stück cell with the new value
-            stueckCell.textContent = currentStueck;
-        });
-    });
-    function getData() {
-        // Get the item unit and name
-        const itemUnit = document.querySelector(".stueck").innerText;
-        const itemName = document.querySelector(".itemName").innerText;
-        alert("You have added " + itemUnit);
-
-        const productTable = document.getElementById('productTable');
-        const rows = productTable.rows;
-        const orderItems = [];
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].cells;
-            const orderItem = {
-                name: cells[0].textContent,
-                price: cells[1].textContent,
-                quantity: cells[2].textContent
-            };
-            orderItems.push(orderItem);
+            })
+                .then(x => console.log('--------------------------------- Shopping_Basket done'));
         }
-    }
-    //#endregion
-  </script>
+        //#endregion
+
+        //#region Plus Minus Buttons
+        // select all the plus buttons on the page
+        const plusButtons = document.querySelectorAll('.plus-button');
+        const minusButtons = document.querySelectorAll('.minus-button');
+
+        // loop through each button and add an event listener
+        plusButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // get the corresponding Stück cell
+                const stueckCell = button.parentElement.previousElementSibling
+
+                // get the current Stück value and increment it by one
+                let currentStueck = parseInt(stueckCell.textContent);
+                currentStueck += 1;
+
+                // update the Stück cell with the new value
+                stueckCell.textContent = currentStueck;
+            });
+        });
+
+        minusButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // get the corresponding Stück cell
+                const stueckCell = button.parentElement.previousElementSibling.previousElementSibling
+
+                // get the current Stück value and decrement it by one
+                let currentStueck = parseInt(stueckCell.textContent);
+                currentStueck -= 1;
+
+                // make sure the Stück value is at least 0
+                currentStueck = Math.max(currentStueck, 0);
+
+                // update the Stück cell with the new value
+                stueckCell.textContent = currentStueck;
+            });
+        });
+        function getData() {
+            // Get the item unit and name
+            const itemUnit = document.querySelector(".stueck").innerText;
+            const itemName = document.querySelector(".itemName").innerText;
+            alert("You have added " + itemUnit);
+
+            const productTable = document.getElementById('productTable');
+            const rows = productTable.rows;
+            const orderItems = [];
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].cells;
+                const orderItem = {
+                    name: cells[0].textContent,
+                    price: cells[1].textContent,
+                    quantity: cells[2].textContent
+                };
+                orderItems.push(orderItem);
+            }
+        }
+            //#endregion
+    </script>
 }

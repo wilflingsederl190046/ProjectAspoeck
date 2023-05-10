@@ -6,451 +6,469 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>Jausen Bestellung</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 
     <style>
-      .header-image {
-        padding-left: 50px;
+        .header-image {
+            padding-left: 50px;
             height: 100%;
-      }
-      
-      img {
-          max-width: 100%;
-          max-height: 100%;
-          display: block;
-      }
-      
-      .header-text {
-        padding-right: 50px;
-        text-align: center;
-      }
-      
-      .header-right-text,
-      .btn {
-        font-weight: bold;
-        font-size: 1.5rem;
-      }
+        }
 
-      .table td {
-        font-size: 1.2rem;
-      }
-      .table th {
-        font-weight: bold;
-        font-size: 1.2rem;
-      }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
 
-      .text-center-last-col {
-        display: flex;
-        justify-content: center;
-      }
-      
-      .filter {
-          margin-top: 10px;
-          margin-bottom: 10px;
-          border: 1px solid black;
-          padding: 10px;
-      }
-      
-      .my-custom-scrollbar {
-          position: relative;
-          height: 100%;
-          overflow: auto;
-      }
-      .table-wrapper-scroll-y {
-        display: block;
-        overflow: auto;
-        max-height: calc(100vh - 330px);
-      }
-      
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      
-      .img-container {
-        width: 200px;
-        height: 130px;
-        overflow: hidden;
-      }
-      
-      .img-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      
-      .img-container img:hover {
-        transform: scale(1.1);
-      }
-      
-      #changeImageModal .modal-dialog {
-        max-width: 50%;
-        height: 90%;
-        margin: 1.75rem auto;
-      }
-      
-      #changeImageModal .modal-content {
-        height: 100%;
-      }
-      
-      #changeImageModal .modal-body {
-        height: calc(100% - 75px);
-      }
-      
-      #changeImageModal .table-wrapper-scroll-y {
-          max-height: calc(100vh - 300px);
-      }
+        .header-text {
+            padding-right: 50px;
+            text-align: center;
+        }
+
+        .header-right-text,
+        .btn {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .table td {
+            font-size: 1.2rem;
+        }
+
+        .table th {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .text-center-last-col {
+            display: flex;
+            justify-content: center;
+        }
+
+        .filter {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 1px solid black;
+            padding: 10px;
+        }
+
+        .my-custom-scrollbar {
+            position: relative;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .table-wrapper-scroll-y {
+            display: block;
+            overflow: auto;
+            max-height: calc(100vh - 330px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .img-container {
+            width: 200px;
+            height: 130px;
+            overflow: hidden;
+        }
+
+            .img-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+                .img-container img:hover {
+                    transform: scale(1.1);
+                }
+
+        #changeImageModal .modal-dialog {
+            max-width: 50%;
+            height: 90%;
+            margin: 1.75rem auto;
+        }
+
+        #changeImageModal .modal-content {
+            height: 100%;
+        }
+
+        #changeImageModal .modal-body {
+            height: calc(100% - 75px);
+        }
+
+        #changeImageModal .table-wrapper-scroll-y {
+            max-height: calc(100vh - 300px);
+        }
     </style>
 </head>
 <body>
-<header class="bg-light py-3" style="height: 150px">
-    <div class="container-fluid h-100">
-        <div class="row align-items-center h-100">
-            <div class="col-3 header-image">
-                <img src="~/Images/aspoeck-logo-sm.png"
-                     class="img-fluid align-middle"
-                     alt="Logo"/>
-            </div>
-            <div class="col-6 header-text">
-                <h1 class="mb-0">Jausen Bestellung</h1>
-            </div>
-            <div class="col-3 text-center bg-warning py-2">
-                <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
-            </div>
-        </div>
-    </div>
-</header>
-
-<div class="container-fluid">
-    <div class="filter">
-        <div>
-            <label for="von-datum">Von Erstellungsdatum:</label>
-            <input
-                type="date"
-                id="von-datum"
-                name="von-datum"
-                style="margin-left: 1px"
-                value="2023-01-01"/>
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Suche ..."
-                style="margin-left: 8px"/>
-
-            <button id="newUser" class="btn btn-warning float-right" onclick="showItemModal()">
-                <i class="fa fa-user-plus"></i>
-                Neues Produkt
-            </button>
-            <button id="newImage" class="btn btn-warning float-right" onclick="showNewImageModal()" style="margin-right: 10px">
-                <i class="fa fa-image"></i>
-                Neues Bild
-            </button>
-        </div>
-        <div>
-            <label for="bis-datum">Bis Erstellungsdatum:</label>
-            <input
-                type="date"
-                id="bis-datum"
-                name="bis-datum"
-                style="margin-left: 8px"
-                value="2023-12-31"/>
-            <label for="bis-datum" style="margin-left: 8px">Aktiv:</label>
-            <input type="checkbox" checked="checked"/>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-md-12 table-height">
-            <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
-                <table id="userTable" class="table table-bordered table-striped table-scroll">
-                    <thead>
-                    <tr>
-                        <th>Nr</th>
-                        <th>Bild</th>
-                        <th>Bezeichnung</th>
-                        <th>Preis</th>
-                        <th>Status</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody id="bodyTable">
-                    @foreach (var item in Model.Items)
-                    {
-                        <tr>
-                            <td>
-                                @(Model.Items.IndexOf(item) + 1)
-                            </td>
-                            <td>
-                                <div class="img-container" id="imageDiv">
-                                @*     @if (item.ImageData != null && item.ImageData.Length > 0) *@
-                                @*     { *@
-                                @*         <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageData)}")" alt="@item.Name" loading="lazy"/> *@
-                                @*     } *@
-                                @*     else *@
-                                @*     { *@
-                                @*         <span>Kein Bild verfügbar</span> *@
-                                @*     } *@
-                                </div>
-                            </td>
-                            <td>
-                                <input type="text" name="name" value="@item.Name" disabled="disabled" style="width: 500px"/>
-                            </td>
-                            <td>
-                                <input type="text" name="price" value="@item.Price.ToString("N2") €" disabled="disabled" style="width: 75px"/>
-                            </td>
-                            <td>
-                                <input id="cbActive" type="checkbox" name="status" @(item.Active ? "checked" : "") onchange="activeChanged(@item.ItemId, checked)"/> Aktiv
-                            </td>
-                            <td>
-                                <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-primary" onclick="showItemModal(true, @item.ItemId)">
-                                        <i class="fa fa-pencil"></i>
-                                    </button>
-                                </span>
-                            </td>
-                            <td>
-                                <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-secondary" onclick="showChangeImageModal(@item.ItemId)">
-                                        <i class="fa fa-image"></i>
-                                    </button>
-                                </span>
-                            <td>
-                                <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@item.ItemId')">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </span>
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
+    <header class="bg-light py-3" style="height: 150px">
+        <div class="container-fluid h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-3 header-image">
+                    <img src="~/Images/aspoeck-logo-sm.png"
+                         class="img-fluid align-middle"
+                         alt="Logo" />
+                </div>
+                <div class="col-6 header-text">
+                    <h1 class="mb-0">Jausen Bestellung</h1>
+                </div>
+                <div class="col-3 text-center bg-warning py-2">
+                    <p class="mb-0 align-middle header-right-text">ADMINISTRATOR</p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
-            {
-                <button href="#" class="btn btn-warning float-left">Zurück</button>
-            }
-        </div>
-    </div>
-</div>
+    </header>
 
-@* New item window *@
-<div id="newItemModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="newUserModalTitle">Neues Produkt anlegen</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeItem">
-                    <span aria-hidden="true">&times;</span>
+    <div class="container-fluid">
+        <div class="filter">
+            <div>
+                <label for="von-datum">Von Erstellungsdatum:</label>
+                <input type="date"
+                       id="von-datum"
+                       name="von-datum"
+                       style="margin-left: 1px"
+                       value="2023-01-01" />
+                <input type="text"
+                       id="searchInput"
+                       placeholder="Suche ..."
+                       style="margin-left: 8px" />
+
+                <button id="newUser" class="btn btn-warning float-right" onclick="showItemModal()">
+                    <i class="fa fa-user-plus"></i>
+                    Neues Produkt
+                </button>
+                <button id="newImage" class="btn btn-warning float-right" onclick="showNewImageModal()" style="margin-right: 10px">
+                    <i class="fa fa-image"></i>
+                    Neues Bild
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="name">Bezeichnung:<span style="color: red">*</span></label>
-                        <input type="text" class="form-control" id="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Preis (in €):<span style="color: red">*</span></label>
-                        <input type="text" class="form-control" id="price">
-                    </div>
-                </form>
+            <div>
+                <label for="bis-datum">Bis Erstellungsdatum:</label>
+                <input type="date"
+                       id="bis-datum"
+                       name="bis-datum"
+                       style="margin-left: 8px"
+                       value="2023-12-31" />
+                <label for="bis-datum" style="margin-left: 8px">Aktiv:</label>
+                <input type="checkbox" id="activeOnlyCheckBox" checked="checked" onclick="filterTable()" />
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortItem">Abbrechen</button>
-                <button type="button" class="btn btn-success" id="save-newItem">Speichern</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-@* Change image window *@
-<div id="changeImageModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="changeImageModalTitle">Bild ändern</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeChangeImage">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
+        </div>
+        <div class="row">
+            <div class="col-md-12 table-height">
                 <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
-                    <table id="imageTable" class="table table-bordered table-striped table-scroll">
+                    <table id="userTable" class="table table-bordered table-striped table-scroll">
                         <thead>
-                        <tr>
-                            <th>Nr</th>
-                            <th>Bild</th>
-                            <th>Bezeichnung</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach (var image in Model.Images)
-                        {
                             <tr>
-                                <td>
-                                    @(Model.Images.IndexOf(image) + 1)
-                                </td>
-                                <td>
-                                    <div class="img-container">
-                                        @if (image.ImageData != null && image.ImageData.Length > 0)
-                                        {
-                                            <img src="@($"data:image;base64,{Convert.ToBase64String(image.ImageData)}")" alt="@image.Name" loading="lazy"/>
-                                        }
-                                        else
-                                        {
-                                            <span>Kein Bild verfügbar</span>
-                                        }
-                                    </div>
-                                </td>
-                                <td>
-                                    @image.Name
-                                </td>
-                                <td>
-                                    <span class="text-center-last-col">
-                                        <input type="text" hidden="hidden" id="hiddenItemIdForImage"/>
-                                        <button type="button" class="btn btn-primary" onclick="saveChangedImageFunction(@image.ImageId, $('#hiddenItemIdForImage').val())">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </span>
-                                </td>
+                                <th>Nr</th>
+                                <th>Bild</th>
+                                <th>Bezeichnung</th>
+                                <th>Preis</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
-                        }
+                        </thead>
+                        <tbody id="bodyTable">
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        @(Model.Items.IndexOf(item) + 1)
+                                    </td>
+                                    <td>
+                                        <div class="img-container" id="imageDiv">
+                                            @*     @if (item.ImageData != null && item.ImageData.Length > 0) *@
+                                            @*     { *@
+                                            @*         <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageData)}")" alt="@item.Name" loading="lazy"/> *@
+                                            @*     } *@
+                                            @*     else *@
+                                            @*     { *@
+                                            @*         <span>Kein Bild verfügbar</span> *@
+                                            @*     } *@
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="name" value="@item.Name" disabled="disabled" style="width: 500px" />
+                                    </td>
+                                    <td>
+                                        <input type="text" name="price" value="@item.Price.ToString("N2") €" disabled="disabled" style="width: 75px" />
+                                    </td>
+                                    <td>
+                                        <input id="cbActive" type="checkbox" name="status" @(item.Active ? "checked" : "") onchange="activeChanged(@item.ItemId, checked)" /> Aktiv
+                                    </td>
+                                    <td>
+                                        <span class="text-center-last-col">
+                                            <button type="button" class="btn btn-primary" onclick="showItemModal(true, @item.ItemId)">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="text-center-last-col">
+                                            <button type="button" class="btn btn-secondary" onclick="showChangeImageModal(@item.ItemId)">
+                                                <i class="fa fa-image"></i>
+                                            </button>
+                                        </span>
+                                    <td>
+                                        <span class="text-center-last-col">
+                                            <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@item.ItemId')">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortChangeImage">Abbrechen</button>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
+                {
+                    <button href="#" class="btn btn-warning float-left">Zurück</button>
+                }
             </div>
         </div>
     </div>
-</div>
 
-@* Delete item window *@
-<div id="deleteItemModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Sind Sie sicher, dass Sie dieses Produkt löschen möchten?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeDeleteItem">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteItem">Abbrechen</button>
-                <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteItem()">Hinzufügen</button>
+    @* New item window *@
+    <div id="newItemModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newUserModalTitle">Neues Produkt anlegen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeItem">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Bezeichnung:<span style="color: red">*</span></label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Preis (in €):<span style="color: red">*</span></label>
+                            <input type="text" class="form-control" id="price">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortItem">Abbrechen</button>
+                    <button type="button" class="btn btn-success" id="save-newItem">Speichern</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-
-<div id="newImageModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Bild hinzufügen</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeNewImage">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label for="image-name" class="col-form-label">Name:<span style="color: red">*</span></label>
-                    <input type="text" class="form-control" id="image-name">
-                  </div>
-                  <div class="form-group">
-                    <label for="image-file" class="col-form-label">Bild:<span style="color: red">*</span></label>
-                    <input type="file" class="form-control-file" id="image-file" accept="image/png">
-                  </div>
-                </form>
-              </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortNewImage">Abbrechen</button>
-                <button type="button" class="btn btn-success" id="confirm-newImage">Hinzufügen</button>
+    @* Change image window *@
+    <div id="changeImageModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeImageModalTitle">Bild ändern</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeChangeImage">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+                        <table id="imageTable" class="table table-bordered table-striped table-scroll">
+                            <thead>
+                                <tr>
+                                    <th>Nr</th>
+                                    <th>Bild</th>
+                                    <th>Bezeichnung</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var image in Model.Images)
+                                {
+                                    <tr>
+                                        <td>
+                                            @(Model.Images.IndexOf(image) + 1)
+                                        </td>
+                                        <td>
+                                            <div class="img-container">
+                                                @if (image.ImageData != null && image.ImageData.Length > 0)
+                                                {
+                                                    <img src="@($"data:image;base64,{Convert.ToBase64String(image.ImageData)}")" alt="@image.Name" loading="lazy" />
+                                                }
+                                                else
+                                                {
+                                                    <span>Kein Bild verfügbar</span>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @image.Name
+                                        </td>
+                                        <td>
+                                            <span class="text-center-last-col">
+                                                <input type="text" hidden="hidden" id="hiddenItemIdForImage" />
+                                                <button type="button" class="btn btn-primary" onclick="saveChangedImageFunction(@image.ImageId, $('#hiddenItemIdForImage').val())">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortChangeImage">Abbrechen</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    @* Delete item window *@
+    <div id="deleteItemModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sind Sie sicher, dass Sie dieses Produkt löschen möchten?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeDeleteItem">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteItem">Abbrechen</button>
+                    <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteItem()">Hinzufügen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="newImageModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bild hinzufügen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeNewImage">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="image-name" class="col-form-label">Name:<span style="color: red">*</span></label>
+                            <input type="text" class="form-control" id="image-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="image-file" class="col-form-label">Bild:<span style="color: red">*</span></label>
+                            <input type="file" class="form-control-file" id="image-file" accept="image/png">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortNewImage">Abbrechen</button>
+                    <button type="button" class="btn btn-success" id="confirm-newImage">Hinzufügen</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
 
 @section scripts {
-    <script>     
-        //#region New Image
-            function showNewImageModal() {
-              $('#newImageModal').modal('show');
+    <script>
+
+        //filter
+        var searchInput = document.getElementById("searchInput");
+        searchInput.addEventListener("keyup", filterTable);
+
+        function filterTable() {
+            var searchValue = document.getElementById("searchInput").value.toLowerCase();
+            var showActiveOnly = document.getElementById("activeOnlyCheckBox").checked;
+            var tableRows = document.getElementById("userTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            for (var i = 0; i < tableRows.length; i++) {
+                var rowData = tableRows[i].getElementsByTagName("td")[2].innerHTML.toLowerCase();
+                var activeStatus = tableRows[i].getElementsByTagName("td")[4].getElementsByTagName("input")[0].checked;
+                if (rowData.indexOf(searchValue) > -1 && showActiveOnly === activeStatus) {
+                    tableRows[i].style.display = "";
+                } else {
+                    tableRows[i].style.display = "none";
+                }
             }
-            
-            $('#confirm-newImage').on('click', function() {
+        }
+
+
+        //#region New Image
+        function showNewImageModal() {
+            $('#newImageModal').modal('show');
+        }
+
+        $('#confirm-newImage').on('click', function () {
             console.log($('#image-file').files[0].path);
-            
-                $.ajax({
-                    url: '@Url.Action("AddImage", "EditList")',
-                    type: 'POST',
-                    data: {
-                        imageName: $('#image-name').val(),
-                        imagePath: $('#image-file').val(),
-                    },
-                    success: function(result) {
-                        if (result.success) {
-                            location.reload();
-                            $('#newImageModal').modal('hide');
-                        } else {
-                            alert(result.message);
-                        } 
-                    },
-                    error: function(response) {
-                        alert('Ein Fehler ist aufgetreten: ' + response.message);
+
+            $.ajax({
+                url: '@Url.Action("AddImage", "EditList")',
+                type: 'POST',
+                data: {
+                    imageName: $('#image-name').val(),
+                    imagePath: $('#image-file').val(),
+                },
+                success: function (result) {
+                    if (result.success) {
+                        location.reload();
+                        $('#newImageModal').modal('hide');
+                    } else {
+                        alert(result.message);
                     }
-                });
-                
-            });
-              
-            $('#abortNewImage').on('click', function() {
-                $('#newImageModal').modal('hide');
+                },
+                error: function (response) {
+                    alert('Ein Fehler ist aufgetreten: ' + response.message);
+                }
             });
 
-            $('#closeNewImage').on('click', function() {
-                $('#newImageModal').modal('hide');
-            });
+        });
+
+        $('#abortNewImage').on('click', function () {
+            $('#newImageModal').modal('hide');
+        });
+
+        $('#closeNewImage').on('click', function () {
+            $('#newImageModal').modal('hide');
+        });
         //#endregion
-    
+
         let itemId;
-       
+
         //#region Change Image
         function showChangeImageModal(id) {
-          $('#hiddenItemIdForImage').val(id);
-          $('#changeImageModal').modal('show');
+            $('#hiddenItemIdForImage').val(id);
+            $('#changeImageModal').modal('show');
         }
-          
-        $('#abortChangeImage').on('click', function() {
+
+        $('#abortChangeImage').on('click', function () {
             $('#changeImageModal').modal('hide');
         });
 
-        $('#closeChangeImage').on('click', function() {
+        $('#closeChangeImage').on('click', function () {
             $('#changeImageModal').modal('hide');
         });
-        
+
         function saveChangedImageFunction(changeImageId, changeItemId) {
             $.ajax({
                 url: '@Url.Action("UpdateImage", "EditList")',
@@ -459,97 +477,97 @@
                     itemId: changeItemId,
                     imageId: changeImageId,
                 },
-                success: function(result) {
+                success: function (result) {
                     if (result.success) {
                         location.reload();
                         $('#newItemModal').modal('hide');
                     } else {
                         alert(result.message);
-                    } 
+                    }
                 },
-                error: function(response) {
+                error: function (response) {
                     alert('Ein Fehler ist aufgetreten: ' + response.message);
                 }
             });
         }
         //#endregion
-    
+
         //#region Set Active
         function activeChanged(id, active) {
             $.ajax({
                 url: '@Url.Action("ChangeActive", "EditList")',
                 type: 'POST',
-                data: { 
+                data: {
                     itemId: id,
                     isActive: active
-                 },
-                success: function(result) {
+                },
+                success: function (result) {
                     if (result.success) {
                         location.reload();
                     } else {
                         alert(result.message);
                     }
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     alert('Ein Fehler ist aufgetreten: ' + errorThrown);
                 }
             });
         }
         //#endregion
-     
-        
+
+
         //#region Delete Item
         function deleteItem() {
             $.ajax({
                 url: '@Url.Action("DeleteItem", "EditList")',
                 type: 'POST',
                 data: { itemId: itemId },
-                success: function(result) {
+                success: function (result) {
                     if (result.success) {
                         location.reload();
                     } else {
                         alert(result.message);
                     }
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     alert('Ein Fehler ist aufgetreten: ' + errorThrown);
                 }
             });
         }
-        
+
         function showDeleteUserModal(id) {
             itemId = id;
             $('#deleteItemModal').modal('show');
         }
-        
-        $('#abortDeleteItem').on('click', function() {
+
+        $('#abortDeleteItem').on('click', function () {
             $('#deleteItemModal').modal('hide');
         });
 
-        $('#closeDeleteItem').on('click', function() {
+        $('#closeDeleteItem').on('click', function () {
             $('#deleteItemModal').modal('hide');
         });
         //#endregion
-        
+
         //#region New/Update Item
         let userEdit = false;
-        
+
         function showItemModal(editMode = false, id = -1) {
             console.log('************ showItemModal ************f');
             console.log('id: ' + id);
             console.log('editMode: ' + editMode);
             itemId = id;
             userEdit = editMode;
-            
+
             const title = editMode ? 'Produkt bearbeiten' : 'Neues Produkt anlegen';
             const saveButtonLabel = editMode ? 'Speichern' : 'Hinzufügen';
-        
+
             $('#newUserModalTitle').html(title);
             $('#save-newUser').html(saveButtonLabel);
-            
+
             $('#name').val('');
             $('#price').val('');
-            
+
             if (id !== -1) {
                 $.ajax({
                     url: '@Url.Action("GetItem", "EditList")',
@@ -557,7 +575,7 @@
                     data: {
                         itemId: id
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             $('#name').val(response.itemName || '');
                             $('#price').val(response.itemPrice.toString().replace(/\./g, ",") || '');
@@ -566,7 +584,7 @@
                             console.log('error');
                         }
                     },
-                    error: function(xhr, textStatus, errorThrown) {
+                    error: function (xhr, textStatus, errorThrown) {
                         console.log(xhr);
                         alert('Es ist ein Fehler aufgetreten: ' + errorThrown);
                     }
@@ -575,23 +593,23 @@
             $('#newItemModal').modal('show');
         }
 
-        $('#abortItem').on('click', function() {
+        $('#abortItem').on('click', function () {
             $('#newItemModal').modal('hide');
         });
 
-        $('#closeItem').on('click', function() {
+        $('#closeItem').on('click', function () {
             $('#newItemModal').modal('hide');
         });
-        
-        $('#save-newItem').on('click', function() {
+
+        $('#save-newItem').on('click', function () {
             const name = $('#name').val();
             const price = $('#price').val();
 
-            if (name === '' || price === '' ) {
+            if (name === '' || price === '') {
                 alert('Bitte füllen Sie alle Pflichtfelder aus.');
                 return;
             }
-            
+
             if (userEdit) {
                 $.ajax({
                     url: '@Url.Action("UpdateItem", "EditList")',
@@ -601,29 +619,7 @@
                         name: name,
                         price: price
                     },
-                    success: function(result) {
-                        if (result.success) {
-                            location.reload();
-                            $('#newItemModal').modal('hide');
-                        } else {
-                            alert(result.message);
-                        } 
-                    },
-                    error: function(response) {
-                        alert('Ein Fehler ist aufgetreten: ' + response.message);
-                    }
-                });
-            }
-            else 
-            { 
-                $.ajax({
-                    url: '@Url.Action("AddItem", "EditList")',
-                    type: 'POST',
-                    data: {
-                        name: name,
-                        price: price,
-                    },
-                    success: function(result) {
+                    success: function (result) {
                         if (result.success) {
                             location.reload();
                             $('#newItemModal').modal('hide');
@@ -631,16 +627,37 @@
                             alert(result.message);
                         }
                     },
-                    error: function(response) {
+                    error: function (response) {
+                        alert('Ein Fehler ist aufgetreten: ' + response.message);
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("AddItem", "EditList")',
+                    type: 'POST',
+                    data: {
+                        name: name,
+                        price: price,
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            location.reload();
+                            $('#newItemModal').modal('hide');
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function (response) {
                         alert('Ein Fehler ist aufgetreten: ' + response.message);
                     }
                 });
             }
         });
-        //#endregion
-        
-        //#region Load Images
-            
-        //#endregion
+                            //#endregion
+
+                            //#region Load Images
+
+                            //#endregion
     </script>
 }
