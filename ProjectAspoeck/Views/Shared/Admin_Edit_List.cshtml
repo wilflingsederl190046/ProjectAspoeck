@@ -107,7 +107,7 @@
       }
       
       #changeImageModal .table-wrapper-scroll-y {
-          max-height: calc(100vh - 250px);
+          max-height: calc(100vh - 300px);
       }
     </style>
 </head>
@@ -150,7 +150,7 @@
                 <i class="fa fa-user-plus"></i>
                 Neues Produkt
             </button>
-            <button id="newImage" class="btn btn-warning float-right" onclick="showImageModal()" style="margin-right: 10px">
+            <button id="newImage" class="btn btn-warning float-right" onclick="showNewImageModal()" style="margin-right: 10px">
                 <i class="fa fa-image"></i>
                 Neues Bild
             </button>
@@ -192,15 +192,15 @@
                                 @(Model.Items.IndexOf(item) + 1)
                             </td>
                             <td>
-                                <div class="img-container">
-                                    @if (item.ImageData != null && item.ImageData.Length > 0)
-                                    {
-                                        <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageData)}")" alt="@item.Name" loading="lazy"/>
-                                    }
-                                    else
-                                    {
-                                        <span>Kein Bild verfügbar</span>
-                                    }
+                                <div class="img-container" id="imageDiv">
+                                @*     @if (item.ImageData != null && item.ImageData.Length > 0) *@
+                                @*     { *@
+                                @*         <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageData)}")" alt="@item.Name" loading="lazy"/> *@
+                                @*     } *@
+                                @*     else *@
+                                @*     { *@
+                                @*         <span>Kein Bild verfügbar</span> *@
+                                @*     } *@
                                 </div>
                             </td>
                             <td>
@@ -354,8 +354,38 @@
                 </button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteItem">Nein</button>
-                <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteItem()">Ja</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteItem">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteItem()">Hinzufügen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="newImageModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bild hinzufügen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeNewImage">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="image-name" class="col-form-label">Name:<span style="color: red">*</span></label>
+                    <input type="text" class="form-control" id="image-name">
+                  </div>
+                  <div class="form-group">
+                    <label for="image-file" class="col-form-label">Bild:<span style="color: red">*</span></label>
+                    <input type="file" class="form-control-file" id="image-file" accept="image/png">
+                  </div>
+                </form>
+              </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortNewImage">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="confirm-newImage">Hinzufügen</button>
             </div>
         </div>
     </div>
@@ -366,6 +396,45 @@
 
 @section scripts {
     <script>     
+        //#region New Image
+            function showNewImageModal() {
+              $('#newImageModal').modal('show');
+            }
+            
+            $('#confirm-newImage').on('click', function() {
+            console.log($('#image-file').files[0].path);
+            
+                $.ajax({
+                    url: '@Url.Action("AddImage", "EditList")',
+                    type: 'POST',
+                    data: {
+                        imageName: $('#image-name').val(),
+                        imagePath: $('#image-file').val(),
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            location.reload();
+                            $('#newImageModal').modal('hide');
+                        } else {
+                            alert(result.message);
+                        } 
+                    },
+                    error: function(response) {
+                        alert('Ein Fehler ist aufgetreten: ' + response.message);
+                    }
+                });
+                
+            });
+              
+            $('#abortNewImage').on('click', function() {
+                $('#newImageModal').modal('hide');
+            });
+
+            $('#closeNewImage').on('click', function() {
+                $('#newImageModal').modal('hide');
+            });
+        //#endregion
+    
         let itemId;
        
         //#region Change Image
@@ -568,6 +637,10 @@
                 });
             }
         });
+        //#endregion
+        
+        //#region Load Images
+            
         //#endregion
     </script>
 }

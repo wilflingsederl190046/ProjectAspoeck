@@ -133,8 +133,6 @@ public class EditListController : Controller
             return Json(new
             {
                 success = true,
-                itemImageId = selectedItem.ImageId,
-                itemImageName = selectedItem.Image.Name,
                 itemName = selectedItem.Name,
                 itemPrice = selectedItem.Price,
             });
@@ -222,6 +220,37 @@ public class EditListController : Controller
             selectedItem.Active = isActive;
             _db.SaveChanges();
 
+            return Json(new
+            {
+                success = true
+            });
+        }
+        catch (Exception ex)
+        {
+            return Json(new
+            {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+    
+    [HttpPost]
+    public IActionResult AddImage(string imageName, string imagePath)
+    {
+        try
+        {
+            var imageUrl = System.IO.File.ReadAllBytes(imagePath);
+            
+            var image = new Image
+            {
+                Name = imageName,
+                ImageData = imageUrl
+            };
+
+            _db.Images.Add(image);
+            _db.SaveChanges();
+            
             return Json(new
             {
                 success = true
