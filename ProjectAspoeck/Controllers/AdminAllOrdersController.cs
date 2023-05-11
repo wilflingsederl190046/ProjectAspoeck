@@ -92,4 +92,23 @@ public class AdminAllOrdersController : Controller
             return Json(new { success = false, message = ex.Message });
         }
     }
+    
+    [HttpPost]
+    public IActionResult UpdateOrderState(int orderId, string stateName)
+    {
+        try
+        {
+            var order = _db.Orders.FirstOrDefault(x => x.OrderId == orderId);
+            var newOrderState = _db.OrderStates.FirstOrDefault(x => x.Name == stateName);
+            if (order == null) return Json(new { success = false, message = "Bestellung nicht gefunden." });
+            if (newOrderState == null) return Json(new { success = false, message = "Status nicht gefunden." });
+            order.OrderStateId = newOrderState.OrderStateId;
+            _db.SaveChanges();
+            return Json(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = ex.Message });
+        }
+    }
 }

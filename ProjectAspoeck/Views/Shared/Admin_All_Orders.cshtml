@@ -1,6 +1,4 @@
-﻿@using ProjectAspoeck.Models
-
-@model ProjectAspoeck.Models.Admin_All_OrdersModel
+﻿@model ProjectAspoeck.Models.Admin_All_OrdersModel
 @{
     ViewData["Title"] = "All Orders";
 }
@@ -145,7 +143,7 @@
                                 @order.OrderContent
                             </td>
                             <td>
-                                <select id="orderState" onchange="stateChanged(@order.OrderState)">
+                                <select id="orderState" onchange="stateChanged('@order.OrderId')">
                                     @foreach (var state in Model.OrderStates)
                                     {
                                         @if (state.Name == order.OrderState)
@@ -164,7 +162,6 @@
                                 {
                                     @order.OrderPrice.ToString("N2")
                                     @Html.Raw(" €")
-                                    ;
                                 }
                             </td>
                             <td>
@@ -235,10 +232,31 @@
             });
         });
         
-        $('#orderState').val();
-        
         function stateChanged(id) {
-            
+            console.log('********************** stateChanged **********************');
+            console.log('id: ' + id);
+            const orderStateName = $('#orderState').val();
+            console.log('orderStateName: ' + orderStateName);
+            $.ajax({
+                url: '@Url.Action("UpdateOrderState", "AdminAllOrders")',
+                type: 'POST',
+                data: { 
+                    orderId: id,
+                    stateName: orderStateName 
+                },
+                success: function (result) {
+                    if (result.success) {
+                        //location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert('Ein Fehler ist aufgetreten: ' + errorThrown);
+                }
+            });
+        
+            $('#orderState').val();
         }
         
         //#region Delete Order
