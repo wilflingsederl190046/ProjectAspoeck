@@ -1,18 +1,18 @@
 ﻿@model ProjectAspoeck.Models.Shopping_BasketModel
 @{
-  ViewData["Title"] = "Warenkorb";
+    ViewData["Title"] = "Warenkorb";
 }
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Warenkorb</title>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-  <style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Warenkorb</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <style>
         header {
             height: 150px;
             display: flex;
@@ -81,37 +81,36 @@
 </head>
 <body>
 <header class="bg-light py-3" style="height: 150px">
-  <div class="container-fluid h-100">
-    <div class="row align-items-center h-100">
-      <div class="col-3 header-image">
-        <img src="~/Images/aspoeck-logo-sm.png"
-             class="img-fluid align-middle"
-             alt="Logo"/>
-      </div>
-      <div class="col-6 header-text">
-        <h1 class="mb-0">Jausen Bestellung</h1>
-      </div>
-      <div class="col-3 text-center py-2 ">
-        <span class="header-button">
-          @using (Html.BeginForm("Home_Page", "Home",  FormMethod.Post))
-          {
-            <button type="submit" class="btn btn-lg">
-              <i class="fa fa-home"></i>
-            </button>
-          }
-
-        </span>
-      </div>
+    <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-3 header-image">
+                <img src="~/Images/aspoeck-logo-sm.png"
+                     class="img-fluid align-middle"
+                     alt="Logo"/>
+            </div>
+            <div class="col-6 header-text">
+                <h1 class="mb-0">Jausen Bestellung</h1>
+            </div>
+            <div class="col-3 text-center py-2 ">
+                <span class="header-button">
+                    @using (Html.BeginForm("Home_Page", "Home", FormMethod.Post))
+                    {
+                        <button type="submit" class="btn btn-lg">
+                            <i class="fa fa-home"></i>
+                        </button>
+                    }
+                </span>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col headline">
-      <h4>Warenkorb</h4>
+    <div class="row">
+        <div class="col headline">
+            <h4>Warenkorb</h4>
+        </div>
     </div>
-  </div>
     <div class="row mt-3 ">
         <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <table id="productTable" class="table table-bordered table-striped">
@@ -122,7 +121,6 @@
                     <th scope="col">Preis</th>
                     <th scope="col">Anzahl</th>
                     <th scope="col">Gesamt</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -145,28 +143,29 @@
                         <td class="itemPrice">@item.Item.Price.ToString("N2") €</td>
                         <td class="itemQuantity">@item.Quantity</td>
 
-            <td class="allPrice">
-            @{
-                var price = @item.Item.Price * item.Quantity;
-              //var price = double.Parse(priceString);
-             // var total = price * item.Quantity;
-            }
-            @Math.Round(Convert.ToDecimal(price), 2).ToString("0.00") €
-          </td>
-        </tr>
-      }
-      </tbody>
-    </table>
-  </div>
+                        <td class="allPrice">
+                            @{
+                                var price = @item.Item.Price * item.Quantity;
+                                //var price = double.Parse(priceString);
+                                // var total = price * item.Quantity;
+                            }
+                            @Math.Round(Convert.ToDecimal(price), 2).ToString("0.00") €
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <div class="row mt-3">
-  <div class="col-6 text-left">
-    <button href="#" class="btn btn-warning" onclick="openNew()">Zurück</button>
+    <div class="col-6 text-left">
+        <button href="#" class="btn btn-warning" onclick="openNew()">Zurück</button>
 
-  </div>
-  <div class="col-6 text-right">
-    <button href="#" class="btn btn-success" onclick="placeOrder()">Bestellung aufgeben</button>
-  </div>
+    </div>
+    <div class="col-6 text-right">
+        <button href="#" class="btn btn-success" onclick="placeOrder()">Bestellung aufgeben</button>
+    </div>
 </div>
 
 </body>
@@ -174,7 +173,7 @@
 
 
 @section scripts{
-  <script>
+    <script>
         // This function is called when the form is submitted
         function prepareOrderItems() {
             console.log('prepareOrderItems');
