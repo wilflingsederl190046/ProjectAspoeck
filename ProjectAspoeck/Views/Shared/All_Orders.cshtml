@@ -76,6 +76,13 @@
             display: flex;
             justify-content: center;
         }
+        
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+          }
     </style>
 </head>
 <body>
@@ -125,7 +132,7 @@
         </div>
         <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
           <table class="table table-bordered table-striped" id="table">
-            <thead>
+            <thead class="sticky-top">
             <tr>
               <th scope="col">Nr</th>
               <th scope="col">Datum</th>

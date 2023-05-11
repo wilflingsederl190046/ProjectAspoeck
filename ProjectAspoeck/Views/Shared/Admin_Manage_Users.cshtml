@@ -87,6 +87,13 @@
     .right-div button {
         margin-left: 8px;
     }
+    
+    .sticky-top {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background-color: #fff;
+    }
     </style>
 </head>
 <body>
@@ -132,7 +139,7 @@
         <div class="col-md-12 table-height">
             <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
             <table id="userTable" class="table table-bordered table-striped table-scroll">
-                <thead>
+                <thead class="sticky-top">
                 <tr>
                     <th>Nr</th>
                     <th>Erstellt am</th>
