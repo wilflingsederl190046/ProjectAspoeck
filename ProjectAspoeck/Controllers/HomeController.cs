@@ -14,7 +14,7 @@ public class HomeController : Controller
     {
         var user = _db.Users.Where(m => m.UserName == loginModel.LoginId).FirstOrDefault();
 
-        if (user == null || !user.VerifyPassword(loginModel.Password))
+        if (user == null || !user.VerifyPassword(loginModel.Password) || !user.Active)
         {
             ViewBag.LoginStatus = 0;
             return View(loginModel);

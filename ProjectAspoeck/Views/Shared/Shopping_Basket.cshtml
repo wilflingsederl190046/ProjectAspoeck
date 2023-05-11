@@ -134,11 +134,11 @@
 
             <td class="allPrice">
             @{
-              var priceString = new string(item.Item.Price.ToString().Where(char.IsDigit).ToArray());
-              var price = double.Parse(priceString) / 10;
-              var total = price * item.Quantity;
+                var price = @item.Item.Price * item.Quantity;
+              //var price = double.Parse(priceString);
+             // var total = price * item.Quantity;
             }
-            @Math.Round(Convert.ToDecimal(total), 2).ToString("0.00") €
+            @Math.Round(Convert.ToDecimal(price), 2).ToString("0.00") €
           </td>
         </tr>
       }
