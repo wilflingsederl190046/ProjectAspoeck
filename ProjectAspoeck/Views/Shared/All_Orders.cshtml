@@ -15,7 +15,7 @@
   <link rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
   <style>
-        .header {
+        header {
             height: 150px;
             display: flex;
             align-items: center;
@@ -51,21 +51,8 @@
             font-size: 1.2rem;
         }
 
-        .my-custom-scrollbar {
-            position: relative;
-            height: 370px;
-            overflow: auto;
-        }
-        .table-wrapper-scroll-y {
-          display: block;
-        }
-
         .headline {
           padding-top: 10px;
-        }
-
-        .cover-container {
-            height: 100vh;
         }
 
         body {
@@ -83,11 +70,22 @@
             z-index: 1;
             background-color: #fff;
           }
+          
+        .my-custom-scrollbar {
+            position: relative;
+            height: 100%;
+            overflow: auto;
+        }
+  
+          .table-wrapper-scroll-y {
+            display: block;
+            overflow: auto;
+            max-height: calc(100vh - 350px);
+          }
     </style>
 </head>
 <body>
-<div class="container-fluid cover-container d-flex flex-column">
-  <header class="bg-light py-3" style="height: 150px">
+<header class="bg-light py-3" style="height: 150px">
     <div class="container-fluid h-100">
       <div class="row align-items-center h-100">
         <div class="col-3 header-image">
@@ -199,7 +197,6 @@
       </div>
     </div>
   </div>
-</div>
 </body>
 </html>
 

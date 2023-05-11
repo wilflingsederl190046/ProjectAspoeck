@@ -1,6 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-
-namespace ProjectAspoeck.Controllers;
+﻿namespace ProjectAspoeck.Controllers;
 
 public class AdminController : Controller
 {
@@ -104,67 +102,6 @@ public class AdminController : Controller
         }
 
         return RedirectToAction("Admin_Home_Page", "Admin");
-    }
-
-    [HttpPost]
-    public IActionResult Admin_All_Orders()
-    {
-        string sessionKey = "notAuthorized";
-        sessionKey = HttpContext.Session.GetString("SessionKey");
-        if (sessionKey == "notAuthorized")
-        {
-            return RedirectToAction("Index", "Home");
-        }
-        else
-        {
-            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-
-            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
-            var user = _db.Users
-                .Where(x => x.UserName == username)
-                .FirstOrDefault() ?? new();
-
-            var ordersListForUser = _db.Orders
-                .Include(x => x.User)
-                .Include(x => x.OrderState)
-                .Include(x => x.OrderItems)
-                .ThenInclude(x => x.Item)
-                .Select(x => x)
-                .OrderBy(x => x.OrderId)
-                .ToList();
-
-            var orders = ordersListForUser
-                .OrderByDescending(x => x.OrderDate)
-                .Select(x => new AllOrdersViewModel
-                {
-                    OrderNumber = ordersListForUser.IndexOf(x) + 1,
-                    OrderDate = x.OrderDate.ToString("d"),
-                    OrderContent = x.ToString(),
-                    OrderAmount = x.OrderItems.Sum(y => y.Price),
-                    OrderState = x.OrderState.Name,
-                    OrderPrice = x.OrderItems.Sum(x => x.Price),
-                    UserName = x.User.UserName,
-                }).OrderByDescending(x => x.OrderNumber)
-                .ToList();
-
-            if (orders.Count == 0)
-            {
-                orders = new List<AllOrdersViewModel>
-                {
-                    new AllOrdersViewModel
-                    {
-                        OrderNumber = -1, OrderDate = "", OrderContent = "", OrderAmount = -1, OrderState = "",
-                        OrderPrice = -1
-                    },
-                };
-            }
-
-            return View(new Admin_All_OrdersModel
-            {
-                Orders = orders,
-                SessionString = sessionKey
-            });
-        }
     }
 }
 
