@@ -133,12 +133,6 @@
     <div class="container-fluid">
         <div class="filter">
             <div>
-                <label for="von-datum">Von Erstellungsdatum:</label>
-                <input type="date"
-                       id="von-datum"
-                       name="von-datum"
-                       style="margin-left: 1px"
-                       value="2023-01-01" />
                 <input type="text"
                        id="searchInput"
                        placeholder="Suche ..."
@@ -154,12 +148,6 @@
                 </button>
             </div>
             <div>
-                <label for="bis-datum">Bis Erstellungsdatum:</label>
-                <input type="date"
-                       id="bis-datum"
-                       name="bis-datum"
-                       style="margin-left: 8px"
-                       value="2023-12-31" />
                 <label for="bis-datum" style="margin-left: 8px">Aktiv:</label>
                 <input type="checkbox" id="activeOnlyCheckBox" checked="checked" onclick="filterTable()" />
             </div>
@@ -352,7 +340,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortDeleteItem">Abbrechen</button>
-                    <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteItem()">Hinzufügen</button>
+                    <button type="button" class="btn btn-success" id="confirm-deleteItem" onclick="deleteItem()">Löschen</button>
                 </div>
             </div>
         </div>
@@ -401,7 +389,7 @@
         function filterTable() {
             const searchValue = document.getElementById("searchInput").value.toLowerCase();
             const showActiveOnly = document.getElementById("activeOnlyCheckBox").checked;
-            let tableRows = document.getElementById("userTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            const tableRows = document.getElementById("userTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
             for (let i = 0; i < tableRows.length; i++) {
                 const rowData = tableRows[i].getElementsByTagName("td")[2].innerHTML.toLowerCase();
                 const activeStatus = tableRows[i].getElementsByTagName("td")[4].getElementsByTagName("input")[0].checked;
@@ -412,6 +400,7 @@
                 }
             }
         }
+        filterTable();
         //#endregion
 
         //#region New Image

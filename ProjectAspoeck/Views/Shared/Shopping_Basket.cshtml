@@ -65,6 +65,18 @@
           height: 100%;
           object-fit: cover;
         }
+        
+        .my-custom-scrollbar {
+            position: relative;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .table-wrapper-scroll-y {
+            display: block;
+            overflow: auto;
+            max-height: calc(100vh - 300px);
+        }
     </style>
 </head>
 <body>
@@ -81,13 +93,12 @@
       </div>
       <div class="col-3 text-center py-2 ">
         <span class="header-button">
-          @using (Html.BeginForm("Settings", "Settings",  FormMethod.Post))
+          @using (Html.BeginForm("Home_Page", "Home",  FormMethod.Post))
           {
             <button type="submit" class="btn btn-lg">
-              <i class="fa fa-gear"></i>
+              <i class="fa fa-home"></i>
             </button>
           }
-
         </span>
       </div>
     </div>
@@ -100,51 +111,53 @@
       <h4>Warenkorb</h4>
     </div>
   </div>
-  <div class="row mt-3">
-    <table id="productTable" class="table table-bordered table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Bild</th>
-        <th scope="col">Artikel</th>
-        <th scope="col">Preis</th>
-        <th scope="col">Anzahl</th>
-        <th scope="col">Gesamt</th>
+    <div class="row mt-3 ">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table id="productTable" class="table table-bordered table-striped">
+                <thead class="thead-light sticky-top">
+                <tr>
+                    <th scope="col">Bild</th>
+                    <th scope="col">Artikel</th>
+                    <th scope="col">Preis</th>
+                    <th scope="col">Anzahl</th>
+                    <th scope="col">Gesamt</th>
 
-      </tr>
-      </thead>
-      <tbody>
-      @foreach (var item in Model.OrderItems)
-      {
-        <tr>
-            <td>
-                <div class="img-container">
-                @if (item.Item.ImageData != null && item.Item.ImageData.Length > 0)
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.OrderItems)
                 {
-                    <img src="@($"data:image;base64,{Convert.ToBase64String(item.Item.ImageData)}")" alt="@item.Item.Name"/>
-                }
-                else
-                {
-                    <span>Kein Bild verfügbar</span>
-                }
-                </div>
-            </td>
-          <td class="itemName">@item.Item.Name</td>
-          <td class="itemPrice">@item.Item.Price.ToString("N2") €</td>
-          <td class="itemQuantity">@item.Quantity</td>
+                    <tr>
+                        <td>
+                            <div class="img-container">
+                                @if (item.Item.ImageData != null && item.Item.ImageData.Length > 0)
+                                {
+                                    <img src="@($"data:image;base64,{Convert.ToBase64String(item.Item.ImageData)}")" alt="@item.Item.Name"/>
+                                }
+                                else
+                                {
+                                    <span>Kein Bild verfügbar</span>
+                                }
+                            </div>
+                        </td>
+                        <td class="itemName">@item.Item.Name</td>
+                        <td class="itemPrice">@item.Item.Price.ToString("N2") €</td>
+                        <td class="itemQuantity">@item.Quantity</td>
 
-            <td class="allPrice">
-            @{
-              var priceString = new string(item.Item.Price.ToString().Where(char.IsDigit).ToArray());
-              var price = double.Parse(priceString) / 10;
-              var total = price * item.Quantity;
-            }
-            @Math.Round(Convert.ToDecimal(total), 2).ToString("0.00") €
-          </td>
-        </tr>
-      }
-      </tbody>
-    </table>
-  </div>
+                        <td class="allPrice">
+                            @{
+                                var priceString = new string(item.Item.Price.ToString().Where(char.IsDigit).ToArray());
+                                var price = double.Parse(priceString) / 10;
+                                var total = price * item.Quantity;
+                            }
+                            @Math.Round(Convert.ToDecimal(total), 2).ToString("0.00") €
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            </div>
+    </div>
 </div>
 <div class="row mt-3">
   <div class="col-6 text-left">

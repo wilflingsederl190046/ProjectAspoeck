@@ -75,6 +75,18 @@
         width: 100%;
         border-collapse: collapse;
       }
+    
+    .left-div h4 {
+        margin-right: 8px;
+    }
+    
+    .checkbox-input label {
+        margin-right: 8px;
+    }
+    
+    .right-div button {
+        margin-left: 8px;
+    }
     </style>
 </head>
 <body>
@@ -99,34 +111,20 @@
 <div class="container-fluid">
     <div class="filter">
         <div>
-            <label for="von-datum">Von Erstellungsdatum:</label>
-            <input
-                type="date"
-                id="von-datum"
-                name="von-datum"
-                style="margin-left: 1px"
-                value="2023-01-01"/>
             <input
                 type="text"
                 id="searchInput"
                 placeholder="Suche ..."
-                style="margin-left: 8px"/>
-
+                style="margin-left: 8px; width: 400px"/>
+        
             <button id="newUser" class="btn btn-warning float-right" onclick="showUserModal()">
                 <i class="fa fa-user-plus"></i>
                 Neuer Benutzer
             </button>
         </div>
         <div>
-            <label for="bis-datum">Bis Erstellungsdatum:</label>
-            <input
-                type="date"
-                id="bis-datum"
-                name="bis-datum"
-                style="margin-left: 8px"
-                value="2023-12-31"/>
-            <label for="bis-datum" style="margin-left: 8px">Aktiv:</label>
-                <input type="checkbox" id="activeOnlyCheckBox" checked="checked" onclick="filterTable()"/>
+            <label for="activeOnlyCheckBox" style="margin-left: 8px">Aktiv:</label>
+            <input type="checkbox" id="activeOnlyCheckBox" checked="checked" onclick="filterTable()"/>
         </div>
 
     </div>
@@ -144,9 +142,6 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    @* <th>Bearbeiten</th> *@
-                    @* <th>Passwort</th> *@
-                    @* <th>Löschen</th> *@
                 </tr>
                 </thead>
                 <tbody id="bodyTable">
@@ -315,16 +310,16 @@
 @section scripts {
     <script>        
         //filter
-        var searchInput = document.getElementById("searchInput");
+        const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("keyup", filterTable);
 
         function filterTable() {
-            var searchValue = document.getElementById("searchInput").value.toLowerCase();
-            var showActiveOnly = document.getElementById("activeOnlyCheckBox").checked;
-            var tableRows = document.getElementById("userTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-            for (var i = 0; i < tableRows.length; i++) {
-                var rowData = tableRows[i].getElementsByTagName("td")[2].innerHTML.toLowerCase().trim();
-                var activeStatus = tableRows[i].getElementsByTagName("td")[4].getElementsByTagName("input")[0].checked;
+            const searchValue = document.getElementById("searchInput").value.toLowerCase();
+            const showActiveOnly = document.getElementById("activeOnlyCheckBox").checked;
+            const tableRows = document.getElementById("userTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            for (let i = 0; i < tableRows.length; i++) {
+                const rowData = tableRows[i].getElementsByTagName("td")[2].innerHTML.toLowerCase().trim();
+                const activeStatus = tableRows[i].getElementsByTagName("td")[4].getElementsByTagName("input")[0].checked;
                 if (rowData.indexOf(searchValue) > -1 && showActiveOnly === activeStatus) {
                     tableRows[i].style.display = "";
                 } else {
@@ -332,7 +327,7 @@
                 }
             }
         }
-
+        filterTable();
 
         //#region Set Active
         function activeChanged(id, active) {
