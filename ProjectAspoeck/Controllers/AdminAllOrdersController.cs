@@ -8,7 +8,7 @@ public class AdminAllOrdersController : Controller
     public IActionResult Admin_All_Orders()
     {
         string sessionKey = "notAuthorized";
-        sessionKey = HttpContext.Session.GetString("SessionKey");
+        sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
         if (sessionKey == "notAuthorized")
         {
             return RedirectToAction("Index", "Home");
