@@ -59,8 +59,8 @@ public class AdminController : Controller
         }
     }
 
-    [HttpGet]
-    public void Admin_Export_List_OrdersFromDay()
+    [HttpPost]
+    public IActionResult Admin_Export_List_OrdersFromDay()
     {
         // string file = "Downloads/liste.xlsx";
         string downloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
@@ -77,11 +77,11 @@ public class AdminController : Controller
                 writer.WriteLine($"{orderFromTheDay.User.FirstName} {orderFromTheDay.User.LastName};{orderFromTheDay.ToString()};{orderFromTheDay.OrderItems.Sum(x => x.Price):F2}");
             }
         }
-       // RedirectToAction("Admin_Home_Page", "Admin");
+       return RedirectToAction("Admin_Home_Page", "Admin");
     }
 
-    [HttpGet]
-    public void Admin_Export_List_PayDay()
+    [HttpPost]
+    public IActionResult Admin_Export_List_PayDay()
     {
         // string file = "Downloads/liste.xlsx";
         string downloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
@@ -103,7 +103,7 @@ public class AdminController : Controller
             }
         }
 
-        //Admin_Home_Page();
+        return RedirectToAction("Admin_Home_Page", "Admin");
     }
 
     [HttpPost]
