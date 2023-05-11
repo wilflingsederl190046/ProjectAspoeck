@@ -180,6 +180,12 @@
                 }
             </div>
         </div>
+        @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
+              {
+                <button type="submit" class="btn btn-warning" style="margin-top: 10px">
+                  Abmelden
+                </button>
+              }
     </div>
 </main>
 </body>

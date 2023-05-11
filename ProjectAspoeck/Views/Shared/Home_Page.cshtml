@@ -1,22 +1,22 @@
 ﻿@model ProjectAspoeck.Models.Home_PageModel
 @{
-  ViewData["Title"] = "Startseite";
+    ViewData["Title"] = "Startseite";
 }
 
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jausen Bestellung</title>
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous"/>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-  
-  <style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Jausen Bestellung</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous"/>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <style>
     header {
         height: 150px;
         display: flex;
@@ -91,121 +91,129 @@
 
 <body>
 <header class="bg-light py-3" style="height: 150px">
-  <div class="container-fluid h-100">
-    <div class="row align-items-center h-100">
-      <div class="col-3 header-image">
-        <img src="~/Images/aspoeck-logo-sm.png"
-             class="img-fluid align-middle"
-             alt="Logo"/>
-      </div>
-      <div class="col-6 header-text">
-        <h1 class="mb-0">Jausen Bestellung</h1>
-      </div>
-      <div class="col-3 text-center py-2 ">
-        <span class="header-button">
-          @using (Html.BeginForm("Settings", "Settings",  FormMethod.Post))
-          {
-            <button type="submit" class="btn btn-lg">
-              <i class="fa fa-gear"></i>
-            </button>
-          }
-        </span>
-      </div>
+    <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-3 header-image">
+                <img src="~/Images/aspoeck-logo-sm.png"
+                     class="img-fluid align-middle"
+                     alt="Logo"/>
+            </div>
+            <div class="col-6 header-text">
+                <h1 class="mb-0">Jausen Bestellung</h1>
+            </div>
+            <div class="col-3 text-center py-2 ">
+                <span class="header-button">
+                    @using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
+                    {
+                        <button type="submit" class="btn btn-lg">
+                            <i class="fa fa-gear"></i>
+                        </button>
+                    }
+                </span>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
 
 <div class="main">
-  <div class="row">
-    <div class="col-lg-5 left-row">
-      <p>
-        <span class="headingDateStatus">Willkommen @Model.UserName!</span>
-      </p>
-      <p>
-        <span class="mb-0 headingDateStatus">Offener Betrag: @Model.MoneyLeftToPay.ToString("N2") €</span>
-      </p>
-      <p>
-        <span class="headingDateStatus">Datum:</span>
-        <span class="date status" id="date">Montag, 01. Jänner 2023 um 00:00:00</span>
-      </p>
-      <p>
-        <span class="headingDateStatus">Bestellstatus:</span>
-        <span id="orderstate" class="status">Bestellzeitraum abgelaufen</span>
-      </p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5 left-row">
+                <p>
+                    <span class="headingDateStatus">Willkommen @Model.UserName!</span>
+                </p>
+                <p>
+                    <span class="mb-0 headingDateStatus">Offener Betrag: @Model.MoneyLeftToPay.ToString("N2") €</span>
+                </p>
+                <p>
+                    <span class="headingDateStatus">Datum:</span>
+                    <span class="date status" id="date">Montag, 01. Jänner 2023 um 00:00:00</span>
+                </p>
+                <p>
+                    <span class="headingDateStatus">Bestellstatus:</span>
+                    <span id="orderstate" class="status">Bestellzeitraum abgelaufen</span>
+                </p>
 
-      @using (Html.BeginForm("Place_Order", "PlaceOrder",  FormMethod.Post))
-      {
-        <button type="submit" class="btn btn-warning" id="btnPlaceOrder">
-          Bestellung aufgeben
-        </button>
-      }
-      
-      @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
-      {
-        <button type="submit" class="btn btn-warning" style="margin-top: 10px">
-          Abmelden
-        </button>
-      }
-
-    </div>
-    <div class="col-md-7 right-row">
-      <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-          <th>Nr</th>
-          <th>Datum</th>
-          <th>Kosten</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-        </thead>
-        @foreach (var order in Model.Orders)
-        {
-          <tr>
-            <td>
-              @if (order.OrderNumber != -1)
-              {
-                @order.OrderNumber
-              }
-            </td>
-            <td>
-              @order.OrderDate
-            </td>
-            <td>
-              @if (order.Price != -1)
-              {
-                @order.Price.ToString("N2")
-                @Html.Raw(" €")
-              }
-            </td>
-            <td>
-              @order.State
-            </td>
-            <td>
-              <span class="text-center-last-col">
-                @if (!order.State.Equals(""))
+                @using (Html.BeginForm("Place_Order", "PlaceOrder", FormMethod.Post))
                 {
-                  <button type="button" onclick="placeOrder(@order.OrderId)" name="buyAgain" class="btn btn-primary buyAgain">
-                    <i class="fa fa-retweet"></i>
-                  </button>
+                    <button type="submit" class="btn btn-warning" id="btnPlaceOrder">
+                        Bestellung aufgeben
+                    </button>
                 }
-              </span>
-            </td>
-          </tr>
-        }
-      </table>
-      @using (Html.BeginForm("All_Orders", "AllOrders",  FormMethod.Post))
-      {
-        <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>
-      }
+
+
+
+            </div>
+            <div class="col-md-7 right-row">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nr</th>
+                        <th>Datum</th>
+                        <th>Kosten</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>
+                                @if (order.OrderNumber != -1)
+                                {
+                                    @order.OrderNumber
+                                }
+                            </td>
+                            <td>
+                                @order.OrderDate
+                            </td>
+                            <td>
+                                @if (order.Price != -1)
+                                {
+                                    @order.Price.ToString("N2")
+                                    @Html.Raw(" €")
+                                }
+                            </td>
+                            <td>
+                                @order.State
+                            </td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    @if (!order.State.Equals(""))
+                                    {
+                                        <button type="button" onclick="placeOrder(@order.OrderId)" name="buyAgain" class="btn btn-primary buyAgain">
+                                            <i class="fa fa-retweet"></i>
+                                        </button>
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </table>
+
+                @using (Html.BeginForm("All_Orders", "AllOrders", FormMethod.Post))
+                {
+                    <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>
+                }
+            </div>
+
+        </div>
+        @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
+                        {
+                          <button type="submit" class="btn btn-warning" style="margin-top: 180px; margin-left: 40px" >
+                            Abmelden
+                          </button>
+                        }
     </div>
-  </div>
+
 </div>
+
 </body>
+
 </html>
 
 @section scripts{
-  <script> 
+    <script> 
     //#region Timer
 
       const dateElement = document.getElementById('date');
