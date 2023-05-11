@@ -143,7 +143,7 @@
                                 @order.OrderContent
                             </td>
                             <td>
-                                <select id="orderState" onchange="stateChanged('@order.OrderId')">
+                                <select id="orderState-@order.OrderId" onchange="stateChanged('@order.OrderId')">
                                     @foreach (var state in Model.OrderStates)
                                     {
                                         @if (state.Name == order.OrderState)
@@ -235,7 +235,7 @@
         function stateChanged(id) {
             console.log('********************** stateChanged **********************');
             console.log('id: ' + id);
-            const orderStateName = $('#orderState').val();
+            const orderStateName = document.getElementById('orderState-' + id).value;
             console.log('orderStateName: ' + orderStateName);
             $.ajax({
                 url: '@Url.Action("UpdateOrderState", "AdminAllOrders")',
@@ -246,7 +246,7 @@
                 },
                 success: function (result) {
                     if (result.success) {
-                        //location.reload();
+                        location.reload();
                     } else {
                         alert(result.message);
                     }

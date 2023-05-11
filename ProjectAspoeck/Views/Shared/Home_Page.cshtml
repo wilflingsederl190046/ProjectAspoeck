@@ -140,7 +140,13 @@
                         Bestellung aufgeben
                     </button>
                 }
-
+                
+                @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
+                {
+                  <button type="submit" class="btn btn-warning" style="margin-top: 155px; margin-left: 40px" >
+                    Abmelden
+                  </button>
+                }
 
 
             </div>
@@ -196,20 +202,10 @@
                     <button type="submit" class="btn btn-warning btn-block">Alle Bestellungen ansehen</button>
                 }
             </div>
-
         </div>
-        @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
-                        {
-                          <button type="submit" class="btn btn-warning" style="margin-top: 180px; margin-left: 40px" >
-                            Abmelden
-                          </button>
-                        }
     </div>
-
 </div>
-
 </body>
-
 </html>
 
 @section scripts{

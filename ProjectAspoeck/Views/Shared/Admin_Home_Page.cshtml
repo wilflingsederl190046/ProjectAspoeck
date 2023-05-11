@@ -116,6 +116,14 @@
                         </button>
                     }
                 </div>
+                <div class="d-flex justify-content-center mb-3">
+                    @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
+                      {
+                          <button type="submit" class="btn btn-warning">
+                              Abmelden
+                          </button>
+                      }
+                </div>
             </div>
             <div class="col-md-9 table-height">
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -180,12 +188,7 @@
                 }
             </div>
         </div>
-        @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
-              {
-                <button type="submit" class="btn btn-warning" style="margin-top: 10px">
-                  Abmelden
-                </button>
-              }
+        
     </div>
 </main>
 </body>
