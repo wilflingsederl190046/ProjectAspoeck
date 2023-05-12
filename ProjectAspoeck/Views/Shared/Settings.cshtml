@@ -1,6 +1,4 @@
-﻿@using ProjectAspoeck.Models
-
-@model ProjectAspoeck.Models.SettingsModel
+﻿@model ProjectAspoeck.Models.SettingsModel
 @{
     ViewData["Title"] = "Einstellung";
 }
@@ -8,21 +6,15 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Jausen Bestellung</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous" />
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <script src="https://kit.fontawesome.com/afdaaa5e13.js" crossorigin="anonymous"></script>
 
-    <!-- Custom CSS -->
     <style>
-        .header {
+        header {
             height: 150px;
             display: flex;
             align-items: center;
@@ -52,14 +44,16 @@
         .form-check-label {
             margin-left: 5px;
         }
-
-        .div-email,
+        
+        .div-email {
+            width: 600px;
+        }
+        
         .border {
             width: 680px;
         }
 
         .selecters {
-            width: fit-content;
             display: inline-block;
             width: auto;
             margin-right: 5px;
@@ -69,132 +63,142 @@
                 display: inline-block;
                 width: auto;
             }
+            
+            form button:first-of-type {
+              margin-right: auto;
+            }
+
     </style>
 </head>
 <body>
-    <header class="bg-light py-3" style="height: 150px">
-        <div class="container-fluid h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-3 header-image">
-                    <img src="~/Images/aspoeck-logo-sm.png"
-                         class="img-fluid align-middle"
-                         alt="Logo" />
-                </div>
-                <div class="col-6 header-text">
-                    <h1 class="mb-0">Jausen Bestellung</h1>
-                </div>
-                <div class="col-3 text-center py-2 ">
-                    <span class="header-button">
-                        @using (Html.BeginForm("Settings", "Settings",  FormMethod.Post))
-                        {
-                            <button type="submit" class="btn btn-lg">
-                                <i class="fa fa-house"></i>
-                            </button>
-                        }
-                    </span>
-                </div>
+<header class="bg-light py-3" style="height: 150px">
+    <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-3 header-image">
+                <img src="~/Images/aspoeck-logo-sm.png"
+                     class="img-fluid align-middle"
+                     alt="Logo"/>
+            </div>
+            <div class="col-6 header-text">
+                <h1 class="mb-0">Jausen Bestellung</h1>
+            </div>
+            <div class="col-3 text-center py-2 ">
+                <span class="header-button">
+                    @using (Html.BeginForm("Home_Page", "Home", FormMethod.Post))
+                    {
+                        <button type="submit" class="btn btn-lg">
+                            <i class="fa-solid fa-home"></i>
+                        </button>
+                    }
+                </span>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col headline">
-                <h4>Benachrichtigungen</h4>
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col headline">
+            <h4>Benachrichtigungen</h4>
         </div>
-        <form>
-            <div class="form-group">
-                <label for="email">E-Mail:</label>
-                <input type="email" value="@Model.Email" class="form-control div-email" id="email" />
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="email">E-Mail:<input type="email" value="@Model.Email" class="div-email" id="email" style="margin-left: 10px"/></label>
+        </div>
+        <div class="border p-3 d-inline-block">
+            <p>
+                <strong>Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten.</strong>
+            </p>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="checkRTO" value="" checked="@Model.RememberToOrder">
+                <label class="form-check-label" for="checkbox1">Ja</label>
             </div>
-            <div class="border p-3 d-inline-block">
-                <p><strong>Ich möchte vor Bestellungsschluss eine Benachrichtigung erhalten.</strong></p>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="checkRTO" value="" checked="@Model.RememberToOrder">
-                    <label class="form-check-label" for="checkbox1">Ja</label>
+            <div class="form-group mt-3">
+                <p>Wann möchtest du benachrichtigt werden?</p>
+                <select class="form-control selecters" id="selectMinutesBefore">
+                    <option>15</option>
+                    <option>30</option>
+                    <option>60</option>
+                </select>
+                <span>min vor 8:00</span>
+            </div>
+            <div class="form-group mt-3">
+                <p>
+                    <strong>Ich möchte über das Ende der Zahlungsfrist informiert werden.</strong>
+                </p>
+                <div class="form-check ">
+                    <input type="checkbox" class="form-check-input" id="checkRTP" value="" checked="@Model.RememberToPay">
+                    <label class="form-check-label" for="checkbox2">Ja</label>
                 </div>
-                <div class="form-group mt-3">
-                    <p>Wann möchtest du benachrichtigt werden?</p>
-                    <select class="form-control selecters" id="selectMinutesBefore">
-                        <option>15</option>
-                        <option>30</option>
-                        <option>60</option>
-                    </select>
-                    <span>min vor 8:00</span>
-                </div>
-                <div class="form-group mt-3">
-                    <p><strong>Ich möchte über das Ende der Zahlungsfrist informiert werden.</strong></p>
-                    <div class="form-check ">
-                        <input type="checkbox" class="form-check-input" id="checkRTP" value="" checked="@Model.RememberToPay">
-                        <label class="form-check-label" for="checkbox2">Ja</label>
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <p>Wann möchtest du benachrichtigt werden?</p>
-                    <select class="form-control selecters" id="selectDaysBefore">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                    </select>
-                    <span>Tag(e) vor Ende des Monats</span>
-                </div>
-                <script>
+            </div>
+            <div class="form-group mt-3">
+                <p>Wann möchtest du benachrichtigt werden?</p>
+                <select class="form-control selecters" id="selectDaysBefore">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                </select>
+                <span>Tag(e) vor Ende des Monats</span>
+            </div>
+            <script>
                     var comboBox = document.getElementById("selectMinutesBefore");
                     comboBox.value = @Model.MinutesBefore;
 
                     comboBox = document.getElementById("selectDaysBefore");
                     comboBox.value = @Model.DaysBefore;
                 </script>
-            </div>
-
-        </form>
-
-        <button id="saveSettings" type="submit" class="btn btn-warning mt-3">Speichern</button>
-
-        <script>
-            document.getElementById("saveSettings").addEventListener("click", function (event) {
-                event.preventDefault();
-                var emailField = document.getElementById("email");
-                var emailValue = emailField.value;
-
-                var checkBoxRTO = document.getElementById("checkRTO");
-                var checkRTOValue = checkBoxRTO.checked;
-
-                var checkBoxRTP = document.getElementById("checkRTP");
-                var checkRTPValue = checkBoxRTP.checked;
-
-                var optionalTimeBefore = document.getElementById("selectMinutesBefore");
-                var minutesBeforeValue = parseInt(optionalTimeBefore.value);
-
-                var optionalTimeDays = document.getElementById("selectDaysBefore");
-                var daysBeforeValue = parseInt(optionalTimeDays.value);
-
-                $.ajax({
-                    url: "@Url.Action("SaveSettings", "Settings")",
-                    method: "POST",
-                    data: {
-                        email: emailValue,
-                        rto: checkRTOValue,
-                        rtp: checkRTPValue,
-                        minBef: minutesBeforeValue,
-                        daysBef: daysBeforeValue
-                    },
-                    success: function (response) {
-                        window.location.href = '@Url.Action("Home_Page", "Home" )';
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(textStatus, errorThrown);
-                    }
-                });
-            });
-        </script>
-        <div class="">
-          @using (Html.BeginForm("BackToLastPage", "FromPageToPage",  FormMethod.Post))
-          {
-            <button type="submit" class="btn btn-warning">Zurück</button>
-          }
         </div>
-    </div>
+
+    </form>
+    <form>
+        @using (Html.BeginForm("BackToLastPage", "FromPageToPage", FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-warning">Zurück</button>
+        }
+        <button id="saveSettings" type="submit" class="btn btn-warning">Speichern</button>
+    </form>
+</div>
 </body>
 </html>
+
+@section Scripts
+{
+    <script>
+        document.getElementById("saveSettings").addEventListener("click", function (event) {
+            event.preventDefault();
+            let emailField = document.getElementById("email");
+            const emailValue = emailField.value;
+
+            let checkBoxRTO = document.getElementById("checkRTO");
+            const checkRTOValue = checkBoxRTO.checked;
+
+            let checkBoxRTP = document.getElementById("checkRTP");
+            const checkRTPValue = checkBoxRTP.checked;
+
+            let optionalTimeBefore = document.getElementById("selectMinutesBefore");
+            const minutesBeforeValue = parseInt(optionalTimeBefore.value);
+
+            let optionalTimeDays = document.getElementById("selectDaysBefore");
+            const daysBeforeValue = parseInt(optionalTimeDays.value);
+
+            $.ajax({
+                url: "@Url.Action("SaveSettings", "Settings")",
+                method: "POST",
+                data: {
+                    email: emailValue,
+                    rto: checkRTOValue,
+                    rtp: checkRTPValue,
+                    minBef: minutesBeforeValue,
+                    daysBef: daysBeforeValue
+                },
+                success: function (response) {
+                    window.location.href = '@Url.Action("Home_Page", "Home")';
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        });
+    </script>
+}

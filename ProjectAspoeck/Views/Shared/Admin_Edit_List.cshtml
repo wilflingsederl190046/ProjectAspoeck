@@ -11,10 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-
+    <script src="https://kit.fontawesome.com/afdaaa5e13.js" crossorigin="anonymous"></script>
+    
     <style>
         .header-image {
             padding-left: 50px;
@@ -146,11 +144,11 @@
                        style="margin-left: 8px" />
 
                 <button id="newUser" class="btn btn-warning float-right" onclick="showItemModal()">
-                    <i class="fa fa-user-plus"></i>
+                    <i class="fa-solid fa-plus"></i>
                     Neues Produkt
                 </button>
                 <button id="newImage" class="btn btn-warning float-right" onclick="showNewImageModal()" style="margin-right: 10px">
-                    <i class="fa fa-image"></i>
+                    <i class="fa-solid fa-image"></i>
                     Neues Bild
                 </button>
             </div>
@@ -207,20 +205,20 @@
                                     <td>
                                         <span class="text-center-last-col">
                                             <button type="button" class="btn btn-primary" onclick="showItemModal(true, @item.ItemId)">
-                                                <i class="fa fa-pencil"></i>
+                                                <i class="fa-solid fa-pencil"></i>
                                             </button>
                                         </span>
                                     </td>
                                     <td>
                                         <span class="text-center-last-col">
                                             <button type="button" class="btn btn-secondary" onclick="showChangeImageModal(@item.ItemId)">
-                                                <i class="fa fa-image"></i>
+                                                <i class="fa-solid fa-image"></i>
                                             </button>
                                         </span>
                                     <td>
                                         <span class="text-center-last-col">
                                             <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@item.ItemId')">
-                                                <i class="fa fa-trash"></i>
+                                                <i class="fa-solid fa-trash"></i>
                                             </button>
                                         </span>
                                     </td>

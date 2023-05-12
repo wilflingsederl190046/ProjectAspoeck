@@ -10,8 +10,7 @@
     <title>Warenkorb</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script src="https://kit.fontawesome.com/afdaaa5e13.js" crossorigin="anonymous"></script>
     <style>
         header {
             height: 150px;
@@ -23,11 +22,6 @@
         .header-image {
             padding-left: 50px;
             height: 100%;
-        }
-
-        .text-center-last-col{
-            display: flex;
-            justify-content: center;
         }
 
         img {
@@ -75,7 +69,7 @@
         .table-wrapper-scroll-y {
             display: block;
             overflow: auto;
-            max-height: calc(100vh - 400px);
+            max-height: calc(100vh - 300px);
         }
         
         .table-wrapper {
@@ -106,7 +100,7 @@
                     @using (Html.BeginForm("Home_Page", "Home", FormMethod.Post))
                     {
                         <button type="submit" class="btn btn-lg">
-                            <i class="fa fa-home"></i>
+                            <i class="fa-solid fa-home"></i>
                         </button>
                     }
                 </span>

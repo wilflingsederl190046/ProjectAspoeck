@@ -11,9 +11,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Alle letzten Bestellungen</title>
   <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+      <script src="https://kit.fontawesome.com/afdaaa5e13.js" crossorigin="anonymous"></script>
   <style>
         header {
             height: 150px;
@@ -101,7 +100,7 @@
             @using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
             {
               <button type="submit" class="btn btn-lg">
-                <i class="fa fa-gear"></i>
+                <i class="fa-solid fa-gear"></i>
               </button>
             }
           </span>
@@ -172,7 +171,7 @@
                   @if (!order.OrderState.Equals(""))
                   {
                     <button type="button" onclick="placeOrder(@order.OrderId)" name="buyAgain" class="btn btn-primary buyAgain">
-                      <i class="fa fa-retweet"></i>
+                      <i class="fa-solid fa-repeat"></i>
                     </button>
                   }
                   </span>

@@ -10,11 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Jausen Bestellung</title>
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous"/>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <script src="https://kit.fontawesome.com/afdaaa5e13.js" crossorigin="anonymous"></script>
 
     <style>
     header {
@@ -106,7 +103,7 @@
                     @using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
                     {
                         <button type="submit" class="btn btn-lg">
-                            <i class="fa fa-gear"></i>
+                            <i class="fa-solid fa-gear"></i>
                         </button>
                     }
                 </span>
@@ -143,9 +140,10 @@
                 
                 @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
                 {
-                  <button type="submit" class="btn btn-warning" style="margin-top: 155px; margin-left: 40px" >
-                    Abmelden
-                  </button>
+                    <button type="submit" class="btn btn-warning" style="margin-top: 10px;">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Abmelden
+                    </button>
                 }
 
 
@@ -188,7 +186,7 @@
                                     @if (!order.State.Equals(""))
                                     {
                                         <button type="button" onclick="placeOrder(@order.OrderId)" name="buyAgain" class="btn btn-primary buyAgain">
-                                            <i class="fa fa-retweet"></i>
+                                            <i class="fa-solid fa-repeat"></i>
                                         </button>
                                     }
                                 </span>

@@ -11,8 +11,7 @@
     <title>Bestellung aufgeben</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://kit.fontawesome.com/afdaaa5e13.js" crossorigin="anonymous"></script>
     <style>
         header {
             height: 150px;
@@ -110,7 +109,7 @@
                 <div class="col-3 text-center py-2 ">
                     <span class="header-button">
                         <button type="submit" class="btn btn-lg" onclick="openNew()">
-                            <i class="fa fa-shopping-cart"></i>
+                            <i class="fa-solid fa-shopping-cart"></i>
                         </button>
                     </span>
                 </div>
@@ -164,10 +163,14 @@
                                     </td>
                                     <td class="stueck">@item.Units</td>
                                     <td class="d-flex justify-content-center" style="height: 80px">
-                                        <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">+</button>
+                                        <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
                                     </td>
                                     <td class="d-flex justify-content-center" style="height: 80px">
-                                        <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">-</button>
+                                        <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             }
