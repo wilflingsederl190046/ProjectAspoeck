@@ -13,7 +13,7 @@
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://kit.fontawesome.com/afdaaa5e13.js" crossorigin="anonymous"></script>
-    
+
     <style>
       .header-image {
         padding-left: 50px;
@@ -65,7 +65,7 @@
       .table-wrapper-scroll-y {
         display: block;
         overflow: auto;
-        max-height: calc(100vh - 330px);
+        max-height: calc(100vh - 320px);
       }
       
       table {
@@ -114,104 +114,97 @@
 
 <div class="container-fluid">
     <div class="filter">
-        <div>
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Suche ..."
-                style="margin-left: 8px; width: 400px"/>
-        
+        <div class="d-flex align-items-center">
+            <span style="font-size: 16px; font-weight: bold; margin-right: 10px">Filter:</span>
+            <input type="text" class="form-control mr-2" placeholder="Suche..." id="searchInput" style="">
+            <span style="margin-left: 10px; margin-right: 5px">Aktiv:</span>
+            <input type="checkbox" id="activeOnlyCheckBox" checked="checked" onclick="filterTable()" style="margin-right: 30px; margin-top: 5px"/>
             <button id="newUser" class="btn btn-warning float-right" onclick="showUserModal()">
                 <i class="fa-solid fa-user-plus"></i>
                 Neuer Benutzer
             </button>
         </div>
-        <div>
-            <label for="activeOnlyCheckBox" style="margin-left: 8px">Aktiv:</label>
-            <input type="checkbox" id="activeOnlyCheckBox" checked="checked" onclick="filterTable()"/>
-        </div>
-
     </div>
     <div class="row">
         <div class="col-md-12 table-height">
             <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
-            <table id="userTable" class="table table-bordered table-striped table-scroll">
-                <thead class="sticky-top">
-                <tr>
-                    <th>Nr</th>
-                    <th>Erstellt am</th>
-                    <th>Name</th>
-                    <th>Chip</th>
-                    <th>Status</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody id="bodyTable">
-                @foreach (var user in Model.Users)
-                {
+                <table id="userTable" class="table table-bordered table-striped table-scroll">
+                    <thead class="sticky-top">
                     <tr>
-                        <td>
-                            @(Model.Users.IndexOf(user) + 1)
-                        </td>
-                        <td>@user.CreatedDate.ToString("d")</td>
-                        <td>
-                            Username: <input type="text" name="username" value="@user.UserName" disabled="disabled" style="width: 315px"/>
-                            <div style="margin-top: 5px">
-                                Vor- und Nachname: <input type="text" name="firstname" value="@user.FirstName" disabled="disabled"/>
-                                <input
-                                    type="text"
-                                    name="lastname"
-                                    value="@user.LastName"
-                                    disabled="disabled"/>
-                            </div>
-                            <div style="margin-top: 5px">
-                                E-Mail: <input type="email" name="email" value="@user.Email" style="width: 580px" disabled="disabled"/>
-                            </div>
-                        </td>
-                        <td>
-                            <input type="text" name="chip" value="@user.ChipNumber" disabled="disabled"/>
-                        </td>
-                        <td>
-                            <input id="cbActive" type="checkbox" name="status" @(user.Active ? "checked" : "") onchange="activeChanged(@user.UserId, checked)"/> Aktiv
-                        </td>
-                        <td>
-                            <span class="text-center-last-col">
-                                <button type="button" class="btn btn-primary" onclick="showUserModal(true, @user.UserId)">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </button>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="text-center-last-col">
-                                <button type="button" class="btn btn-secondary" onclick="showChangePasswordModal(@user.UserId)">
-                                    <i class="fa-solid fa-lock"></i>
-                                </button>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="text-center-last-col">
-                                <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@user.UserId')">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </span>
-                        </td>
+                        <th>Nr</th>
+                        <th>Erstellt am</th>
+                        <th>Name</th>
+                        <th>Chip</th>
+                        <th>Status</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="bodyTable">
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                @(Model.Users.IndexOf(user) + 1)
+                            </td>
+                            <td>@user.CreatedDate.ToString("d")</td>
+                            <td>
+                                Username: <input type="text" name="username" value="@user.UserName" disabled="disabled" style="width: 315px"/>
+                                <div style="margin-top: 5px">
+                                    Vor- und Nachname: <input type="text" name="firstname" value="@user.FirstName" disabled="disabled"/>
+                                    <input
+                                        type="text"
+                                        name="lastname"
+                                        value="@user.LastName"
+                                        disabled="disabled"/>
+                                </div>
+                                <div style="margin-top: 5px">
+                                    E-Mail: <input type="email" name="email" value="@user.Email" style="width: 580px" disabled="disabled"/>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" name="chip" value="@user.ChipNumber" disabled="disabled"/>
+                            </td>
+                            <td>
+                                <input id="cbActive" type="checkbox" name="status" @(user.Active ? "checked" : "") onchange="activeChanged(@user.UserId, checked)"/> Aktiv
+                            </td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-primary" onclick="showUserModal(true, @user.UserId)">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-secondary" onclick="showChangePasswordModal(@user.UserId)">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </button>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="text-center-last-col">
+                                    <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@user.UserId')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
-        {
-            <button href="#" class="btn btn-warning float-left">Zurück</button>
-        }
+    <div class="row">
+        <div class="col-md-12" style="margin-top: 10px">
+            @using (Html.BeginForm("Admin_Home_Page", "Admin", FormMethod.Post))
+            {
+                <button href="#" class="btn btn-warning float-left">Zurück</button>
+            }
+        </div>
     </div>
-</div>
 </div>
 
 @* New password window *@
