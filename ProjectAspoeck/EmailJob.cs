@@ -8,106 +8,68 @@ public class EmailJob : ServiceCollection
 {
     private readonly BreakfastDBContext _db = new();
 
-    public void SendEmail()
+    public async Task SendEmail()
     {
-        
-        var now = DateTime.Now;
-        var nextRun = new DateTime(now.Year, now.Month, now.Day, 11, 54, 0);
-        Console.WriteLine($"Mail-Server startet at {now:HH:mm:ss}");
-        
-        bool isOrderDeadline = true;
+        Timer timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+    }
 
-        if (now > nextRun)
-        {
-            nextRun = nextRun.AddDays(1);
-        }
-
-        var delay = nextRun - now;
-        
+    private void TimerCallback(object? state)
+    {
         SmtpClient client = new SmtpClient("mail.gmx.net", 587);
         client.EnableSsl = true;
         client.UseDefaultCredentials = false;
         client.Credentials = new NetworkCredential("ju_baumgartner@gmx.at", "Messi2004!");
-        // Timer erstellen
-        var timer = new System.Timers.Timer(delay.TotalMilliseconds);
-        timer.Elapsed += (sender, e) =>
-        {
+        Console.WriteLine("TimerCallback ich werde jede minute aufgerufen"+ new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+        //Console.WriteLine($"Mail-Server startet at {now:HH:mm:ss}");
+        
+           // Console.WriteLine($"Mail-Server 1 minute vergangen es ist {newNow:HH:mm:ss}");
             
-            var usersWithOrderNotification15 = _db.Users.Where(u => u.Settings.Any(s => s.NotificationOrderDeadline == true)).Where(u => u.Settings.Any(s =>s.MinutesBefore ==15)).Select(u => new UserDto {
-                    UserId = u.UserId,
-                    ChipNumber = u.ChipNumber,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email
-                }).ToList();
-            var usersWithOrderNotification30 = _db.Users.Where(u => u.Settings.Any(s => s.NotificationOrderDeadline == true)).Where(u => u.Settings.Any(s =>s.MinutesBefore ==30))
-                .Select(u => new UserDto {
-                    UserId = u.UserId,
-                    ChipNumber = u.ChipNumber,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email
-                }).ToList();
-            var usersWithOrderNotification60 = _db.Users.Where(u => u.Settings.Any(s => s.NotificationOrderDeadline == true)).Where(u => u.Settings.Any(s =>s.MinutesBefore ==60)).Select(u => new UserDto {
-                    UserId = u.UserId,
-                    ChipNumber = u.ChipNumber,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email
-                }).ToList();
-            
-            var usersWithPayNotification1Day = _db.Users.Where(u => u.Settings.Any(s => s.NotificationPaymentDeadline == true)).Where(u => u.Settings.Any(s =>s.DaysBefore ==1)).Select(u => new UserDto {
-                UserId = u.UserId,
-                ChipNumber = u.ChipNumber,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.Email
-            }).ToList();
-            var usersWithPayNotification2Day = _db.Users.Where(u => u.Settings.Any(s => s.NotificationPaymentDeadline == true)).Where(u => u.Settings.Any(s =>s.MinutesBefore ==2)).Select(u => new UserDto {
-                UserId = u.UserId,
-                ChipNumber = u.ChipNumber,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.Email
-            }).ToList();
-            var usersWithPayNotification3Day = _db.Users.Where(u => u.Settings.Any(s => s.NotificationPaymentDeadline == true)).Where(u => u.Settings.Any(s =>s.MinutesBefore ==3)).Select(u => new UserDto {
-                UserId = u.UserId,
-                ChipNumber = u.ChipNumber,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.Email
-            }).ToList();
-            
-            var currentTime = DateTime.Now;
-            var timeToCheck = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 8, 0, 0);
-            var timeToCheck2 = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 8, 30, 0);
-            var timeToCheck3 = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 8, 45, 0);
+            var now = DateTime.Now;
+
             string from = "ju_baumgartner@gmx.at";
-            if (currentTime == new DateTime(now.Year, now.Month, now.Day, 8, 45, 0))
+            MailMessage message = new();
+            string to = "";
+            string subject = "";
+            string body = "";
+            string end = "";
+            var minutesBefore15 =new DateTime(now.Year, now.Month, now.Day, 21, 20, 0);
+            if (now.Year == minutesBefore15.Year && now.Month == minutesBefore15.Month &&
+                now.Day == minutesBefore15.Day && now.Hour == minutesBefore15.Hour &&
+                now.Minute == minutesBefore15.Minute)
             {
-                MailMessage message = new();
-                string to = "";
-                string subject = "";
-                string body = "";
-                string end = "";
+                var usersWithOrderNotification15 = _db.Settings.Include(x=>x.User)
+                    .Where(u => u.NotificationOrderDeadline == true && u.MinutesBefore ==15)
+                    .Select(u => new UserDto {
+                    UserId = u.UserId,
+                    ChipNumber = u.User.ChipNumber,
+                    FirstName = u.User.FirstName,
+                    LastName = u.User.LastName,
+                    Email = u.User.Email
+                }).ToList();
+                
                 foreach (var user in usersWithOrderNotification15)
                 {
-                    to = user.Email;
+                        to = user.Email;
                      subject = "Heute noch bestellen?";
                      body =$"{user.FirstName} {user.LastName}, Sie haben nur noch 15 Minuten Zeit um eine Bestellung beim Bäcker Mayer aufzugeben!";
                      end = "Liebe Grüße, ihr Jausenbestellungs-Team";
                      message = new MailMessage(from, to, subject, body);
+                     Console.WriteLine(message);
                      client.Send(message);
                 }
             }
 
-            if (currentTime == new DateTime(now.Year, now.Month, now.Day, 8, 30, 0))
+            if (now == new DateTime(now.Year, now.Month, now.Day, 8, 30, 0))
             {
-                MailMessage message = new();
-                string to = "";
-                string subject = "";
-                string body = "";
-                string end = "";
+                var usersWithOrderNotification30 = _db.Settings.Include(x=>x.User)
+                    .Where(u => u.NotificationOrderDeadline == true && u.MinutesBefore ==30)
+                    .Select(u => new UserDto {
+                        UserId = u.UserId,
+                        ChipNumber = u.User.ChipNumber,
+                        FirstName = u.User.FirstName,
+                        LastName = u.User.LastName,
+                        Email = u.User.Email
+                    }).ToList();
                 foreach (var user in usersWithOrderNotification30)
                 {
                     to = user.Email;
@@ -121,13 +83,18 @@ public class EmailJob : ServiceCollection
                 
             }
 
-            if (currentTime == new DateTime(now.Year, now.Month, now.Day, 8, 0, 0))
+            if (now == new DateTime(now.Year, now.Month, now.Day, 7, 0, 0))
             {
-                MailMessage message = new();
-                string to = "";
-                string subject = "";
-                string body = "";
-                string end = "";
+                var usersWithOrderNotification60 = _db.Settings.Include(x=>x.User)
+                    .Where(u => u.NotificationOrderDeadline == true && u.MinutesBefore ==60)
+                    .Select(u => new UserDto {
+                        UserId = u.UserId,
+                        ChipNumber = u.User.ChipNumber,
+                        FirstName = u.User.FirstName,
+                        LastName = u.User.LastName,
+                        Email = u.User.Email
+                    }).ToList();
+
                 foreach (var user in usersWithOrderNotification60)
                 {
                     to = user.Email;
@@ -140,25 +107,79 @@ public class EmailJob : ServiceCollection
                 Console.WriteLine("It's 8:00 AM!");
                 
             }
-            
-            
 
-            if (DateTime.Now.Date == new DateTime(DateTime.Now.Year, 12, 23) && DateTime.Now.Hour == 12)
+            var firstWednesdayOfMonth = GetFirstWednesdayOfMonth(now);
+
+            if (now == firstWednesdayOfMonth.AddDays(-1))
             {
-               // subject = "Frohe Weihnachten";
-               // body =
-                 //   "Fröhliche Weihnachtsfeiertage und ein erholsames Fest wünscht euch euer Jausenbestellungs-Team!";
-                //img
-
-               // end = "Liebe Grüße, ihr Jausenbestellungs-Team";
+                var usersWithPayNotification1Day = _db.Users.Where(u => u.Settings.Any(s => s.NotificationPaymentDeadline == true)).Where(u => u.Settings.Any(s =>s.DaysBefore ==1)).Select(u => new UserDto {
+                    UserId = u.UserId,
+                    ChipNumber = u.ChipNumber,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email
+                }).ToList();
+                foreach (var user in usersWithPayNotification1Day)
+                {
+                    to = user.Email;
+                    subject = "Heute noch bestellen?";
+                    body =$"{user.FirstName} {user.LastName}, In 1 Tagen ist Zahltag!";
+                    end = "Liebe Grüße, ihr Jausenbestellungs-Team";
+                    message = new MailMessage(from, to, subject, body);
+                    client.Send(message);
+                }
+                //Console.WriteLine("It's 8:30 AM!");
             }
-            
-            timer.Interval = TimeSpan.FromDays(1).TotalMilliseconds;
-        };
+            if (now == firstWednesdayOfMonth.AddDays(-2))
+            {
+              var usersWithPayNotification2Day = _db.Users.Where(u => u.Settings.Any(s => s.NotificationPaymentDeadline == true)).Where(u => u.Settings.Any(s =>s.MinutesBefore ==2)).Select(u => new UserDto {
+                    UserId = u.UserId,
+                    ChipNumber = u.ChipNumber,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email
+                }).ToList();
+                    foreach (var user in usersWithPayNotification2Day)
+                    {
+                        to = user.Email;
+                        subject = "Heute noch bestellen?";
+                        body =$"{user.FirstName} {user.LastName}, In 2 Tagen ist Zahltag!";
+                        end = "Liebe Grüße, ihr Jausenbestellungs-Team";
+                        message = new MailMessage(from, to, subject, body);
+                        client.Send(message);
+                    }
+                    
+                
+            }
+            if (now == firstWednesdayOfMonth.AddDays(-3))
+            {
+                var usersWithPayNotification3Day = _db.Users.Where(u => u.Settings.Any(s => s.NotificationPaymentDeadline == true)).Where(u => u.Settings.Any(s =>s.MinutesBefore ==3)).Select(u => new UserDto {
+                    UserId = u.UserId,
+                    ChipNumber = u.ChipNumber,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email
+                }).ToList();
+                foreach (var user in usersWithPayNotification3Day)
+                {
+                    to = user.Email;
+                    subject = "Heute noch bestellen?";
+                    body =$"{user.FirstName} {user.LastName}, In 3 Tagen ist Zahltag!";
+                    end = "Liebe Grüße, ihr Jausenbestellungs-Team";
+                    message = new MailMessage(from, to, subject, body);
+                    client.Send(message);
+                }
+                    
+                
+            }
+    }
 
-        timer.Start();
-
-        Console.WriteLine($"Next email will be sent at {nextRun:HH:mm:ss}");
-
+    public static DateTime GetFirstWednesdayOfMonth(DateTime date)
+    {
+        int year = date.Year;
+        int month = date.Month;
+        DateTime firstDayOfMonth = new DateTime(year, month, 1);
+        int daysUntilWednesday = ((int) DayOfWeek.Wednesday - (int) firstDayOfMonth.DayOfWeek + 7) % 7;
+        return firstDayOfMonth.AddDays(daysUntilWednesday);
     }
 }
