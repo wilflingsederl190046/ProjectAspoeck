@@ -101,12 +101,12 @@
         <div class="col">
             <div class="form-group d-flex align-items-center">
                 <label for="filter" class="mr-3">Filter:</label>
-                <select class="form-control" id="filter" style="width: 150px;">
+                <select class="form-control" id="filter" style="width: 160px">
                     <option value="all">Alle</option>
-                    <option value="not_collected">nicht abgeholt</option>
-                    <option value="not_payed">nicht bezahlt</option>
-                    <option value="payed">bezahlt</option>
-                    <option value="incomplete">unvollständig</option>
+                    @foreach(var state in Model.OrderStates)
+                    {
+                        <option value="@state.Name">@state.Name</option>
+                    }
                 </select>
             </div>
             <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
@@ -142,7 +142,7 @@
                                 @order.OrderContent
                             </td>
                             <td>
-                                <select id="orderState-@order.OrderId" onchange="stateChanged('@order.OrderId')">
+                                <select class="form-select"  id="orderState-@order.OrderId" onchange="stateChanged('@order.OrderId')">
                                     @foreach (var state in Model.OrderStates)
                                     {
                                         @if (state.Name == order.OrderState)
@@ -217,14 +217,17 @@
         $(document).ready(function () {
             $("#filter").change(function () {
                 const selectedValue = $(this).val();
-                const selectedText = $(this).find("option:selected").text();
-                if (selectedValue == "all") {
+                console.log('selectedValue: ' + selectedValue);
+                // const selectedText = $(this).find("option:selected").text();
+                if (selectedValue === "all") {
                     $("#table tbody tr").show();
                 } else {
                     $("#table tbody tr").hide();
                     $('#table').removeClass('table-striped');
                     $("#table tbody tr td:nth-child(5)").filter(function () {
-                        return $(this).text().trim() === selectedText.trim();
+                        const selectValue = $(this).find("select").val();
+                        console.log('selectValue: ' + selectValue);
+                        return selectValue === selectedValue;
                     }).parent().show();
                     $('#table').addClass('table-striped');
                 }
@@ -245,7 +248,7 @@
                 },
                 success: function (result) {
                     if (result.success) {
-                        location.reload();
+                        // location.reload();
                     } else {
                         alert(result.message);
                     }
