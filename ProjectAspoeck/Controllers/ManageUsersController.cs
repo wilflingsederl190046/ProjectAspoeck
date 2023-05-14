@@ -46,6 +46,18 @@ public class ManageUsersController : Controller
         {
             var user = _db.Users.FirstOrDefault(x => x.UserId == userId);
             if (user == null) return Json(new { success = false, message = "Benutzer nicht gefunden." });
+            
+            // Delete Settings
+            _db.Settings.RemoveRange(_db.Settings.Where(x => x.User.UserId == userId));
+            _db.SaveChanges();
+            
+            var allOrders = _db.Orders.Where(x => x.User.UserId == userId).ToList();
+            // Delete all OrderItems
+            allOrders.ForEach(x=> x.OrderItems.ToList().ForEach(y=> _db.OrderItems.Remove(y)));
+            // Delete all Orders
+            allOrders.ForEach(x => _db.Orders.Remove(x));
+            _db.SaveChanges();
+            
             _db.Users.Remove(user);
             _db.SaveChanges();
             return Json(new { success = true });
@@ -106,6 +118,9 @@ public class ManageUsersController : Controller
             _db.Users.Add(user);
             _db.SaveChanges();
 
+            _db.Settings.Add(new Setting { User = user});
+            _db.SaveChanges();
+            
             return Json(new
             {
                 success = true
