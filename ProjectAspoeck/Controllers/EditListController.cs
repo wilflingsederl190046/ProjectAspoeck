@@ -187,7 +187,16 @@ public class EditListController : Controller
                 return Json(new
                 {
                     success = false,
-                    message = "Item not found"
+                    message = "Item nicht gefunden."
+                });
+            }
+
+            if (_db.OrderItems.Any(x => x.ItemId == itemId))
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Dieses Produkt wird in aktuellen Bestellungen verwendet und kann daher nicht gelöscht werden."
                 });
             }
 

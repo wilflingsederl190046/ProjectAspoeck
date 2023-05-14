@@ -6,11 +6,11 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Bestellung aufgeben</title>
     <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
     <script src="https://kit.fontawesome.com/afdaaa5e13.js" crossorigin="anonymous"></script>
     <style>
         header {
@@ -95,107 +95,107 @@
     </style>
 </head>
 <body>
-    <header class="bg-light py-3" style="height: 150px">
-        <div class="container-fluid h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-3 header-image">
-                    <img src="~/Images/aspoeck-logo-sm.png"
-                         class="img-fluid align-middle"
-                         alt="Logo" />
-                </div>
-                <div class="col-6 header-text">
-                    <h1 class="mb-0">Jausen Bestellung</h1>
-                </div>
-                <div class="col-3 text-center py-2 ">
-                    <span class="header-button">
-                        <button type="submit" class="btn btn-lg" onclick="openNew()">
-                            <i class="fa-solid fa-shopping-cart"></i>
-                        </button>
-                    </span>
-                </div>
+<header class="bg-light py-3" style="height: 150px">
+    <div class="container-fluid h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-3 header-image">
+                <img src="~/Images/aspoeck-logo-sm.png"
+                     class="img-fluid align-middle"
+                     alt="Logo"/>
             </div>
-        </div>
-    </header>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col headline">
-                <h4>Angebot vom <span id="dateOnly">Montag, 1. Jänner 2023</span>:</h4>
+            <div class="col-6 header-text">
+                <h1 class="mb-0">Jausen Bestellung</h1>
             </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-                <div class="form-group d-flex align-items-center">
-                    <input type="text" class="form-control mr-2" placeholder="Suche..." id="search" style="">
-                </div>
-                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                    <table class="table table-bordered" id="productTable">
-                        <thead class="thead-light sticky-top">
-                            <tr>
-                                <th scope="col" class="col-1">Bild</th>
-                                <th scope="col">Bezeichnung</th>
-                                <th scope="col">Kosten</th>
-                                <th scope="col">Stück</th>
-                                <th scope="col" class="col-1"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.OrderItems)
-                            {
-                                <tr>
-                                    <td>
-                                        <div class="img-container">
-                                            @if (item.ImageUrl != null && item.ImageUrl.Length > 0)
-                                            {
-                                                <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageUrl)}")" alt="@item.Name" />
-                                            }
-                                            else
-                                            {
-                                                <span>Kein Bild verfügbar</span>
-                                            }
-                                        </div>
-                                    </td>
-                                    <td class="itemName">@item.Name</td>
-                                    <td class="price">
-                                        @item.Price.ToString("N2")
-                                        @Html.Raw(" €")
-                                    </td>
-                                    <td class="stueck">@item.Units</td>
-                                    <td class="d-flex justify-content-center" style="height: 80px">
-                                        <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
-                                    </td>
-                                    <td class="d-flex justify-content-center" style="height: 80px">
-                                        <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-6 text-left">
-                @using (Html.BeginForm("Home_Page", "Home", FormMethod.Post))
-                {
-                    <button href="#" class="btn btn-warning">Zurück</button>
-                }
-            </div>
-            <div class="col-6 text-right">
-                <button type="submit" class="btn btn-success" id="warenkorbButton" onclick="openNew()">Warenkorb</button>
+            <div class="col-3 text-center py-2 ">
+                <span class="header-button">
+                    <button type="submit" class="btn btn-lg" onclick="openNew()">
+                        <i class="fa-solid fa-shopping-cart"></i>
+                    </button>
+                </span>
             </div>
         </div>
     </div>
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col headline">
+            <h4>Angebot vom <span id="dateOnly">Montag, 1. Jänner 2023</span>:</h4>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <div class="form-group d-flex align-items-center">
+                <input type="text" class="form-control mr-2" placeholder="Suche..." id="search" style="">
+            </div>
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <table class="table table-bordered" id="productTable">
+                    <thead class="thead-light sticky-top">
+                    <tr>
+                        <th scope="col" class="col-1">Bild</th>
+                        <th scope="col">Bezeichnung</th>
+                        <th scope="col">Kosten</th>
+                        <th scope="col">Stück</th>
+                        <th scope="col" class="col-1"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>
+                                <div class="img-container">
+                                    @if (item.ImageUrl != null && item.ImageUrl.Length > 0)
+                                    {
+                                        <img src="@($"data:image;base64,{Convert.ToBase64String(item.ImageUrl)}")" alt="@item.Name"/>
+                                    }
+                                    else
+                                    {
+                                        <span>Kein Bild verfügbar</span>
+                                    }
+                                </div>
+                            </td>
+                            <td class="itemName">@item.Name</td>
+                            <td class="price">
+                                @item.Price.ToString("N2")
+                                @Html.Raw(" €")
+                            </td>
+                            <td class="stueck">@item.Units</td>
+                            <td class="d-flex justify-content-center" style="height: 80px">
+                                <button class="btn btn-sm btn-outline-secondary ml-3 plus-button" onclick="">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </td>
+                            <td class="d-flex justify-content-center" style="height: 80px">
+                                <button class="btn btn-sm btn-outline-secondary ml-3 minus-button" onclick="">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-6 text-left">
+            @using (Html.BeginForm("Home_Page", "Home", FormMethod.Post))
+            {
+                <button href="#" class="btn btn-warning">Zurück</button>
+            }
+        </div>
+        <div class="col-6 text-right">
+            <button type="submit" class="btn btn-success" id="warenkorbButton" onclick="openNew()">Warenkorb</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 
 @section scripts
-    {
+{
     <script>
         //filter
         var searchInput = document.getElementById("search");
@@ -340,5 +340,7 @@
             }
         }
             //#endregion
+    
+    
     </script>
 }

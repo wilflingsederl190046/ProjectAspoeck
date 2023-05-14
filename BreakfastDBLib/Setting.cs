@@ -12,7 +12,7 @@ public partial class Setting
     public int? MinutesBefore { get; set; }
 
     public bool NotificationPaymentDeadline { get; set; }
-
+    
     public int? DaysBefore { get; set; }
 
     public int UserId { get; set; }

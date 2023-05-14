@@ -177,7 +177,28 @@
 
     </div>
     <div class="col-6 text-right">
-        <button href="#" class="btn btn-success" onclick="placeOrder()">Bestellung aufgeben</button>
+        <button href="#" class="btn btn-success" onclick="showConfirmOrderModal()">Bestellung aufgeben</button>
+    </div>
+</div>
+
+@* Confirm order window *@
+<div id="confirmOrderModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sind Sie sicher, dass Sie die Bestellung aufgeben möchten?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeConfirmOrder">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Die Bestellung kann nicht mehr rückgängig gemacht werden!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="abortConfirmOrder">Abbrechen</button>
+                <button type="button" class="btn btn-success" id="confirm-order" onclick="placeOrder()">Bestätigen</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -187,6 +208,20 @@
 
 @section scripts{
     <script>
+    //#region Delete Item
+    function showConfirmOrderModal() {
+        $('#confirmOrderModal').modal('show');
+    }
+
+    $('#abortConfirmOrder').on('click', function () {
+        $('#confirmOrderModal').modal('hide');
+    });
+
+    $('#closeConfirmOrder').on('click', function () {
+        $('#confirmOrderModal').modal('hide');
+    });
+    //#endregion
+    
         // This function is called when the form is submitted
         function prepareOrderItems() {
             console.log('prepareOrderItems');
@@ -256,5 +291,6 @@
 
         }
 
+    
     </script>
 }
