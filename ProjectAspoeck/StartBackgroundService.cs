@@ -20,7 +20,7 @@ public class StartBackgroundService : BackgroundService
         db.Database.EnsureDeleted();
         Console.WriteLine("db.Database.EnsureCreated");
         db.Database.EnsureCreated();*/
-        sender.sendEmail();
+        sender.SendEmail();
         return Task.Run(() => { }, stoppingToken);
     }
 }

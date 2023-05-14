@@ -8,7 +8,7 @@ public class EmailJob : ServiceCollection
 {
     private readonly BreakfastDBContext _db = new();
 
-    public void sendEmail()
+    public void SendEmail()
     {
         
         var now = DateTime.Now;
