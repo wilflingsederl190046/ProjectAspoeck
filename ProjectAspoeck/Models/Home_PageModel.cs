@@ -7,4 +7,5 @@ public class Home_PageModel
     public List<OrderViewModel> Orders { get; set; }
     public string SessionString { get; set; } = null!;
     public double MoneyLeftToPay { get; set; }
+    public bool AlreadyOrderedToday { get; set; }
 }

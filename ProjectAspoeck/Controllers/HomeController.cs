@@ -102,12 +102,18 @@ public class HomeController : Controller
                 .Where(x => x.Order.User.UserId == user.UserId)
                 .Where(x => x.Order.OrderStateId == 1 || x.Order.OrderStateId == 2)
                 .Sum(x => x.Price);
+            
+            bool orderedToday = _db.Orders
+                .Include(x => x.User)
+                .Where(x => x.User.UserId == user.UserId)
+                .Any(x => x.OrderDate.Date == DateTime.Today);
             homeModel = new Home_PageModel
             {
                 UserName = username,
                 Orders = orders,
                 SessionString = sessionKey,
-                MoneyLeftToPay = sumRestPriceToPay
+                MoneyLeftToPay = sumRestPriceToPay,
+                AlreadyOrderedToday = orderedToday
             };
             homeModel.SessionString = sessionKey;
             
@@ -144,8 +150,5 @@ public class HomeController : Controller
         {
             return RedirectToAction("Home_Page", "Home");
         }
-
-        
     }
-    
 }

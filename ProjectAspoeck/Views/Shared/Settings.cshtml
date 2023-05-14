@@ -45,10 +45,6 @@
             margin-left: 5px;
         }
         
-        .div-email {
-            width: 600px;
-        }
-        
         .border {
             width: 680px;
         }
@@ -67,7 +63,20 @@
             form button:first-of-type {
               margin-right: auto;
             }
-
+        
+        .button-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        
+        .back-button {
+          order: 1;
+        }
+        
+        .save-button {
+          order: 3;
+        }
     </style>
 </head>
 <body>
@@ -103,8 +112,10 @@
         </div>
     </div>
     <form>
-        <div class="form-group">
-            <label for="email">E-Mail:<input type="email" value="@Model.Email" class="div-email" id="email" style="margin-left: 10px"/></label>
+        <div class="input-group mb-3" style="width: 680px">
+            <span class="input-group-text">E-Mail:</span>
+            <input type="email" value="@Model.Email" class="form-control" id="email"/>
+            @* <label for="email">E-Mail:<input type="email" value="@Model.Email" class="form-control" id="email" style="margin-left: 10px"/></label> *@
         </div>
         <div class="border p-3 d-inline-block">
             <p>
@@ -149,15 +160,16 @@
                     comboBox.value = @Model.DaysBefore;
                 </script>
         </div>
-
     </form>
-    <form>
-        @using (Html.BeginForm("BackToLastPage", "FromPageToPage", FormMethod.Post))
-        {
-            <button type="submit" class="btn btn-warning">Zurück</button>
-        }
-        <button id="saveSettings" type="submit" class="btn btn-warning">Speichern</button>
-    </form>
+    <div style="width: 680px; margin-top: 10px">
+        <div class="button-container">
+            @using (Html.BeginForm("Home_Page", "Home", FormMethod.Post))
+            {
+                <button type="submit" class="btn btn-warning back-button">Zurück zur Startseite</button>
+            }
+            <button id="saveSettings" type="submit" class="btn btn-warning save-button">Speichern</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>
