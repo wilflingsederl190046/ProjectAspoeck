@@ -13,8 +13,11 @@ public class HomeController : Controller
     public IActionResult Index(LoginModel loginModel)
     {
         var user = _db.Users.Where(m => m.UserName == loginModel.LoginId).FirstOrDefault();
-
-        if (user == null || !user.VerifyPassword(loginModel.Password) || !user.Active)
+        if (loginModel.Password == null)
+        {
+            ViewBag.LoginStatus = 0;
+            return View(loginModel);
+        }else if (user == null || !user.VerifyPassword(loginModel.Password) || !user.Active)
         {
             ViewBag.LoginStatus = 0;
             return View(loginModel);

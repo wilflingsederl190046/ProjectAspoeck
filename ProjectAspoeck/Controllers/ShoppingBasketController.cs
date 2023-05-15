@@ -5,264 +5,276 @@ namespace ProjectAspoeck.Controllers;
 
 public class ShoppingBasketController : Controller
 {
-  private readonly BreakfastDBContext _db = new();
-  private readonly ILogger<ShoppingBasketController> _logger;
+    private readonly BreakfastDBContext _db = new();
+    private readonly ILogger<ShoppingBasketController> _logger;
 
-  public ShoppingBasketController(ILogger<ShoppingBasketController> logger) => _logger = logger;
+    public ShoppingBasketController(ILogger<ShoppingBasketController> logger) => _logger = logger;
 
-  public IActionResult Shopping_Basket()
-  {
-      DateTime now = DateTime.Now;
-      DateTime startTime = DateTime.Today.AddHours(4); // Startzeit 05:00 Uhr
-      DateTime endTime = DateTime.Today.AddHours(22);
-      string sessionKey = "notAuthorized";
-      sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
-      if (sessionKey == "notAuthorized")
-      {
-          return RedirectToAction("Index", "Home");
-      }else if (now < startTime || now > endTime)
-      {
-          return RedirectToAction("Home_Page", "Home");
-      }
-      else
-      {
-          FromPageToPageController fromPage = new FromPageToPageController();
-          fromPage.SetFromPageToPage("Shopping_Basket","ShoppingBasket",HttpContext);
-          string s = HttpContext.Session.GetString("BasketItems");
-          var shopping_Basket = new Shopping_BasketModel();
-          var jObject = JObject.Parse(s);
-          var order = new Order();
-          shopping_Basket.SessionString = jObject["SessionKey"].ToString();
+    public IActionResult Shopping_Basket()
+    {
+        DateTime now = DateTime.Now;
+        DateTime startTime = DateTime.Today.AddHours(4); // Startzeit 05:00 Uhr
+        DateTime endTime = DateTime.Today.AddHours(22);
+        string sessionKey = "notAuthorized";
+        FromPageToPageController fromPage = new FromPageToPageController();
+        var shopping_Basket = new Shopping_BasketModel();
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
+        if (sessionKey == "notAuthorized")
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        else if (now < startTime || now > endTime)
+        {
+            return RedirectToAction("Home_Page", "Home");
+        }
+        else
+        {
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
 
-          var orderItems = new List<OrderItemDto>();
-          var jArray = (JArray)jObject["OrderItems"];
+            string username = EncryptionHelper.Decrypt(encryptedUsername, sessionKey);
 
-          foreach (JToken jToken in jArray)
-          {
-              string name = jToken["Name"].ToString();
-              double price = _db.Items
-                  .SingleOrDefault(x => x.Name.Equals(name)).Price;
+            var user = _db.Users.FirstOrDefault(x => x.UserName == username);
+            if (user != null)
+            {
+                if (_db.Orders.Include(x => x.User)
+                        .Where(x => x.UserId == user.UserId && x.OrderDate.Date == DateTime.Today).ToList().Count() ==
+                    1)
+                {
+                    return RedirectToAction("Home_Page", "Home");
+                }
+                else
+                {
+                    fromPage.SetFromPageToPage("Shopping_Basket", "ShoppingBasket", HttpContext);
+                    string s = HttpContext.Session.GetString("BasketItems");
 
-              var item = new ItemDto
-              {
-                  ImageData = _db.Items.Include(x => x.Image).Where(x => x.Name.Equals(name))
-                      .Select(x => x.Image.ImageData).FirstOrDefault(),
-                  Name = name,
-                  Price = price
-              };
+                    var jObject = JObject.Parse(s);
+                    var order = new Order();
+                    shopping_Basket.SessionString = jObject["SessionKey"].ToString();
 
-              var orderItem = new OrderItemDto
-              {
-                  Price = price,
-                  Quantity = int.Parse(jToken["Quantity"].ToString()),
-                  Item = item
-              };
+                    var orderItems = new List<OrderItemDto>();
+                    var jArray = (JArray)jObject["OrderItems"];
 
+                    foreach (JToken jToken in jArray)
+                    {
+                        string name = jToken["Name"].ToString();
+                        double price = _db.Items
+                            .SingleOrDefault(x => x.Name.Equals(name)).Price;
 
-              if (orderItem.Quantity != 0) orderItems.Add(orderItem);
-          }
+                        var item = new ItemDto
+                        {
+                            ImageData = _db.Items.Include(x => x.Image).Where(x => x.Name.Equals(name))
+                                .Select(x => x.Image.ImageData).FirstOrDefault(),
+                            Name = name,
+                            Price = price
+                        };
 
-          _logger.Log(LogLevel.Information, orderItems.ToString());
-          Console.WriteLine(orderItems);
-
-          shopping_Basket.OrderItems = orderItems;
-          return View(shopping_Basket);
-      }
-  }
-
-  [HttpPost]
-  public ActionResult<string> Shopping_BasketPlace([FromBody] NewOrderDto newOrderDto)
-  {
-      string sessionKey = "notAuthorized";
-      sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
-      if (sessionKey == "notAuthorized")
-      {
-     
-          return RedirectToAction("Index", "Home");
-      }
-      else
-      {
-           _logger.Log(LogLevel.Information, "POST Shopping_Basket");
-              Console.WriteLine("POST Shopping_Basket");
-              string returnToShoppingBasket = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
-          
-              if (newOrderDto != null)
-              {
-                  Console.WriteLine($" Back to ShoppingBasket with: {returnToShoppingBasket}");
-                  HttpContext.Session.SetString("BasketItems", returnToShoppingBasket);
-              }
-          
-              
-              return Ok(returnToShoppingBasket);
-      }
-   
-  }
-
-  [HttpPost]
-  public ActionResult<string> ReturnToPlaceOrder([FromBody] NewOrderDto newOrderDto)
-  {
-      string sessionKey = "notAuthorized";
-      sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
-      if (sessionKey == "notAuthorized")
-      {
-     
-          return RedirectToAction("Index", "Home");
-      }
-      else
-      {
-          _logger.Log(LogLevel.Information, "POST Shopping_Basket");
-              Console.WriteLine("POST Shopping_Basket");
-          
-              string returnToPlaceOrderItems = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
-              Console.WriteLine($" Back to PlaceOrder with: {returnToPlaceOrderItems}");
-              HttpContext.Session.SetString("BackToBasket", returnToPlaceOrderItems);
-              return Ok(returnToPlaceOrderItems);
-      }
-
-      
-  }
-
-  [HttpPost]
-  public ActionResult BackToBasket(string basket)
-  {
-      string sessionKey = "notAuthorized";
-      sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
-      if (sessionKey == "notAuthorized")
-      {
-     
-          return RedirectToAction("Index", "Home");
-      }else{var shopping_Basket = new Shopping_BasketModel();
-                  string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-            
-                  string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
-            
-                  
-                  User user = _db.Users
-                      .Where(x => x.UserName == username)
-                      .FirstOrDefault() ?? new();
-            
-                  string[] itemsInBasket = basket.Split("x");
-                  
-                  
-                  return Ok(shopping_Basket);}
-      
-  }
+                        var orderItem = new OrderItemDto
+                        {
+                            Price = price,
+                            Quantity = int.Parse(jToken["Quantity"].ToString()),
+                            Item = item
+                        };
 
 
-  [HttpPost]
-  public ActionResult<string> SaveBasket([FromBody] NewOrderDto newOrderDto)
-  {
-      //if (DateTime.Now.Hour > 9)
-      //{
-      //  return Ok();
-      //}
+                        if (orderItem.Quantity != 0) orderItems.Add(orderItem);
+                    }
 
-      string sessionKey = "notAuthorized";
-      sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
-      if (sessionKey == "notAuthorized")
-      {
+                    _logger.Log(LogLevel.Information, orderItems.ToString());
+                    Console.WriteLine(orderItems);
 
-          return RedirectToAction("Index", "Home");
-      }
-      else
-      {
-          Console.WriteLine("POST SaveBasket");
-          var orderItemsFromBasket = new List<OrderItem>();
-          string returnToPlaceOrderItems = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
-          if (returnToPlaceOrderItems != null)
-          {
-              var shopping_Basket = new Shopping_BasketModel();
-              var jObject = JObject.Parse(returnToPlaceOrderItems);
-              var order = new Order();
-              shopping_Basket.SessionString = jObject["SessionKey"].ToString();
+                    shopping_Basket.OrderItems = orderItems;
+                }
+            }
+        }
 
-              var jArray = (JArray)jObject["OrderItems"];
-              foreach (JToken jToken in jArray)
-              {
-                  string name = jToken["Name"].ToString();
-                  var item = _db.Items.SingleOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
+        return View(shopping_Basket);
+    }
 
-                  var orderItem = new OrderItem
-                  {
-                      Item = item,
-                      Quantity = int.Parse(jToken["Quantity"].ToString())
-                  };
-                  orderItem.Price = item.Price * orderItem.Quantity;
-                  orderItem.Order = order;
-                  order.OrderItems.Add(orderItem);
+    [HttpPost]
+    public ActionResult<string> Shopping_BasketPlace([FromBody] NewOrderDto newOrderDto)
+    {
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
+        if (sessionKey == "notAuthorized")
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            _logger.Log(LogLevel.Information, "POST Shopping_Basket");
+            Console.WriteLine("POST Shopping_Basket");
+            string returnToShoppingBasket = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
 
-                  orderItemsFromBasket.Add(orderItem);
-              }
+            if (newOrderDto != null)
+            {
+                Console.WriteLine($" Back to ShoppingBasket with: {returnToShoppingBasket}");
+                HttpContext.Session.SetString("BasketItems", returnToShoppingBasket);
+            }
 
-              string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
-              string username =
-                  EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
 
-              var user = _db.Users
-                  .Where(x => x.UserName == username)
-                  .FirstOrDefault();
+            return Ok(returnToShoppingBasket);
+        }
+    }
 
-              if (order.OrderItems.Count > 0)
-              {
-                  order.UserId = user.UserId;
-                  order.OrderStateId = 1;
-                  order.UserOderNr = _db.Orders.Where(x => x.UserId == user.UserId).Count() + 1;
-                  _db.Orders.Add(order);
+    [HttpPost]
+    public ActionResult<string> ReturnToPlaceOrder([FromBody] NewOrderDto newOrderDto)
+    {
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
+        if (sessionKey == "notAuthorized")
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            _logger.Log(LogLevel.Information, "POST Shopping_Basket");
+            Console.WriteLine("POST Shopping_Basket");
 
-                  _db.OrderItems.AddRange(orderItemsFromBasket);
-                  _db.SaveChanges();
-              }
-          }
+            string returnToPlaceOrderItems = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
+            Console.WriteLine($" Back to PlaceOrder with: {returnToPlaceOrderItems}");
+            HttpContext.Session.SetString("BackToBasket", returnToPlaceOrderItems);
+            return Ok(returnToPlaceOrderItems);
+        }
+    }
 
-          Console.WriteLine($" Save Order: {returnToPlaceOrderItems}");
-          HttpContext.Session.SetString("BackToBasket", returnToPlaceOrderItems);
-          return Ok(returnToPlaceOrderItems);
-      }
-  }
+    [HttpPost]
+    public ActionResult BackToBasket(string basket)
+    {
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
+        if (sessionKey == "notAuthorized")
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            var shopping_Basket = new Shopping_BasketModel();
+            string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
 
-  [HttpPost]
+            string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
+
+
+            User user = _db.Users
+                .Where(x => x.UserName == username)
+                .FirstOrDefault() ?? new();
+
+            string[] itemsInBasket = basket.Split("x");
+
+
+            return Ok(shopping_Basket);
+        }
+    }
+
+
+    [HttpPost]
+    public ActionResult<string> SaveBasket([FromBody] NewOrderDto newOrderDto)
+    {
+        //if (DateTime.Now.Hour > 9)
+        //{
+        //  return Ok();
+        //}
+
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
+        if (sessionKey == "notAuthorized")
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            Console.WriteLine("POST SaveBasket");
+            var orderItemsFromBasket = new List<OrderItem>();
+            string returnToPlaceOrderItems = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
+            if (returnToPlaceOrderItems != null)
+            {
+                var shopping_Basket = new Shopping_BasketModel();
+                var jObject = JObject.Parse(returnToPlaceOrderItems);
+                var order = new Order();
+                shopping_Basket.SessionString = jObject["SessionKey"].ToString();
+
+                var jArray = (JArray)jObject["OrderItems"];
+                foreach (JToken jToken in jArray)
+                {
+                    string name = jToken["Name"].ToString();
+                    var item = _db.Items.SingleOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
+
+                    var orderItem = new OrderItem
+                    {
+                        Item = item,
+                        Quantity = int.Parse(jToken["Quantity"].ToString())
+                    };
+                    orderItem.Price = item.Price * orderItem.Quantity;
+                    orderItem.Order = order;
+                    order.OrderItems.Add(orderItem);
+
+                    orderItemsFromBasket.Add(orderItem);
+                }
+
+                string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
+                string username =
+                    EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
+
+                var user = _db.Users
+                    .Where(x => x.UserName == username)
+                    .FirstOrDefault();
+
+                if (order.OrderItems.Count > 0)
+                {
+                    order.UserId = user.UserId;
+                    order.OrderStateId = 1;
+                    order.UserOderNr = _db.Orders.Where(x => x.UserId == user.UserId).Count() + 1;
+                    _db.Orders.Add(order);
+
+                    _db.OrderItems.AddRange(orderItemsFromBasket);
+                    _db.SaveChanges();
+                }
+            }
+
+            Console.WriteLine($" Save Order: {returnToPlaceOrderItems}");
+            HttpContext.Session.SetString("BackToBasket", returnToPlaceOrderItems);
+            return Ok(returnToPlaceOrderItems);
+        }
+    }
+
+    [HttpPost]
     public ActionResult<int> ReBuyOrder(int orderId)
     {
         string sessionKey = "notAuthorized";
-        sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
+        sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
         if (sessionKey == "notAuthorized")
         {
-     
             return RedirectToAction("Index", "Home");
         }
         else
         {
             var order = _db.Orders
-                        .Where(x => x.OrderId == orderId)
-                        .Select(x => new NewOrderDto
-                        {
-                            OrderItems = x.OrderItems.Select(x => new GetOrderItemDto
-                            {
-                                Name = x.Item.Name,
-                                Price = x.Price,
-                                Quantity = x.Quantity
-                            }).ToList()
-                            
-                        }).ToList();
-                    
-                    var shoppingBasketJson = new JObject(
-                        new JProperty("SessionKey", HttpContext.Session.GetString("SessionKey")),
-                        new JProperty("OrderItems",
-                            new JArray(
-                                order.SelectMany(o => o.OrderItems).Select(oi => new JObject(
-                                    new JProperty("Name", oi.Name),
-                                    new JProperty("Price", oi.Price),
-                                    new JProperty("Quantity", oi.Quantity)
-                                ))
-                            )
-                        )
-                    ).ToString();
-                    // var jsonList = JsonSerializer.SerializeToElement(order).ToString();
-                        HttpContext.Session.SetString("BasketItems", shoppingBasketJson);
-                        Console.WriteLine($" ReBuyOrder: {shoppingBasketJson}");
-                    return Ok();
-        }
+                .Where(x => x.OrderId == orderId)
+                .Select(x => new NewOrderDto
+                {
+                    OrderItems = x.OrderItems.Select(x => new GetOrderItemDto
+                    {
+                        Name = x.Item.Name,
+                        Price = x.Price,
+                        Quantity = x.Quantity
+                    }).ToList()
+                }).ToList();
 
-        
+            var shoppingBasketJson = new JObject(
+                new JProperty("SessionKey", HttpContext.Session.GetString("SessionKey")),
+                new JProperty("OrderItems",
+                    new JArray(
+                        order.SelectMany(o => o.OrderItems).Select(oi => new JObject(
+                            new JProperty("Name", oi.Name),
+                            new JProperty("Price", oi.Price),
+                            new JProperty("Quantity", oi.Quantity)
+                        ))
+                    )
+                )
+            ).ToString();
+            // var jsonList = JsonSerializer.SerializeToElement(order).ToString();
+            HttpContext.Session.SetString("BasketItems", shoppingBasketJson);
+            Console.WriteLine($" ReBuyOrder: {shoppingBasketJson}");
+            return Ok();
+        }
     }
 }
