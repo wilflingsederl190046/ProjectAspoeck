@@ -104,6 +104,15 @@
                     }
                 </div>
                 <div class="d-flex justify-content-center mb-3">
+                    @using (Html.BeginForm("Admin_ConfirmAllOrders", "Admin_ConfirmAllOrders", FormMethod.Post))
+                    {
+                        <button type="submit" class="btn btn-warning btn-block">
+                            <i class="fa-regular fa-credit-card"></i>
+                            Zahlungen abschließen
+                        </button>
+                    }
+                </div>
+                <div class="d-flex justify-content-center mb-3">
                     @using (Html.BeginForm("Admin_Export_List_OrdersFromDay", "Admin", FormMethod.Post))
                     {
                         <button type="submit" class="btn btn-success btn-block">
@@ -121,15 +130,6 @@
                         </button>
                     }
                 </div>
-                    <div class="d-flex justify-content-center mb-3">
-                        @using (Html.BeginForm("AdminAllOrdersToPaid", "AdminAllOrdersToPaid", FormMethod.Post))
-                        {
-                            <button type="submit" class="btn btn-success btn-block">
-                                <i class="fa-solid fa-file-cash"></i>
-                                Bestellungen abschließen
-                            </button>
-                        }
-                    </div>
                 <div class="d-flex justify-content-center mb-3">
                     @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
                     {
