@@ -103,6 +103,13 @@ public class AdminController : Controller
 
         return RedirectToAction("Admin_Home_Page", "Admin");
     }
+
+    [HttpPost]
+
+    public IActionResult AllOrdersToPaid()
+    {
+        return RedirectToAction("Admin_Home_Page", "Admin");
+    }
 }
 
 

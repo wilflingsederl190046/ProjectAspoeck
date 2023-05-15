@@ -121,6 +121,15 @@
                         </button>
                     }
                 </div>
+                    <div class="d-flex justify-content-center mb-3">
+                        @using (Html.BeginForm("AllOrdersToPaid", "AdminAllOrdersToPaid", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-success btn-block">
+                                <i class="fa-solid fa-file-cash"></i>
+                                Bestellungen abschließen
+                            </button>
+                        }
+                    </div>
                 <div class="d-flex justify-content-center mb-3">
                     @using (Html.BeginForm("Logout", "Logout",  FormMethod.Post))
                     {
@@ -130,6 +139,7 @@
                           </button>
                       }
                 </div>
+                    
             </div>
             <div class="col-md-9 table-height">
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
