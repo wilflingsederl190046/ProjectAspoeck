@@ -28,7 +28,7 @@ public class AdminAllOrdersController : Controller
                 .Include(x => x.OrderItems)
                 .ThenInclude(x => x.Item)
                 .Select(x => x)
-                .OrderBy(x => x.OrderId)
+                .OrderBy(x => x.OrderDate)
                 .ToList();
 
             var orders = ordersListForUser
@@ -83,6 +83,7 @@ public class AdminAllOrdersController : Controller
         {
             var order = _db.Orders.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null) return Json(new { success = false, message = "Bestellung nicht gefunden." });
+            _db.OrderItems.RemoveRange(_db.OrderItems.Where(x => x.OrderId == orderId));            
             _db.Orders.Remove(order);
             _db.SaveChanges();
             return Json(new { success = true });

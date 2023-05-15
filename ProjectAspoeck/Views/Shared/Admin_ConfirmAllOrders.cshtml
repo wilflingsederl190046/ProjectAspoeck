@@ -214,7 +214,7 @@
             const selects = table.getElementsByTagName('select');
             
             for (let i = 0; i < selects.length; i++) {
-                if (!selects[i].closest('tr').hidden) {
+                if (!selects[i].parentNode.parentNode.style.display.includes('none')) {
                   for (let j = 0; j < selects[i].options.length; j++) {
                     if (selects[i].options[j].value === 'bezahlt') {
                       selects[i].options[j].selected = true;
@@ -241,7 +241,11 @@
                 stateName: orderStateName 
             },
             success: function (result) {
-                if (!result.success) {
+                if (result.success) {
+                    location.reload();
+                }
+                else 
+                {
                     alert(result.message);
                 }
             },

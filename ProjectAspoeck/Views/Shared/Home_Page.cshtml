@@ -233,7 +233,7 @@
             const dayOfWeek = now.getDay();
             const hours = now.getHours();
             
-            if (dayOfWeek >= 0 && dayOfWeek <= 5 && hours >= 4 && (hours < 24 || (hours === 24 && now.getMinutes() === 0)) && '@Model.AlreadyOrderedToday' === 'False') { // should be 1 5 4 9 9 0
+            if (dayOfWeek >= 1 && dayOfWeek <= 5 && hours >= 4 && (hours < 8 || (hours === 8 && now.getMinutes() === 0)) && '@Model.AlreadyOrderedToday' === 'False') { // should be 1 5 4 8 8 0
                 dateElement.style.backgroundColor = '#50C878';
         
                 statusElement.textContent = "Bestellung möglich";

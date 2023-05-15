@@ -363,8 +363,9 @@
                         <input type="text" class="form-control" id="image-name">
                     </div>
                     <div class="form-group">
-                        <label for="image-file" class="col-form-label">Bild:<span style="color: red">*</span></label>
-                        <input type="file" class="form-control-file" id="image-file" accept="image/png">
+                        <label for="image-file" class="col-form-label">Bild (voller Pfad):<span style="color: red">*</span></label>
+                        @* <input type="file" class="form-control-file" id="image-file" accept="image/png"> *@
+                        <input type="text" class="form-control" id="image-file">
                     </div>
                 </form>
             </div>
@@ -422,7 +423,7 @@
         }
 
         $('#confirm-newImage').on('click', function () {
-            console.log($('#image-file').files[0].path);
+            // console.log($('#image-file').files[0].path);
 
             $.ajax({
                 url: '@Url.Action("AddImage", "EditList")',
