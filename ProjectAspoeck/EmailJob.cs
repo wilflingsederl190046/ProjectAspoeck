@@ -24,8 +24,8 @@ public class EmailJob : ServiceCollection
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential("ju_baumgartner@gmx.at", "Messi2004!");
-            Console.WriteLine("TimerCallback " + new DateTime(DateTime.Now.Year,
-                DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            /*Console.WriteLine("TimerCallback " + new DateTime(DateTime.Now.Year,
+                DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));*/
             var now = DateTime.Now;
 
             string from = "ju_baumgartner@gmx.at";
@@ -57,7 +57,7 @@ public class EmailJob : ServiceCollection
                     body =
                         $"Hallo {user.FirstName} {user.LastName},\r\n\r\nSie haben nur noch 15 Minuten Zeit um eine Bestellung beim Bäcker Mayer aufzugeben!\r\n\r\nMit freundlichen Grüßen \r\nDein Jausen-Team\r\n";
                     message = new MailMessage(from, to, subject, body);
-                    Console.WriteLine(message.To + " " + message.Body);
+                   // Console.WriteLine(message.To + " " + message.Body);
                     /* Attachment attachment = new Attachment("wwwroot/Images/aspoeck-systems_logo_7zu5.png");
                      message.Attachments.Add(attachment);*/
                     try
