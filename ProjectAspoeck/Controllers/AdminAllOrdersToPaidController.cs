@@ -7,6 +7,18 @@ public class AdminAllOrdersToPaidController : Controller
     [HttpPost]
     public IActionResult AdminAllOrdersToPaid()
     {
-        return RedirectToAction("Admin_Home_Page", "Admin");
+        
+        string sessionKey = "notAuthorized";
+        sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
+        if (sessionKey == "notAuthorized")
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            
+        }
+
+        return RedirectToAction("");
     }
 }
