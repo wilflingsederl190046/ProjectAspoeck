@@ -1,6 +1,6 @@
-﻿namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models.Admin;
 
-public class Admin_Home_PageModel
+public class HomePageModelAdmin
 {
   public int UserId { get; set; }
   public string? UserName { get; set; }

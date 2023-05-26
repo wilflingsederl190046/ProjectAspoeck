@@ -1,8 +1,8 @@
-﻿namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models.User;
 
-public class Order_DetailModel
+public class OrderDetailModel
 {
-    public List<Place_OrderViewModel> Order { get; set; } = null!;
+    public List<PlaceOrderViewModel> Order { get; set; } = null!;
     public double TotalPrice { get; set; }
     public DateTime OrderDate { get; set; }
     public string UserName { get; set; }

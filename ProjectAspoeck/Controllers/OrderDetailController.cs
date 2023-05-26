@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjectAspoeck.Models.User;
 
 namespace ProjectAspoeck.Controllers;
 public class OrderDetailController : Controller
@@ -17,7 +18,7 @@ public class OrderDetailController : Controller
     }
     else
     {
-      var detailModel = new Order_DetailModel();
+      var detailModel = new OrderDetailModel();
       var secretUserName = HttpContext.Session.GetString("EncryptedUsername") ?? "Anonymous";
       if (secretUserName != "Anonymous")
       {
@@ -27,7 +28,7 @@ public class OrderDetailController : Controller
         var userTodaysOrder = _db.Orders
           .Include(x => x.OrderItems)
           .Where(o => o.UserId == userId).Where( x=>x.OrderDate.Date == DateTime.Today)
-          .SelectMany(x => x.OrderItems.Select(y => new Place_OrderViewModel
+          .SelectMany(x => x.OrderItems.Select(y => new PlaceOrderViewModel
           {
             Name = y.Item.Name,
             Price = y.Price,

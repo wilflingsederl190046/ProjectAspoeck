@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using ProjectAspoeck.Models.User;
+
+namespace ProjectAspoeck.Controllers;
 public class SettingsController : Controller
 {
   private readonly BreakfastDBContext _db;

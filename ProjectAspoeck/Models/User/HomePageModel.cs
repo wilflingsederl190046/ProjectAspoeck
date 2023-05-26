@@ -1,6 +1,6 @@
-﻿namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models.User;
 
-public class Home_PageModel
+public class HomePageModel
 {
     public int UserId { get; set; }
     public string? UserName { get; set; }

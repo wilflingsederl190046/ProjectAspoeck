@@ -1,6 +1,6 @@
-﻿namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models.Admin;
 
-public class AdminManageUsersModel
+public class ManageUsersModelAdmin
 {
   public string SessionString { get; set; } = null!;
 

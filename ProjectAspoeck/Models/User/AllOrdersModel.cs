@@ -1,6 +1,8 @@
-﻿namespace ProjectAspoeck.Models;
+﻿using ProjectAspoeck.Models.ViewModels;
 
-public class All_OrdersModel
+namespace ProjectAspoeck.Models.User;
+
+public class AllOrdersModel
 {
   public List<AllOrdersViewModel> Orders { get; set; } = null!;
   public string SessionString { get; set; } = null!;

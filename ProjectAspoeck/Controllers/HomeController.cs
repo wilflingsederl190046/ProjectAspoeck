@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using ProjectAspoeck.Models.User;
+
+namespace ProjectAspoeck.Controllers;
 
 public class HomeController : Controller
 {
@@ -48,7 +50,7 @@ public class HomeController : Controller
 
     public IActionResult Home_Page()
     {
-        var homeModel = new Home_PageModel();
+        var homeModel = new HomePageModel();
         string sessionKey = "notAuthorized";
         sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
         if (sessionKey == "notAuthorized")
@@ -109,7 +111,7 @@ public class HomeController : Controller
                 .Include(x => x.User)
                 .Where(x => x.User.UserId == user.UserId)
                 .Any(x => x.OrderDate.Date == DateTime.Today);
-            homeModel = new Home_PageModel
+            homeModel = new HomePageModel
             {
                 UserName = username,
                 Orders = orders,

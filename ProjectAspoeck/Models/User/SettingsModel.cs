@@ -1,4 +1,4 @@
-﻿namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models.User;
 
 public class SettingsModel
 {

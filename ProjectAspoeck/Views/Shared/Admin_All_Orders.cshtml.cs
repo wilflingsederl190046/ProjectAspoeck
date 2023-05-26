@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectAspoeck.Models.User;
 
 namespace JausenbestellungAspoeck.Pages
 {
@@ -7,7 +8,7 @@ namespace JausenbestellungAspoeck.Pages
     {
         public void OnGet()
         {
-            var homeModel = new ProjectAspoeck.Models.Home_PageModel();
+            var homeModel = new HomePageModel();
             string sessionKey = "notAuthorized";
             sessionKey = HttpContext.Session.GetString("SessionKey")?? sessionKey;
             if (sessionKey == "notAuthorized")

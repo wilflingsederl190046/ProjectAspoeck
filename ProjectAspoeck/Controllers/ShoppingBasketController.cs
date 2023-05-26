@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ProjectAspoeck.Models.User;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ProjectAspoeck.Controllers;
@@ -21,7 +22,7 @@ public class ShoppingBasketController : Controller
         DateTime endTime = DateTime.Today.AddHours(22);
         string sessionKey = "notAuthorized";
         FromPageToPageController fromPage = new FromPageToPageController(_db);
-        var shopping_Basket = new Shopping_BasketModel();
+        var shopping_Basket = new ShoppingBasketModel();
         sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
         if (sessionKey == "notAuthorized")
         {
@@ -152,7 +153,7 @@ public class ShoppingBasketController : Controller
         }
         else
         {
-            var shopping_Basket = new Shopping_BasketModel();
+            var shopping_Basket = new ShoppingBasketModel();
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
 
             string username = EncryptionHelper.Decrypt(encryptedUsername, HttpContext.Session.GetString("SessionKey"));
@@ -191,7 +192,7 @@ public class ShoppingBasketController : Controller
             string returnToPlaceOrderItems = System.Text.Json.JsonSerializer.Serialize(newOrderDto);
             if (returnToPlaceOrderItems != null)
             {
-                var shopping_Basket = new Shopping_BasketModel();
+                var shopping_Basket = new ShoppingBasketModel();
                 var jObject = JObject.Parse(returnToPlaceOrderItems);
                 var order = new Order();
                 shopping_Basket.SessionString = jObject["SessionKey"].ToString();

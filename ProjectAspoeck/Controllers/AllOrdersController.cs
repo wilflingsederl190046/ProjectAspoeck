@@ -1,4 +1,7 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using ProjectAspoeck.Models.User;
+using ProjectAspoeck.Models.ViewModels;
+
+namespace ProjectAspoeck.Controllers;
 
 public class AllOrdersController : Controller
 {
@@ -57,7 +60,7 @@ public class AllOrdersController : Controller
                 };
             }
 
-            var allOrderModel = new All_OrdersModel
+            var allOrderModel = new AllOrdersModel
             {
                 Orders = orders,
                 SessionString = sessionKey

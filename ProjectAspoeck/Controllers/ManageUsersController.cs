@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using ProjectAspoeck.Models.Admin;
 
 namespace ProjectAspoeck.Controllers.Admin;
 
@@ -32,7 +33,7 @@ public class ManageUsersController : Controller
                 })
                 .ToList();
 
-            return View(new AdminManageUsersModel
+            return View(new ManageUsersModelAdmin
             {
                 SessionString = sessionKey,
                 Users = allUsers

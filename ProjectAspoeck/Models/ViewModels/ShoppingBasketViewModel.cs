@@ -1,6 +1,6 @@
 ﻿namespace ProjectAspoeck.Models;
 
-public class Shopping_BasketViewModel
+public class ShoppingBasketViewModel
 {
   public byte[]? ImageUrl { get; set; }
   public string Name { get; set; } = null!;
