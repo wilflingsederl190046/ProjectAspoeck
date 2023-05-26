@@ -5,10 +5,14 @@ namespace ProjectAspoeck.Controllers;
 
 public class ShoppingBasketController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
     private readonly ILogger<ShoppingBasketController> _logger;
 
-    public ShoppingBasketController(ILogger<ShoppingBasketController> logger) => _logger = logger;
+    public ShoppingBasketController(BreakfastDBContext db, ILogger<ShoppingBasketController> logger)
+    {
+        _db = db;
+        _logger = logger;
+    }
 
     public IActionResult Shopping_Basket()
     {
@@ -16,7 +20,7 @@ public class ShoppingBasketController : Controller
         DateTime startTime = DateTime.Today.AddHours(4); // Startzeit 05:00 Uhr
         DateTime endTime = DateTime.Today.AddHours(22);
         string sessionKey = "notAuthorized";
-        FromPageToPageController fromPage = new FromPageToPageController();
+        FromPageToPageController fromPage = new FromPageToPageController(_db);
         var shopping_Basket = new Shopping_BasketModel();
         sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
         if (sessionKey == "notAuthorized")

@@ -2,9 +2,8 @@
 
 public class HomeController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
-    private readonly ILogger<HomeController> _logger;
-    public HomeController(ILogger<HomeController> logger) => _logger = logger;
+    private readonly BreakfastDBContext _db;
+    public HomeController(BreakfastDBContext db) => _db = db;
 
     [HttpGet]
     public IActionResult Index() => View(new LoginModel());
@@ -58,7 +57,7 @@ public class HomeController : Controller
         }
         else
         {
-            var fromPage = new FromPageToPageController();
+            var fromPage = new FromPageToPageController(_db);
             fromPage.SetFromPageToPage("Home_Page","Home", HttpContext);
 
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";

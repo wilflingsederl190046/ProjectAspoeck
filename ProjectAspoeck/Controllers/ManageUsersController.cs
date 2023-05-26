@@ -4,7 +4,8 @@ namespace ProjectAspoeck.Controllers.Admin;
 
 public class ManageUsersController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
+    public ManageUsersController(BreakfastDBContext db) => _db = db;
 
     public IActionResult Admin_Manage_Users()
     {

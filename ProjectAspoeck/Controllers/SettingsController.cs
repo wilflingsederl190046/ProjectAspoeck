@@ -1,9 +1,9 @@
 ﻿namespace ProjectAspoeck.Controllers;
 public class SettingsController : Controller
 {
-  private readonly BreakfastDBContext _db = new();
-  private readonly ILogger<SettingsController> _logger;
-  public SettingsController(ILogger<SettingsController> logger) => _logger = logger;
+  private readonly BreakfastDBContext _db;
+  public SettingsController(BreakfastDBContext db) => _db = db;
+  
   public IActionResult Settings()
   {
     var settingsModel  = new SettingsModel();

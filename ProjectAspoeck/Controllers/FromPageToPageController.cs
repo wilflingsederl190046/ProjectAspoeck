@@ -2,7 +2,8 @@
 
 public class FromPageToPageController: Controller
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
+    public FromPageToPageController(BreakfastDBContext db) => _db = db;
     
     public void SetFromPageToPage(string fromPage, string fromController, HttpContext context)
     {

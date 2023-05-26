@@ -1,12 +1,4 @@
-using System.Net;
-using System.Net.Mail;
-using EmployeeManager.Data;
-using Hangfire;
 using ProjectAspoeck;
-using Quartz;
-using Quartz.Impl;
-using ITrigger = Microsoft.EntityFrameworkCore.Metadata.ITrigger;
-using TriggerBuilder = Microsoft.EntityFrameworkCore.Metadata.Builders.TriggerBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +15,8 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddTransient<EmailJob>();
 builder.Services.AddHostedService<StartBackgroundService>();
-//builder.Services.AddHangfire(x => x.UseSqlServerStorage("C:/Temp/BreakfastDb.mdf"));
-//builder.Services.Configure<SMTPClientModel>(configuration => configuration.GetSection("SMTPClientModel"));
+string? connectionString = builder.Configuration.GetConnectionString("BreakfastDb");
+builder.Services.AddDbContext<BreakfastDBContext>(options => options.UseSqlServer(connectionString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,16 +28,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
-// Add session middleware
 app.UseSession();
-
 app.UseAuthorization();
-//app.UseHangfireDashboard();
-//app.UseHangfireServer();
-
 
 app.MapControllerRoute(
     name: "default",
@@ -58,8 +43,4 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
-
 app.Run();
-
-
-

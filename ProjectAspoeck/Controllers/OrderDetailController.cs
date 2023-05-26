@@ -3,12 +3,9 @@
 namespace ProjectAspoeck.Controllers;
 public class OrderDetailController : Controller
 {
-  private readonly BreakfastDBContext _db = new();
-  private readonly ILogger<OrderDetailController> _logger;
-
-  public OrderDetailController(ILogger<OrderDetailController> logger) => _logger = logger;
+  private readonly BreakfastDBContext _db;
+  public OrderDetailController(BreakfastDBContext db) => _db = db;
   
-
   public IActionResult Order_Detail()
   {
    

@@ -2,10 +2,8 @@
 
 public class PlaceOrderController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
-    private readonly ILogger<PlaceOrderController> _logger;
-
-    public PlaceOrderController(ILogger<PlaceOrderController> logger) => _logger = logger;
+    private readonly BreakfastDBContext _db;
+    public PlaceOrderController(BreakfastDBContext db) => _db = db;
 
     public IActionResult Place_Order()
     {

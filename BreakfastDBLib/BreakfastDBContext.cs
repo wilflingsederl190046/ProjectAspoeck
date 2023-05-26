@@ -30,12 +30,12 @@ public partial class BreakfastDBContext : DbContext
 
   public virtual DbSet<User> Users { get; set; }
 
-  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+  // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   //Lukas
-// => optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Users\lukas\OneDrive\Desktop\POS\#databases\BreakfastDb.mdf;integrated security=False;MultipleActiveResultSets=True");
-
+// => optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Users\lukas\OneDrive\Desktop\POS\#databases\BreakfastDb.mdf;Database=BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
+  
   //Ben
-      => optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Temp\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
+      // => optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Temp\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");
 
     //Simon
     // => optionsBuilder.UseSqlServer(@"Server=(LocalDB)\mssqllocaldb;attachdbfilename=C:\Users\Test\source\repos\wilflingsederl190046\ProjectAspoeck\BreakfastDb.mdf;integrated security=True;MultipleActiveResultSets=True");

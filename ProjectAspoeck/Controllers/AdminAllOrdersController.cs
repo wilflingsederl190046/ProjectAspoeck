@@ -2,7 +2,9 @@
 
 public class AdminAllOrdersController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
+
+    public AdminAllOrdersController(BreakfastDBContext db) => _db = db;
     
     [HttpPost]
     public IActionResult Admin_All_Orders()

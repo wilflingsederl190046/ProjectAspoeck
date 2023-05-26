@@ -2,7 +2,8 @@
 
 public class Admin_ConfirmAllOrdersController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
+    public Admin_ConfirmAllOrdersController(BreakfastDBContext db) => _db = db;
 
     [HttpPost]
     public IActionResult Admin_ConfirmAllOrders()

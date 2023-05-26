@@ -2,7 +2,8 @@
 
 public class EditListController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
+    public EditListController(BreakfastDBContext db) => _db = db;
 
     [HttpPost]
     public IActionResult Admin_Edit_List()

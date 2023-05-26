@@ -1,6 +1,6 @@
 ﻿namespace ProjectAspoeck.Controllers;
 
-public class LogoutController: Controller
+public class LogoutController : Controller
 {
     [HttpPost]
     public IActionResult Logout()
@@ -8,5 +8,4 @@ public class LogoutController: Controller
         HttpContext.Session.Clear();
         return RedirectToAction("Index", "Home");
     }
-    
 }

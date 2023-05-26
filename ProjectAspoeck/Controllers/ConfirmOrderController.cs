@@ -1,8 +1,10 @@
 ﻿namespace ProjectAspoeck.Controllers;
 
-public class ConfirmOrderController: Controller
+public class ConfirmOrderController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
+
+    public ConfirmOrderController(BreakfastDBContext db) => _db = db;
 
     [HttpPost]
     public IActionResult ConfirmOrder()

@@ -14,7 +14,7 @@ public class EmailJob : ServiceCollection
         Timer timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
         
     }
-
+    
     private void TimerCallback(object? state)
     {
         DateTime weekendCheck = new DateTime();

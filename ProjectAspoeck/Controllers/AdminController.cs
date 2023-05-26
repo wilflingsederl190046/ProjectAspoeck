@@ -2,7 +2,9 @@
 
 public class AdminController : Controller
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
+
+    public AdminController(BreakfastDBContext db) => _db = db;
 
     public IActionResult Admin_Home_Page()
     {
@@ -14,7 +16,7 @@ public class AdminController : Controller
         }
         else
         {
-            FromPageToPageController fromPage = new FromPageToPageController();
+            FromPageToPageController fromPage = new FromPageToPageController(_db);
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
             string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
 
