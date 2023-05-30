@@ -1,18 +1,18 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using Quartz;
 
 namespace ProjectAspoeck;
 
-public class EmailJob : ServiceCollection
+public class EmailJob
 {
-    private readonly BreakfastDBContext _db = new();
+    private readonly BreakfastDBContext _db;
+
+    public EmailJob(BreakfastDBContext db) => _db = db;
 
     public async Task SendEmail()
     {
         Console.WriteLine("MailService started at " + DateTime.Now);
         Timer timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
-        
     }
     
     private void TimerCallback(object? state)
