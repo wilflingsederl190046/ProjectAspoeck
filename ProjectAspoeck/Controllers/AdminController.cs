@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using ProjectAspoeck.Models.Admin;
+
+namespace ProjectAspoeck.Controllers;
 
 public class AdminController : Controller
 {
@@ -47,7 +49,7 @@ public class AdminController : Controller
                  new Admin_OrderListDTO { OrderNumber= -1, Date = "", OrderItems = -1, State = "" },
                };
              }*/
-            var adminhomeModel = new Admin_Home_PageModel
+            var adminhomeModel = new HomePageModelAdmin
             {
                 UserName = username,
                 Orders = ordersList,

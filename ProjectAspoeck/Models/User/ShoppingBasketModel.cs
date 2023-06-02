@@ -1,6 +1,6 @@
-﻿namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models.User;
 
-public class Shopping_BasketModel
+public class ShoppingBasketModel
 {
   public string SessionString { get; set; } = null!;
   public List<OrderItemDto> OrderItems { get; set; }

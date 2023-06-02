@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using ProjectAspoeck.Models.Admin;
+
+namespace ProjectAspoeck.Controllers;
 
 public class EditListController : Controller
 {
@@ -40,7 +42,7 @@ public class EditListController : Controller
                 .OrderBy(x => x.ImageId)
                 .ToList();
             
-            return View(new AdminEditListModel
+            return View(new EditListModelModel
             {
                 SessionKey = sessionKey,
                 Items = allItems,

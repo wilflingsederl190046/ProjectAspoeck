@@ -1,4 +1,7 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using ProjectAspoeck.Models.Admin;
+using ProjectAspoeck.Models.ViewModels;
+
+namespace ProjectAspoeck.Controllers;
 
 public class AdminAllOrdersController : Controller
 {
@@ -69,7 +72,7 @@ public class AdminAllOrdersController : Controller
                 .OrderBy(x => x.OrderStateId)
                 .ToList();
 
-            return View(new Admin_All_OrdersModel
+            return View(new AllOrdersModelAdmin
             {
                 Orders = orders,
                 OrderStates = allOrderStates,

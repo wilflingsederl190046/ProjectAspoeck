@@ -2,7 +2,7 @@
 
 namespace ProjectAspoeck.Models;
 
-public class Place_OrderViewModel
+public class PlaceOrderViewModel
 {
   public byte[]? ImageUrl { get; set; }
   public string Name { get; set; } = null!;

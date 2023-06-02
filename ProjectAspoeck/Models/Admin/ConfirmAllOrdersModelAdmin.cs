@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Models;
+﻿using ProjectAspoeck.Models.ViewModels;
+
+namespace ProjectAspoeck.Models.Admin;
 
 public class AdminConfirmAllOrdersModel
 {

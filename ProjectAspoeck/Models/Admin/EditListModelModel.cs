@@ -1,6 +1,6 @@
-﻿namespace ProjectAspoeck.Models;
+﻿namespace ProjectAspoeck.Models.Admin;
 
-public class AdminEditListModel
+public class EditListModelModel
 {
     public string SessionKey { get; set; }
     public List<ItemDto> Items   { get; set; }

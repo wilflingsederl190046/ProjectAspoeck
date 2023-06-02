@@ -1,4 +1,6 @@
-﻿namespace ProjectAspoeck.Controllers;
+﻿using ProjectAspoeck.Models.User;
+
+namespace ProjectAspoeck.Controllers;
 
 public class PlaceOrderController : Controller
 {
@@ -11,7 +13,7 @@ public class PlaceOrderController : Controller
         DateTime startTime = DateTime.Today.AddHours(4); // Startzeit 05:00 Uhr
         DateTime endTime = DateTime.Today.AddHours(22);
         string sessionKey = "notAuthorized";
-        var place_Order = new Place_OrderModel();
+        var place_Order = new PlaceOrderModel();
         sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
         if (sessionKey == "notAuthorized")
         {
@@ -43,7 +45,7 @@ public class PlaceOrderController : Controller
                     if (s != null)
                     {
                         var jObject = JObject.Parse(s);
-                        var shopping_Basket = new Shopping_BasketModel
+                        var shopping_Basket = new ShoppingBasketModel
                         {
                             SessionString = jObject["SessionKey"].ToString()
                         };
@@ -78,7 +80,7 @@ public class PlaceOrderController : Controller
                     var orderItems = _db.Items
                         .Include(x => x.Image)
                         .Where(x => x.Active == true)
-                        .Select(x => new Place_OrderViewModel
+                        .Select(x => new PlaceOrderViewModel
                         {
                             Name = x.Name,
                             ImageUrl = x.Image.ImageData,
@@ -98,7 +100,7 @@ public class PlaceOrderController : Controller
                             }
                         });
                     }
-                    place_Order = new Place_OrderModel
+                    place_Order = new PlaceOrderModel
                     {
                         SessionString = sessionKey,
                         OrderItems = orderItems
