@@ -116,7 +116,7 @@
     <div class="filter">
         <div class="d-flex align-items-center">
             <span style="font-size: 16px; font-weight: bold; margin-right: 10px">Filter:</span>
-            <input type="text" class="form-control mr-2" placeholder="Suche..." id="searchInput" style="">
+            <input type="text" class="form-control mr-2" placeholder="Suche..." id="searchInput" style="" value=@Model.SearchString>
             <span style="margin-left: 10px; margin-right: 5px">Aktiv:</span>
             <input type="checkbox" id="activeOnlyCheckBox" checked="checked" onclick="filterTable()" style="margin-right: 30px; margin-top: 5px"/>
             <button id="newUser" class="btn btn-warning float-right" onclick="showUserModal()">
@@ -322,18 +322,21 @@
                 } else {
                     tableRows[i].style.display = "none";
                 }
+                
             }
         }
         filterTable();
 
         //#region Set Active
         function activeChanged(id, active) {
+        const searchValue = document.getElementById("searchInput").value;
             $.ajax({
                 url: '@Url.Action("ChangeActive", "ManageUsers")',
                 type: 'POST',
                 data: { 
                     userId: id,
-                    isActive: active
+                    isActive: active,
+                    searchString: searchValue
                  },
                 success: function(result) {
                     if (result.success) {
@@ -498,7 +501,7 @@
             const username = $('#username').val();
             const email = $('#email').val();
             const chipNr = $('#chipNr').val();
-
+            const searchValue = document.getElementById("searchInput").value;
             if (firstname === '' || lastname === '' || username === '' || chipNr === '' ) {
                 alert('Bitte füllen Sie alle Pflichtfelder aus.');
                 return;
@@ -515,6 +518,7 @@
                         username: username,
                         email: email,
                         chipNr: chipNr,
+                        searchString : searchValue
                     },
                     success: function(result) {
                         if (result.success) {

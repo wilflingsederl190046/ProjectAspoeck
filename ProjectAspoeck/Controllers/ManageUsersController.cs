@@ -17,6 +17,7 @@ public class ManageUsersController : Controller
         }
         else
         {
+            
             var allUsers = _db.Users
                 .Select(x => new AdminUserDto
                 {
@@ -35,19 +36,21 @@ public class ManageUsersController : Controller
             return View(new AdminManageUsersModel
             {
                 SessionString = sessionKey,
-                Users = allUsers
+                Users = allUsers,
+                SearchString = HttpContext.Session.GetString("SearchString") ?? ""
             });
         }
     }
 
     [HttpPost]
-    public IActionResult DeleteUser(int userId)
+    public IActionResult DeleteUser(int userId, string searchString)
     {
         try
         {
+            
             var user = _db.Users.FirstOrDefault(x => x.UserId == userId);
             if (user == null) return Json(new { success = false, message = "Benutzer nicht gefunden." });
-            
+            HttpContext.Session.SetString("SearchString", searchString);
             // Delete Settings
             _db.Settings.RemoveRange(_db.Settings.Where(x => x.User.UserId == userId));
             _db.SaveChanges();
@@ -70,10 +73,11 @@ public class ManageUsersController : Controller
     }
 
     [HttpPost]
-    public IActionResult ChangePassword(int userId, string newPassword)
+    public IActionResult ChangePassword(int userId, string newPassword, string searchString)
     {
         try
         {
+            
             var user = _db.Users.Find(userId);
             if (user == null || newPassword == null)
             {
@@ -83,6 +87,7 @@ public class ManageUsersController : Controller
                     message = "User not found"
                 });
             }
+            HttpContext.Session.SetString("SearchString", searchString);
 
             user.SetPassword(newPassword);
             _db.SaveChanges();
@@ -139,7 +144,7 @@ public class ManageUsersController : Controller
 
     [HttpPost]
     public IActionResult UpdateUser(int userId, string firstname, string lastname, string username, string chipNr,
-        string email)
+        string email, string searchString)
     {
         try
         {
@@ -152,6 +157,7 @@ public class ManageUsersController : Controller
                     message = "User not found"
                 });
             }
+            HttpContext.Session.SetString("SearchString", searchString);
 
             user.FirstName = firstname;
             user.LastName = lastname;
@@ -206,13 +212,13 @@ public class ManageUsersController : Controller
             return Json(new
             {
                 success = false,
-                message = ex.Message
+                message = ex.Message 
             });
         }
     }
 
     [HttpPost]
-    public IActionResult ChangeActive(int userId, bool isActive)
+    public IActionResult ChangeActive(int userId, bool isActive, string searchString)
     {
         try
         {
@@ -227,6 +233,12 @@ public class ManageUsersController : Controller
                 });
             }
 
+            if (searchString == null)
+            {
+                searchString="";
+            }
+
+            HttpContext.Session.SetString("SearchString", searchString);
             selectedUser.Active = isActive;
             _db.SaveChanges();
 
@@ -240,7 +252,7 @@ public class ManageUsersController : Controller
             return Json(new
             {
                 success = false,
-                message = ex.Message
+                message = ex.Message +" changes to active state failed"
             });
         }
     }

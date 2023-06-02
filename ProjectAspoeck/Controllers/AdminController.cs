@@ -16,6 +16,8 @@ public class AdminController : Controller
         }
         else
         {
+            string searchString = "";
+            HttpContext.Session.SetString("SearchString",searchString); 
             FromPageToPageController fromPage = new FromPageToPageController(_db);
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
             string encryptedPassword = HttpContext.Session.GetString("EncryptedPassword") ?? "";
