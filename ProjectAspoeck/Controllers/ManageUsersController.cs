@@ -253,7 +253,7 @@ public class ManageUsersController : Controller
             return Json(new
             {
                 success = false,
-                message = ex.Message +" changes to active state failed"
+                message = ex.Message
             });
         }
     }

@@ -11,7 +11,7 @@ public class PlaceOrderController : Controller
     {
         DateTime now = DateTime.Now;
         DateTime startTime = DateTime.Today.AddHours(4); // Startzeit 05:00 Uhr
-        DateTime endTime = DateTime.Today.AddHours(22);
+        DateTime endTime = DateTime.Today.AddHours(8);
         string sessionKey = "notAuthorized";
         var place_Order = new PlaceOrderModel();
         sessionKey = HttpContext.Session.GetString("SessionKey") ?? sessionKey;
