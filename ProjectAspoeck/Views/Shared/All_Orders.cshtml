@@ -217,6 +217,42 @@
                 }
             });
         });
+        
+        //#region Timer
+        
+              const dateElement = document.getElementById('date');
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                    timeZone: 'Europe/Berlin',
+                };
+                const formatter = new Intl.DateTimeFormat('de-DE', options);
+                
+                function updateDate() {
+                    const now = new Date();
+                    const dayOfWeek = now.getDay();
+                    const hours = now.getHours();
+                    
+                    if (dayOfWeek >= 1 && dayOfWeek <= 5 && hours >= 4 && (hours < 8 || (hours === 8 && now.getMinutes() === 0))) { // should be 1 5 4 8 8 0
+                        $('table .buyAgain').removeAttr('disabled');
+                    } else {
+                        $('table .buyAgain').attr('disabled', 'disabled');
+                    }
+                }
+            
+              updateDate();
+            
+              let timer = setInterval(updateDate, 1000);
+              window.onunload = function() {
+                  clearInterval(timer);
+              };
+            
+            //#endregion
 
         function placeOrder(orderId) {
           console.log(`---------------------------Place order ev.target ${orderId}`);          

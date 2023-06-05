@@ -501,7 +501,6 @@
             const username = $('#username').val();
             const email = $('#email').val();
             const chipNr = $('#chipNr').val();
-            const searchValue = document.getElementById("searchInput").value;
             if (firstname === '' || lastname === '' || username === '' || chipNr === '' ) {
                 alert('Bitte füllen Sie alle Pflichtfelder aus.');
                 return;
@@ -517,8 +516,7 @@
                         lastname: lastname,
                         username: username,
                         email: email,
-                        chipNr: chipNr,
-                        searchString : searchValue
+                        chipNr: chipNr
                     },
                     success: function(result) {
                         if (result.success) {

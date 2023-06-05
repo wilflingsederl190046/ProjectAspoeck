@@ -28,10 +28,10 @@ public class ShoppingBasketController : Controller
         {
             return RedirectToAction("Index", "Home");
         }
-        else if (now < startTime || now > endTime)
-        {
-            return RedirectToAction("Home_Page", "Home");
-        }
+        // else if (now < startTime || now > endTime)
+        // {
+        //     return RedirectToAction("Home_Page", "Home");
+        // }
         else
         {
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";
@@ -62,6 +62,7 @@ public class ShoppingBasketController : Controller
                     foreach (JToken jToken in jArray)
                     {
                         string name = jToken["Name"].ToString();
+                        
                         double price = _db.Items
                             .SingleOrDefault(x => x.Name.Equals(name)).Price;
 

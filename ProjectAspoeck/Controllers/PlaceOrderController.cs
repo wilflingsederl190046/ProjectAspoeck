@@ -19,10 +19,10 @@ public class PlaceOrderController : Controller
         {
             return RedirectToAction("Index", "Home");
         }
-        else if (now < startTime || now > endTime)
-        {
-            return RedirectToAction("Home_Page", "Home");
-        }
+        // else if (now < startTime || now > endTime)
+        // {
+        //     return RedirectToAction("Home_Page", "Home");
+        // }
         else
         {
             string encryptedUsername = HttpContext.Session.GetString("EncryptedUsername") ?? "";

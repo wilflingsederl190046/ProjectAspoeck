@@ -17,6 +17,7 @@ builder.Services.AddTransient<EmailJob>();
 builder.Services.AddHostedService<StartBackgroundService>();
 string? connectionString = builder.Configuration.GetConnectionString("BreakfastDb");
 builder.Services.AddDbContext<BreakfastDBContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddCors();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,6 +42,13 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
+});
+
+app.UseCors(policyBuilder =>
+{
+    policyBuilder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
 });
 
 app.Run();
