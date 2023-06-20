@@ -170,11 +170,22 @@
                                 <input id="cbActive" type="checkbox" name="status" @(user.Active ? "checked" : "") onchange="activeChanged(@user.UserId, checked)"/> Aktiv
                             </td>
                             <td>
-                                <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-primary" onclick="showUserModal(true, @user.UserId)">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
-                                </span>
+                                @if (user.UserName != "Admin")
+                                {
+                                    <span class="text-center-last-col">
+                                        <button type="button" class="btn btn-primary" onclick="showUserModal(true, @user.UserId)">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-center-last-col">
+                                        <button type="button" class="btn btn-primary" onclick="showUserModal(true, @user.UserId)" disabled="disabled">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button>
+                                    </span>
+                                }
                             </td>
                             <td>
                                 <span class="text-center-last-col">
@@ -185,9 +196,18 @@
                             </td>
                             <td>
                                 <span class="text-center-last-col">
-                                    <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@user.UserId')">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
+                                    @if (user.UserName != "Admin")
+                                    {
+                                        <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@user.UserId')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" onclick="showDeleteUserModal('@user.UserId')" disabled="disabled">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    }
                                 </span>
                             </td>
                         </tr>

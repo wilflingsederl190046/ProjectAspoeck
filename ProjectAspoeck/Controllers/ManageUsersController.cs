@@ -44,14 +44,12 @@ public class ManageUsersController : Controller
     }
 
     [HttpPost]
-    public IActionResult DeleteUser(int userId, string searchString)
+    public IActionResult DeleteUser(int userId)
     {
         try
         {
-            
             var user = _db.Users.FirstOrDefault(x => x.UserId == userId);
             if (user == null) return Json(new { success = false, message = "Benutzer nicht gefunden." });
-            HttpContext.Session.SetString("SearchString", searchString);
             // Delete Settings
             _db.Settings.RemoveRange(_db.Settings.Where(x => x.User.UserId == userId));
             _db.SaveChanges();
@@ -74,7 +72,7 @@ public class ManageUsersController : Controller
     }
 
     [HttpPost]
-    public IActionResult ChangePassword(int userId, string newPassword, string searchString)
+    public IActionResult ChangePassword(int userId, string newPassword)
     {
         try
         {
@@ -88,7 +86,6 @@ public class ManageUsersController : Controller
                     message = "User not found"
                 });
             }
-            HttpContext.Session.SetString("SearchString", searchString);
 
             user.SetPassword(newPassword);
             _db.SaveChanges();
@@ -145,7 +142,7 @@ public class ManageUsersController : Controller
 
     [HttpPost]
     public IActionResult UpdateUser(int userId, string firstname, string lastname, string username, string chipNr,
-        string email, string searchString)
+        string email)
     {
         try
         {
@@ -158,7 +155,6 @@ public class ManageUsersController : Controller
                     message = "User not found"
                 });
             }
-            HttpContext.Session.SetString("SearchString", searchString);
 
             user.FirstName = firstname;
             user.LastName = lastname;
@@ -219,7 +215,7 @@ public class ManageUsersController : Controller
     }
 
     [HttpPost]
-    public IActionResult ChangeActive(int userId, bool isActive, string searchString)
+    public IActionResult ChangeActive(int userId, bool isActive)
     {
         try
         {
@@ -233,13 +229,7 @@ public class ManageUsersController : Controller
                     message = "User not found"
                 });
             }
-
-            if (searchString == null)
-            {
-                searchString="";
-            }
-
-            HttpContext.Session.SetString("SearchString", searchString);
+            
             selectedUser.Active = isActive;
             _db.SaveChanges();
 
