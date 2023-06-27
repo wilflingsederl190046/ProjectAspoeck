@@ -228,13 +228,13 @@
         
         
         function updateDate() {
-            dateElement.textContent = formatter.format(new Date());
+            let now = new Date();
+            dateElement.textContent = formatter.format(now);
             
-            const now = new Date();
             const dayOfWeek = now.getDay();
             const hours = now.getHours();
             
-            if (dayOfWeek >= 1 && dayOfWeek <= 5 && hours >= 4 && (hours < 14 || (hours === 14 && now.getMinutes() === 0)) && '@Model.AlreadyOrderedToday' === 'False') { // should be 1 5 4 8 8 0
+            if (dayOfWeek >= 1 && dayOfWeek <= 5 && hours >= 4 && (hours < 12 || (hours === 12 && now.getMinutes() === 0)) && '@Model.AlreadyOrderedToday' === 'False') { // should be 1 5 4 8 8 0
                 dateElement.style.backgroundColor = '#50C878';
         
                 statusElement.textContent = "Bestellung möglich";
